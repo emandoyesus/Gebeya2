@@ -202,14 +202,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               // 2. Delivery Options
               _buildSectionHeader('2. Delivery Speed', Icons.local_shipping_outlined),
               const SizedBox(height: 12),
-              Container(
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkCard : AppColors.lightCard,
+              Material(
+                color: isDark ? AppColors.darkCard : AppColors.lightCard,
+                borderRadius: BorderRadius.circular(16),
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
+                  side: BorderSide(
                     color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
                   ),
                 ),
+                clipBehavior: Clip.antiAlias,
                 child: Column(
                   children: [
                     RadioListTile<bool>(
@@ -252,14 +254,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               // 3. Payment Method
               _buildSectionHeader('3. Payment Method', Icons.payment_outlined),
               const SizedBox(height: 12),
-              Container(
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkCard : AppColors.lightCard,
+              Material(
+                color: isDark ? AppColors.darkCard : AppColors.lightCard,
+                borderRadius: BorderRadius.circular(16),
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
+                  side: BorderSide(
                     color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
                   ),
                 ),
+                clipBehavior: Clip.antiAlias,
                 child: Column(
                   children: [
                     _buildPaymentTile(

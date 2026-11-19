@@ -32,8 +32,8 @@ class ProductProvider extends ChangeNotifier {
 
   void _initData() {
     _isLoading = true;
-    _categories = MockData.categories;
-    _products = MockData.products;
+    _categories = List<ProductCategory>.from(MockData.categories);
+    _products = List<Product>.from(MockData.products);
     _isLoading = false;
     notifyListeners();
   }
@@ -55,7 +55,7 @@ class ProductProvider extends ChangeNotifier {
   }
 
   List<Product> get filteredProducts {
-    List<Product> list = _products;
+    List<Product> list = List<Product>.from(_products);
 
     if (_selectedCategoryId != 'all') {
       list = list.where((p) => p.category == _selectedCategoryId).toList();

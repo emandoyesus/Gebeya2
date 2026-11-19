@@ -152,14 +152,16 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Settings & Actions Menu
-            Container(
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.darkCard : AppColors.lightCard,
+            Material(
+              color: isDark ? AppColors.darkCard : AppColors.lightCard,
+              borderRadius: BorderRadius.circular(16),
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
+                side: BorderSide(
                   color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
                 ),
               ),
+              clipBehavior: Clip.antiAlias,
               child: Column(
                 children: [
                   ListTile(
@@ -212,14 +214,16 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Preferences
-            Container(
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.darkCard : AppColors.lightCard,
+            Material(
+              color: isDark ? AppColors.darkCard : AppColors.lightCard,
+              borderRadius: BorderRadius.circular(16),
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
+                side: BorderSide(
                   color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
                 ),
               ),
+              clipBehavior: Clip.antiAlias,
               child: Column(
                 children: [
                   SwitchListTile(
