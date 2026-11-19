@@ -287,7 +287,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
-                  height: 270,
+                  height: 280,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -296,7 +296,10 @@ class HomeScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return SizedBox(
                         width: 180,
-                        child: ProductCard(product: featuredProducts[index]),
+                        child: ProductCard(
+                          product: featuredProducts[index],
+                          heroTag: 'featured_${featuredProducts[index].id}',
+                        ),
                       );
                     },
                   ),
@@ -358,12 +361,15 @@ class HomeScreen extends StatelessWidget {
                     itemCount: filteredProducts.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 0.68,
+                      childAspectRatio: 0.60,
                       crossAxisSpacing: 14,
                       mainAxisSpacing: 14,
                     ),
                     itemBuilder: (context, index) {
-                      return ProductCard(product: filteredProducts[index]);
+                      return ProductCard(
+                        product: filteredProducts[index],
+                        heroTag: 'home_grid_${filteredProducts[index].id}',
+                      );
                     },
                   ),
                 ),

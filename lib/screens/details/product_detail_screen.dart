@@ -11,10 +11,12 @@ import '../../widgets/product_card.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String productId;
+  final String? heroTag;
 
   const ProductDetailScreen({
     super.key,
     required this.productId,
+    this.heroTag,
   });
 
   @override
@@ -385,7 +387,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     const SizedBox(height: 14),
                     SizedBox(
-                      height: 260,
+                      height: 270,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: related.length,
@@ -393,7 +395,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         itemBuilder: (context, index) {
                           return SizedBox(
                             width: 175,
-                            child: ProductCard(product: related[index]),
+                            child: ProductCard(
+                              product: related[index],
+                              heroTag: 'related_${related[index].id}',
+                            ),
                           );
                         },
                       ),
@@ -416,7 +421,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         AspectRatio(
           aspectRatio: 1.1,
           child: Hero(
-            tag: 'product_img_${product.id}',
+            tag: widget.heroTag ?? 'prod_hero_${product.id}',
             child: AppImage(
               imageUrl: product.imageUrls[_selectedImageIndex],
               fit: BoxFit.cover,

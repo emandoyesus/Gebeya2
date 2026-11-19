@@ -13,43 +13,74 @@ class PriceTag extends StatelessWidget {
     super.key,
     required this.price,
     this.originalPrice,
-    this.fontSize = 16,
+    this.fontSize = 14,
     this.isLarge = false,
     this.currency = 'ETB',
   });
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final formatter = NumberFormat('#,##0.00');
     final formattedPrice = formatter.format(price);
     final hasDiscount = originalPrice != null && originalPrice! > price;
 
-    return Row(
+    if (isLarge) {
+      return Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 8,
+        runSpacing: 4,
+        children: [
+          Text(
+            '$formattedPrice $currency',
+            style: TextStyle(
+              fontSize: fontSize * 1.3,
+              fontWeight: FontWeight.w800,
+              color: isDark ? AppColors.primaryLight : AppColors.primary,
+              letterSpacing: -0.3,
+            ),
+          ),
+          if (hasDiscount)
+            Text(
+              '${formatter.format(originalPrice!)} $currency',
+              style: TextStyle(
+                fontSize: fontSize * 0.9,
+                fontWeight: FontWeight.w500,
+                color: AppColors.lightTextMuted,
+                decoration: TextDecoration.lineThrough,
+              ),
+            ),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
       children: [
         Text(
           '$formattedPrice $currency',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            fontSize: isLarge ? fontSize * 1.3 : fontSize,
+            fontSize: fontSize,
             fontWeight: FontWeight.w800,
-            color: AppColors.primary,
+            color: isDark ? AppColors.primaryLight : AppColors.primary,
             letterSpacing: -0.3,
           ),
         ),
-        if (hasDiscount) ...[
-          const SizedBox(width: 8),
+        if (hasDiscount)
           Text(
             '${formatter.format(originalPrice!)} $currency',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: (isLarge ? fontSize * 1.3 : fontSize) * 0.75,
+              fontSize: fontSize * 0.75,
               fontWeight: FontWeight.w500,
               color: AppColors.lightTextMuted,
               decoration: TextDecoration.lineThrough,
             ),
           ),
-        ],
       ],
     );
   }

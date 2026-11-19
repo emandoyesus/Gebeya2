@@ -204,7 +204,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const SizedBox(height: 12),
               Material(
                 color: isDark ? AppColors.darkCard : AppColors.lightCard,
-                borderRadius: BorderRadius.circular(16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                   side: BorderSide(
@@ -256,7 +255,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const SizedBox(height: 12),
               Material(
                 color: isDark ? AppColors.darkCard : AppColors.lightCard,
-                borderRadius: BorderRadius.circular(16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                   side: BorderSide(

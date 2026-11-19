@@ -11,11 +11,13 @@ import 'price_tag.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback? onTap;
+  final String? heroTag;
 
   const ProductCard({
     super.key,
     required this.product,
     this.onTap,
+    this.heroTag,
   });
 
   @override
@@ -23,6 +25,7 @@ class ProductCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final wishlistProvider = context.watch<WishlistProvider>();
     final isFav = wishlistProvider.isFavorite(product.id);
+    final effectiveHeroTag = heroTag ?? 'prod_hero_${product.id}';
 
     return InkWell(
       onTap: onTap ??
@@ -30,7 +33,10 @@ class ProductCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => ProductDetailScreen(productId: product.id),
+                builder: (_) => ProductDetailScreen(
+                  productId: product.id,
+                  heroTag: effectiveHeroTag,
+                ),
               ),
             );
           },
@@ -60,9 +66,9 @@ class ProductCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                   child: AspectRatio(
-                    aspectRatio: 1.15,
+                    aspectRatio: 1.25,
                     child: Hero(
-                      tag: 'product_img_${product.id}',
+                      tag: effectiveHeroTag,
                       child: AppImage(
                         imageUrl: product.imageUrls.isNotEmpty ? product.imageUrls.first : '',
                         fit: BoxFit.cover,
@@ -74,19 +80,19 @@ class ProductCard extends StatelessWidget {
                 // Discount Badge
                 if (product.hasDiscount)
                   Positioned(
-                    top: 10,
-                    left: 10,
+                    top: 8,
+                    left: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                       decoration: BoxDecoration(
                         color: AppColors.error,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         '-${product.discountPercentage}%',
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 11,
+                          fontSize: 10,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -95,8 +101,8 @@ class ProductCard extends StatelessWidget {
 
                 // Wishlist Button
                 Positioned(
-                  top: 8,
-                  right: 8,
+                  top: 6,
+                  right: 6,
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
@@ -117,7 +123,7 @@ class ProductCard extends StatelessWidget {
                       },
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        padding: const EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: isDark
                               ? Colors.black.withValues(alpha: 0.6)
@@ -126,7 +132,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         child: Icon(
                           isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                          size: 18,
+                          size: 16,
                           color: isFav ? AppColors.error : AppColors.lightTextMuted,
                         ),
                       ),
@@ -139,7 +145,7 @@ class ProductCard extends StatelessWidget {
             // Content
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,22 +158,22 @@ class ProductCard extends StatelessWidget {
                           children: [
                             const Icon(
                               Icons.star_rounded,
-                              size: 16,
+                              size: 15,
                               color: AppColors.accent,
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: 3),
                             Text(
                               product.rating.toStringAsFixed(1),
                               style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: 3),
                             Text(
                               '(${product.reviewCount})',
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: 10,
                                 color: isDark
                                     ? AppColors.darkTextMuted
                                     : AppColors.lightTextMuted,
@@ -175,7 +181,7 @@ class ProductCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 4),
 
                         // Title
                         Text(
@@ -183,9 +189,9 @@ class ProductCard extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            height: 1.25,
+                            height: 1.2,
                             color: isDark
                                 ? AppColors.darkTextPrimary
                                 : AppColors.lightTextPrimary,
@@ -197,18 +203,19 @@ class ProductCard extends StatelessWidget {
                     // Price & Add to Cart Action
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Flexible(
+                        Expanded(
                           child: PriceTag(
                             price: product.price,
                             originalPrice: product.originalPrice,
-                            fontSize: 14,
+                            fontSize: 12,
                           ),
                         ),
+                        const SizedBox(width: 6),
                         Material(
                           color: isDark ? AppColors.primaryLight : AppColors.primary,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(8),
                           child: InkWell(
                             onTap: () {
                               context.read<CartProvider>().addItem(product);
@@ -226,12 +233,12 @@ class ProductCard extends StatelessWidget {
                                 ),
                               );
                             },
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                             child: Padding(
-                              padding: const EdgeInsets.all(7.0),
+                              padding: const EdgeInsets.all(6.0),
                               child: Icon(
                                 Icons.add_shopping_cart_rounded,
-                                size: 18,
+                                size: 16,
                                 color: isDark ? Colors.black : Colors.white,
                               ),
                             ),

@@ -154,7 +154,6 @@ class ProfileScreen extends StatelessWidget {
             // Settings & Actions Menu
             Material(
               color: isDark ? AppColors.darkCard : AppColors.lightCard,
-              borderRadius: BorderRadius.circular(16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side: BorderSide(
@@ -216,7 +215,6 @@ class ProfileScreen extends StatelessWidget {
             // Preferences
             Material(
               color: isDark ? AppColors.darkCard : AppColors.lightCard,
-              borderRadius: BorderRadius.circular(16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side: BorderSide(

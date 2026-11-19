@@ -79,12 +79,15 @@ class WishlistScreen extends StatelessWidget {
               itemCount: favorites.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.68,
+                childAspectRatio: 0.60,
                 crossAxisSpacing: 14,
                 mainAxisSpacing: 14,
               ),
               itemBuilder: (context, index) {
-                return ProductCard(product: favorites[index]);
+                return ProductCard(
+                  product: favorites[index],
+                  heroTag: 'wishlist_${favorites[index].id}',
+                );
               },
             ),
     );
