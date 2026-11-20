@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../providers/product_provider.dart';
+import '../../widgets/api_config_sheet.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/product_card.dart';
 import '../home/widgets/category_chips.dart';
@@ -30,8 +31,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   void _showSortBottomSheet(BuildContext context, ProductProvider provider) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -58,35 +57,30 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   'Featured & Popular',
                   ProductSortOption.featured,
                   provider,
-                  isDark,
                 ),
                 _buildSortOption(
                   context,
                   'Price: Low to High',
                   ProductSortOption.priceLowToHigh,
                   provider,
-                  isDark,
                 ),
                 _buildSortOption(
                   context,
                   'Price: High to Low',
                   ProductSortOption.priceHighToLow,
                   provider,
-                  isDark,
                 ),
                 _buildSortOption(
                   context,
-                  'Highest Customer Rating',
+                  'Top Rated (Customer Reviews)',
                   ProductSortOption.topRated,
                   provider,
-                  isDark,
                 ),
                 _buildSortOption(
                   context,
                   'Product Name (A - Z)',
                   ProductSortOption.nameAsc,
                   provider,
-                  isDark,
                 ),
               ],
             ),
@@ -98,15 +92,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   Widget _buildSortOption(
     BuildContext context,
-    String label,
+    String title,
     ProductSortOption option,
     ProductProvider provider,
-    bool isDark,
   ) {
     final isSelected = provider.sortOption == option;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return ListTile(
       title: Text(
-        label,
+        title,
         style: TextStyle(
           fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
           color: isSelected
@@ -139,7 +134,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
         title: const Text('Explore & Search'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.cloud_sync_outlined),
+            tooltip: 'API Backend',
+            onPressed: () => ApiConfigSheet.show(context),
+          ),
+          IconButton(
             icon: const Icon(Icons.sort_rounded),
+            tooltip: 'Sort Products',
             onPressed: () => _showSortBottomSheet(context, productProvider),
           ),
         ],
@@ -175,21 +176,34 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
           const SizedBox(height: 12),
 
-          // Search feedback count
+          // Search feedback count & status
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Showing ${products.length} results',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: isDark
-                        ? AppColors.darkTextSecondary
-                        : AppColors.lightTextSecondary,
-                  ),
+                Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: productProvider.isOnline ? AppColors.primary : AppColors.accentDark,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Showing ${products.length} results',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary,
+                      ),
+                    ),
+                  ],
                 ),
                 TextButton.icon(
                   onPressed: () => _showSortBottomSheet(context, productProvider),
@@ -204,38 +218,55 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
           // Product Results
           Expanded(
-            child: products.isEmpty
-                ? EmptyStateWidget(
-                    icon: Icons.search_off_rounded,
-                    title: 'No matching products',
-                    subtitle:
-                        'We couldn\'t find anything matching "${_searchController.text}". Try searching for coffee, headphones, or fashion items.',
-                    buttonText: 'Clear Filters',
-                    onButtonPressed: () {
-                      _searchController.clear();
-                      productProvider.setSearchQuery('');
-                      productProvider.setCategory('all');
-                    },
-                  )
-                : GridView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0,
-                    ),
-                    itemCount: products.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.60,
-                      crossAxisSpacing: 14,
-                      mainAxisSpacing: 14,
-                    ),
-                    itemBuilder: (context, index) {
-                      return ProductCard(
-                        product: products[index],
-                        heroTag: 'explore_${products[index].id}',
-                      );
-                    },
-                  ),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await productProvider.loadProductsFromApi(refresh: true);
+              },
+              child: products.isEmpty && productProvider.isLoading
+                  ? const Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircularProgressIndicator(color: AppColors.primary),
+                          SizedBox(height: 14),
+                          Text('Fetching live inventory from API...'),
+                        ],
+                      ),
+                    )
+                  : products.isEmpty
+                      ? EmptyStateWidget(
+                          icon: Icons.search_off_rounded,
+                          title: 'No matching products',
+                          subtitle:
+                              'We couldn\'t find anything matching "${_searchController.text}". Try searching for coffee, headphones, or fashion items.',
+                          buttonText: 'Clear Filters',
+                          onButtonPressed: () {
+                            _searchController.clear();
+                            productProvider.setSearchQuery('');
+                            productProvider.setCategory('all');
+                          },
+                        )
+                      : GridView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 8.0,
+                          ),
+                          itemCount: products.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.60,
+                            crossAxisSpacing: 14,
+                            mainAxisSpacing: 14,
+                          ),
+                          itemBuilder: (context, index) {
+                            return ProductCard(
+                              product: products[index],
+                              heroTag: 'explore_${products[index].id}',
+                            );
+                          },
+                        ),
+            ),
           ),
         ],
       ),

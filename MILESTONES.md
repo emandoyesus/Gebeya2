@@ -57,17 +57,30 @@ This document outlines the development milestones, technical deliverables, and f
 
 ## 🔮 Upcoming Milestones & Roadmap
 
-### Milestone 7: Real Backend Integration & Authentication (`v1.1.0`)
-- [ ] Backend API connection (REST / GraphQL) replacing static mock data.
+### Milestone 7: Real Backend Integration & API Layer (`v1.1.0-api`)
+- [x] Connected Flutter app with live API layer via dedicated `ApiService`.
+- [x] Multi-source API support:
+  - **Live Cloud REST API**: Real-time product inventory + Ethiopian heritage items.
+  - **Next.js Backend API**: Direct integration with Dan Seng's Next.js repo (`/api/products` and `/api/checkout_sessions`).
+  - **Direct Stripe REST API**: Fetches active products and prices with expandable price objects.
+  - **Offline Cache Fallback**: Seamless local storage cache with `SharedPreferences` so the app is always functional.
+- [x] Dynamic API status indicator chips on Home & Explore screens.
+- [x] Interactive `ApiConfigSheet` to switch endpoints, set custom Next.js server URLs, test connections, and sync catalog.
+- [x] Integrated Checkout Session creation API on order placement.
+
+---
+
+## 🔮 Upcoming Milestones & Roadmap
+
+### Milestone 8: Authentication & Cross-Device Sync (`v1.2.0`)
 - [ ] User authentication (Sign Up / Sign In / OTP via SMS or Email) with JWT token persistence.
 - [ ] Cloud synchronization of cart and wishlist across devices.
 
-### Milestone 8: Live Payment Webhooks & SDKs (`v1.2.0`)
+### Milestone 9: Live Payment Webhooks & SDKs (`v1.3.0`)
 - [ ] Direct Chapa In-App Checkout SDK integration.
 - [ ] Telebirr H5 / In-App payment redirect and signature verification.
 - [ ] Live Stripe payment sheets.
 
-### Milestone 9: Push Notifications & Live GPS Tracking (`v1.3.0`)
+### Milestone 10: Push Notifications & Live GPS Tracking (`v1.4.0`)
 - [ ] Firebase Cloud Messaging (FCM) for order status updates ("Your driver is on the way").
 - [ ] Real-time courier map tracking for Addis Ababa deliveries.
-- [ ] Offline caching with SQLite / Hive for instant app launch without network.

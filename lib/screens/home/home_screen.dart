@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/product_provider.dart';
+import '../../services/api_service.dart';
+import '../../widgets/api_config_sheet.dart';
 import '../../widgets/product_card.dart';
 import '../explore/explore_screen.dart';
 import 'widgets/category_chips.dart';
@@ -83,6 +85,11 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
+            icon: const Icon(Icons.cloud_sync_outlined),
+            tooltip: 'API Backend Config',
+            onPressed: () => ApiConfigSheet.show(context),
+          ),
+          IconButton(
             icon: const Icon(Icons.notifications_none_rounded),
             tooltip: 'Notifications',
             onPressed: () {
@@ -145,7 +152,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await Future.delayed(const Duration(milliseconds: 600));
+          await context.read<ProductProvider>().loadProductsFromApi(refresh: true);
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -153,6 +160,94 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 10),
+
+              // API Backend Connection Status Pill
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () => ApiConfigSheet.show(context),
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: productProvider.isOnline
+                              ? AppColors.primary.withOpacity(0.08)
+                              : AppColors.accent.withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: productProvider.isOnline
+                                ? AppColors.primary.withOpacity(0.25)
+                                : AppColors.accent.withOpacity(0.35),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 7,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: productProvider.isOnline ? AppColors.primary : AppColors.accentDark,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              productProvider.currentDataSource == ApiDataSource.cloudLive
+                                  ? 'API: Cloud Store'
+                                  : productProvider.currentDataSource == ApiDataSource.nextJsBackend
+                                      ? 'API: Next.js (Stripe)'
+                                      : productProvider.currentDataSource == ApiDataSource.stripeApi
+                                          ? 'API: Stripe Direct'
+                                          : 'Offline Catalog',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                                color: productProvider.isOnline ? AppColors.primary : AppColors.accentDark,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.tune_rounded,
+                              size: 12,
+                              color: productProvider.isOnline ? AppColors.primary : AppColors.accentDark,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (productProvider.isLoading)
+                      const Row(
+                        children: [
+                          SizedBox(
+                            width: 12,
+                            height: 12,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'Syncing API...',
+                            style: TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      )
+                    else
+                      Text(
+                        '${productProvider.products.length} Products Active',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 12),
 
               // Search affordance
@@ -317,7 +412,7 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 28),
               ],
 
-              // All / Filtered Products Grid
+              // All / Filtered Products Section
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -348,7 +443,24 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 14),
 
               // Product Grid
-              if (filteredProducts.isEmpty)
+              if (filteredProducts.isEmpty && productProvider.isLoading)
+                const Padding(
+                  padding: EdgeInsets.all(40.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(color: AppColors.primary),
+                        SizedBox(height: 16),
+                        Text(
+                          'Loading products from API...',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else if (filteredProducts.isEmpty)
                 Padding(
                   padding: const EdgeInsets.all(32.0),
                   child: Center(

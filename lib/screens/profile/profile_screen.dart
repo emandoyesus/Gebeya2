@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
+import '../../providers/product_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/wishlist_provider.dart';
+import '../../widgets/api_config_sheet.dart';
 import 'order_history_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -297,6 +299,20 @@ class ProfileScreen extends StatelessWidget {
                     onChanged: (val) {
                       themeProvider.toggleTheme(val);
                     },
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.cloud_sync_rounded, color: AppColors.primary),
+                    title: const Text('API & Backend Connection'),
+                    subtitle: Consumer<ProductProvider>(
+                      builder: (context, pp, _) => Text(
+                        pp.isOnline
+                            ? 'Live API Active (${pp.products.length} products)'
+                            : 'Offline / Cached Catalog',
+                      ),
+                    ),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () => ApiConfigSheet.show(context),
                   ),
                   const Divider(height: 1),
                   ListTile(

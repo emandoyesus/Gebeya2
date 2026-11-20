@@ -6,6 +6,7 @@ import '../../models/order.dart';
 import '../../models/shipping_address.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
+import '../../services/api_service.dart';
 import 'order_success_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -69,8 +70,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     setState(() => _isPlacingOrder = true);
 
-    // Simulate network latency for payment processing
-    await Future.delayed(const Duration(milliseconds: 1400));
+    // Call API Checkout Session (Next.js / Stripe backend)
+    final lineItems = cart.itemList
+        .map((ci) => {
+              'id': ci.product.id,
+              'name': ci.product.name,
+              'quantity': ci.quantity,
+              'unit_amount': (ci.product.price * 100).toInt(),
+              'selectedColor': ci.selectedColor,
+              'selectedSize': ci.selectedSize,
+            })
+        .toList();
+
+    await ApiService().createCheckoutSession(
+      lineItems: lineItems,
+      customerEmail: 'customer@gebeya.et',
+      paymentMethod: _selectedPaymentMethod.name,
+    );
 
     if (!mounted) return;
 

@@ -16,4 +16,22 @@ class ProductCategory {
     required this.imageUrl,
     this.itemCount = 0,
   });
+
+  ProductCategory copyWith({
+    String? id,
+    String? name,
+    String? nameAmharic,
+    IconData? icon,
+    String? imageUrl,
+    int? itemCount,
+  }) {
+    return ProductCategory(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      nameAmharic: nameAmharic ?? this.nameAmharic,
+      icon: icon ?? this.icon,
+      imageUrl: imageUrl ?? this.imageUrl,
+      itemCount: itemCount ?? this.itemCount,
+    );
+  }
 }
