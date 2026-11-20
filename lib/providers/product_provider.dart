@@ -21,9 +21,6 @@ class ProductProvider extends ChangeNotifier {
   String _searchQuery = '';
   ProductSortOption _sortOption = ProductSortOption.featured;
   bool _isLoading = false;
-  bool _isOnline = true;
-  String? _errorMessage;
-  DateTime? _lastSyncedAt;
 
   List<Product> get products => _products;
   List<ProductCategory> get categories => _categories;
@@ -31,12 +28,8 @@ class ProductProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   ProductSortOption get sortOption => _sortOption;
   bool get isLoading => _isLoading;
-  bool get isOnline => _isOnline;
-  String? get errorMessage => _errorMessage;
-  DateTime? get lastSyncedAt => _lastSyncedAt;
-  ApiDataSource get currentDataSource => _apiService.currentSource;
-  String get nextJsBaseUrl => _apiService.nextJsBaseUrl;
-  String get stripeApiKey => _apiService.stripeApiKey;
+  bool get isLiveApiEnabled => _apiService.isLiveApiEnabled;
+  String get activeBaseUrl => _apiService.activeBaseUrl;
 
   ProductProvider() {
     _initData();
@@ -45,60 +38,45 @@ class ProductProvider extends ChangeNotifier {
   Future<void> _initData() async {
     _isLoading = true;
     _categories = List<ProductCategory>.from(MockData.categories);
-    // Initial fast load from local data to render screen instantaneously
     _products = List<Product>.from(MockData.products);
     _isLoading = false;
     notifyListeners();
 
-    // Async init API config and fetch fresh live inventory from API
+    // Check if user enabled manual live API configuration
     await _apiService.initConfig();
-    await loadProductsFromApi(refresh: true);
+    if (_apiService.isLiveApiEnabled) {
+      await refreshProducts();
+    }
   }
 
-  Future<void> loadProductsFromApi({bool refresh = false}) async {
-    if (_isLoading && !refresh) return;
-
+  Future<void> refreshProducts() async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     try {
-      final fetchedList = await _apiService.fetchProducts();
-      if (fetchedList.isNotEmpty) {
-        _products = List<Product>.from(fetchedList);
-        _isOnline = _apiService.currentSource != ApiDataSource.offlineCache;
-        _lastSyncedAt = DateTime.now();
+      final fetched = await _apiService.fetchProducts();
+      if (fetched.isNotEmpty) {
+        _products = List<Product>.from(fetched);
         _updateCategoryCounts();
       }
     } catch (e) {
-      _errorMessage = e.toString();
-      _isOnline = false;
-      // Fallback to offline cached products
-      _products = await _apiService.getOfflineCachedProducts();
-      _updateCategoryCounts();
+      debugPrint('Error refreshing products: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> setDataSource(ApiDataSource source) async {
-    await _apiService.setDataSource(source);
-    await loadProductsFromApi(refresh: true);
-  }
-
-  Future<void> setNextJsBaseUrl(String url) async {
-    await _apiService.setNextJsBaseUrl(url);
-    if (_apiService.currentSource == ApiDataSource.nextJsBackend) {
-      await loadProductsFromApi(refresh: true);
+  Future<void> setCustomBaseUrl(String url) async {
+    await _apiService.setCustomBaseUrl(url);
+    if (_apiService.isLiveApiEnabled) {
+      await refreshProducts();
     }
   }
 
-  Future<void> setStripeApiKey(String key) async {
-    await _apiService.setStripeApiKey(key);
-    if (_apiService.currentSource == ApiDataSource.stripeApi) {
-      await loadProductsFromApi(refresh: true);
-    }
+  Future<void> setUseLiveApi(bool enabled) async {
+    await _apiService.setUseLiveApi(enabled);
+    await refreshProducts();
   }
 
   void _updateCategoryCounts() {

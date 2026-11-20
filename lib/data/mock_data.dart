@@ -46,6 +46,21 @@ class MockData {
     ),
   ];
 
+  static IconData getCategoryIcon(String categoryId) {
+    switch (categoryId) {
+      case 'electronics':
+        return Icons.devices_other_rounded;
+      case 'ethiopian_heritage':
+        return Icons.coffee_rounded;
+      case 'fashion':
+        return Icons.checkroom_rounded;
+      case 'home':
+        return Icons.chair_rounded;
+      default:
+        return Icons.grid_view_rounded;
+    }
+  }
+
   static const List<Product> products = [
     Product(
       id: 'gebeya_01',

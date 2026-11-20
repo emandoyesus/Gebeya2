@@ -70,26 +70,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     setState(() => _isPlacingOrder = true);
 
-    // Call API Checkout Session (Next.js / Stripe backend)
-    final lineItems = cart.itemList
-        .map((ci) => {
-              'id': ci.product.id,
-              'name': ci.product.name,
-              'quantity': ci.quantity,
-              'unit_amount': (ci.product.price * 100).toInt(),
-              'selectedColor': ci.selectedColor,
-              'selectedSize': ci.selectedSize,
-            })
-        .toList();
-
-    await ApiService().createCheckoutSession(
-      lineItems: lineItems,
-      customerEmail: 'customer@gebeya.et',
-      paymentMethod: _selectedPaymentMethod.name,
-    );
-
-    if (!mounted) return;
-
     final shippingAddress = ShippingAddress(
       fullName: _nameController.text.trim(),
       phoneNumber: _phoneController.text.trim(),
@@ -102,6 +82,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final total = (cart.subtotal - cart.discountAmount) +
         shippingFee +
         cart.taxAmount;
+
+    // Optional call to backend if live API is enabled
+    final lineItems = cart.itemList
+        .map((ci) => {
+              'productId': ci.product.id,
+              'name': ci.product.name,
+              'quantity': ci.quantity,
+              'price': ci.product.price,
+              'selectedColor': ci.selectedColor,
+              'selectedSize': ci.selectedSize,
+            })
+        .toList();
+
+    await ApiService().createCheckoutSession(
+      items: lineItems,
+      customer: shippingAddress.toJson(),
+      paymentMethod: _selectedPaymentMethod.name,
+      total: total,
+    );
+
+    if (!mounted) return;
 
     final newOrder = await context.read<OrderProvider>().placeOrder(
           items: cart.itemList,
