@@ -84,12 +84,14 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_none_rounded),
+            tooltip: 'Notifications',
             onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('No new notifications right now'),
+                  content: Text('You are all caught up! No unread notifications.'),
                   behavior: SnackBarBehavior.floating,
-                  duration: Duration(milliseconds: 1200),
+                  duration: Duration(milliseconds: 1400),
                 ),
               );
             },
@@ -207,7 +209,11 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 18),
 
               // Hero Promotional Carousel
-              const HeroBanner(),
+              HeroBanner(
+                onSelectCategory: (catId) {
+                  productProvider.setCategory(catId);
+                },
+              ),
 
               const SizedBox(height: 22),
 

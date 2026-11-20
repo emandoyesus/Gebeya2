@@ -32,18 +32,40 @@ class OrderSuccessScreen extends StatelessWidget {
                 const Spacer(),
 
                 // Animated celebration icon
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: AppColors.success.withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.check_circle_rounded,
-                      size: 64,
-                      color: AppColors.success,
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.6, end: 1.0),
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.elasticOut,
+                  builder: (context, scale, child) {
+                    return Transform.scale(
+                      scale: scale,
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    width: 104,
+                    height: 104,
+                    decoration: BoxDecoration(
+                      color: AppColors.success.withValues(alpha: 0.16),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppColors.success.withValues(alpha: 0.28),
+                        width: 2,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.success.withValues(alpha: 0.2),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.check_circle_rounded,
+                        size: 64,
+                        color: AppColors.success,
+                      ),
                     ),
                   ),
                 ),

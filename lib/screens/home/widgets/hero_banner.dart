@@ -61,6 +61,17 @@ class _HeroBannerState extends State<HeroBanner> {
     ),
   ];
 
+  void _handleBannerTap(int index) {
+    if (widget.onSelectCategory == null) return;
+    if (index == 0) {
+      widget.onSelectCategory!('all');
+    } else if (index == 1) {
+      widget.onSelectCategory!('ethiopian_heritage');
+    } else if (index == 2) {
+      widget.onSelectCategory!('electronics');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -95,24 +106,27 @@ class _HeroBannerState extends State<HeroBanner> {
             itemCount: _banners.length,
             itemBuilder: (context, index) {
               final banner = _banners[index];
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: banner.gradient,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: banner.gradient.first.withValues(alpha: 0.35),
-                      blurRadius: 12,
-                      offset: const Offset(0, 6),
+              return InkWell(
+                onTap: () => _handleBannerTap(index),
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: banner.gradient,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                  ],
-                ),
-                child: Stack(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: banner.gradient.first.withValues(alpha: 0.35),
+                        blurRadius: 12,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
                   children: [
                     // Subtle background decorative icon
                     Positioned(
@@ -200,8 +214,9 @@ class _HeroBannerState extends State<HeroBanner> {
                     ),
                   ],
                 ),
-              );
-            },
+              ),
+            );
+          },
           ),
         ),
         const SizedBox(height: 10),

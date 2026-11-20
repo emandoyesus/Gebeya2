@@ -83,11 +83,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.share_outlined),
+            tooltip: 'Share product',
             onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Product link copied to clipboard!'),
-                  duration: Duration(milliseconds: 1200),
+                SnackBar(
+                  content: Text('Copied link for "${product.name}" to clipboard!'),
+                  duration: const Duration(milliseconds: 1400),
                   behavior: SnackBarBehavior.floating,
                 ),
               );

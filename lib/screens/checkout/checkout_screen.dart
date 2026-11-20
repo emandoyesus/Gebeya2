@@ -101,6 +101,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     // Clear cart
     cart.clearCart();
 
+    if (!mounted) return;
     setState(() => _isPlacingOrder = false);
 
     Navigator.pushReplacement(
@@ -213,36 +214,44 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 clipBehavior: Clip.antiAlias,
                 child: Column(
                   children: [
-                    RadioListTile<bool>(
-                      value: false,
-                      groupValue: _isExpressDelivery,
-                      onChanged: (val) =>
-                          setState(() => _isExpressDelivery = val ?? false),
-                      title: const Text(
-                        'Standard Delivery (1-2 Days)',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                    InkWell(
+                      onTap: () => setState(() => _isExpressDelivery = false),
+                      child: RadioListTile<bool>(
+                        value: false,
+                        groupValue: _isExpressDelivery,
+                        onChanged: (val) =>
+                            setState(() => _isExpressDelivery = val ?? false),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        title: const Text(
+                          'Standard Delivery (1-2 Days)',
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                        ),
+                        subtitle: Text(
+                          cart.shippingFee == 0
+                              ? 'Free Delivery (orders over 5,000 ETB)'
+                              : '150.00 ETB flat rate',
+                        ),
+                        activeColor:
+                            isDark ? AppColors.primaryLight : AppColors.primary,
                       ),
-                      subtitle: Text(
-                        cart.shippingFee == 0
-                            ? 'Free Delivery (orders over 5,000 ETB)'
-                            : '150.00 ETB flat rate',
-                      ),
-                      activeColor:
-                          isDark ? AppColors.primaryLight : AppColors.primary,
                     ),
                     const Divider(height: 1),
-                    RadioListTile<bool>(
-                      value: true,
-                      groupValue: _isExpressDelivery,
-                      onChanged: (val) =>
-                          setState(() => _isExpressDelivery = val ?? true),
-                      title: const Text(
-                        'Same-Day Express Dispatch (Addis Ababa)',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                    InkWell(
+                      onTap: () => setState(() => _isExpressDelivery = true),
+                      child: RadioListTile<bool>(
+                        value: true,
+                        groupValue: _isExpressDelivery,
+                        onChanged: (val) =>
+                            setState(() => _isExpressDelivery = val ?? true),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        title: const Text(
+                          'Same-Day Express Dispatch (Addis Ababa)',
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                        ),
+                        subtitle: const Text('+100.00 ETB priority dispatch fee'),
+                        activeColor:
+                            isDark ? AppColors.primaryLight : AppColors.primary,
                       ),
-                      subtitle: const Text('+100.00 ETB priority dispatch fee'),
-                      activeColor:
-                          isDark ? AppColors.primaryLight : AppColors.primary,
                     ),
                   ],
                 ),
@@ -440,33 +449,37 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   ) {
     final isSelected = _selectedPaymentMethod == method;
 
-    return RadioListTile<PaymentMethodType>(
-      value: method,
-      groupValue: _selectedPaymentMethod,
-      onChanged: (val) {
-        if (val != null) setState(() => _selectedPaymentMethod = val);
-      },
-      activeColor: isDark ? AppColors.primaryLight : AppColors.primary,
-      secondary: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: brandColor.withValues(alpha: 0.15),
-          shape: BoxShape.circle,
+    return InkWell(
+      onTap: () => setState(() => _selectedPaymentMethod = method),
+      child: RadioListTile<PaymentMethodType>(
+        value: method,
+        groupValue: _selectedPaymentMethod,
+        onChanged: (val) {
+          if (val != null) setState(() => _selectedPaymentMethod = val);
+        },
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        activeColor: isDark ? AppColors.primaryLight : AppColors.primary,
+        secondary: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: brandColor.withValues(alpha: 0.15),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: brandColor, size: 20),
         ),
-        child: Icon(icon, color: brandColor, size: 20),
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-          fontSize: 14,
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+            fontSize: 14,
+          ),
         ),
-      ),
-      subtitle: Text(
-        subtitle,
-        style: TextStyle(
-          fontSize: 12,
-          color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(
+            fontSize: 12,
+            color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+          ),
         ),
       ),
     );

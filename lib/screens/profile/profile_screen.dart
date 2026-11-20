@@ -183,10 +183,37 @@ class ProfileScreen extends StatelessWidget {
                     subtitle: const Text('Bole Medhanialem, Addis Ababa'),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Address: Bole Medhanialem, Olympia St., Addis Ababa'),
-                          behavior: SnackBarBehavior.floating,
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Row(
+                            children: [
+                              Icon(Icons.location_on, color: AppColors.primary),
+                              SizedBox(width: 8),
+                              Text('Saved Delivery Address'),
+                            ],
+                          ),
+                          content: const Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Abebe Kebede',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                              SizedBox(height: 4),
+                              Text('+251 91 123 4567'),
+                              SizedBox(height: 4),
+                              Text('Bole Medhanialem, Olympia St.'),
+                              Text('Bole Subcity, Addis Ababa, Ethiopia'),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx),
+                              child: const Text('Close'),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -198,10 +225,45 @@ class ProfileScreen extends StatelessWidget {
                     subtitle: const Text('Telebirr, CBE Birr, Chapa, Stripe'),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Linked Payments: Telebirr & CBE Birr active'),
-                          behavior: SnackBarBehavior.floating,
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Row(
+                            children: [
+                              Icon(Icons.payment_rounded, color: AppColors.primary),
+                              SizedBox(width: 8),
+                              Text('Payment Gateways'),
+                            ],
+                          ),
+                          content: const Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                leading: Icon(Icons.phone_android_rounded, color: AppColors.telebirr),
+                                title: Text('Telebirr'),
+                                subtitle: Text('Connected • 091****567'),
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.account_balance_rounded, color: AppColors.cbeBirr),
+                                title: Text('CBE Birr'),
+                                subtitle: Text('Active Account Linked'),
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.credit_card_rounded, color: AppColors.stripe),
+                                title: Text('Stripe / Cards'),
+                                subtitle: Text('Visa, Mastercard ready'),
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx),
+                              child: const Text('Done'),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -258,10 +320,41 @@ class ProfileScreen extends StatelessWidget {
                     subtitle: const Text('info@gebeya.et • 24/7 Hotline'),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Customer Support Hotline: 8900 (Toll Free)'),
-                          behavior: SnackBarBehavior.floating,
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Row(
+                            children: [
+                              Icon(Icons.support_agent_rounded, color: AppColors.primary),
+                              SizedBox(width: 8),
+                              Text('Customer Support'),
+                            ],
+                          ),
+                          content: const Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Gebeya Help Desk (Addis Ababa)',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                              SizedBox(height: 8),
+                              Text('📞 Toll-Free Hotline: 8900'),
+                              Text('📱 Mobile: +251 91 100 2233'),
+                              Text('✉️ Email: support@gebeya.et'),
+                              SizedBox(height: 8),
+                              Text(
+                                'Mon - Sat: 8:00 AM - 8:00 PM EAT',
+                                style: TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx),
+                              child: const Text('Close'),
+                            ),
+                          ],
                         ),
                       );
                     },
