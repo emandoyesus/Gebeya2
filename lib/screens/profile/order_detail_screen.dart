@@ -371,7 +371,9 @@ class OrderDetailScreen extends StatelessWidget {
         return Expanded(
           child: Row(
             children: [
-              Container(
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOutCubic,
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
@@ -379,6 +381,16 @@ class OrderDetailScreen extends StatelessWidget {
                       ? (isDark ? AppColors.primaryLight : AppColors.primary)
                       : (isDark ? AppColors.darkSurface : AppColors.lightDivider),
                   shape: BoxShape.circle,
+                  boxShadow: isCompleted
+                      ? [
+                          BoxShadow(
+                            color: (isDark ? AppColors.primaryLight : AppColors.primary)
+                                .withValues(alpha: 0.35),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                      : null,
                 ),
                 child: Center(
                   child: Icon(
@@ -392,7 +404,9 @@ class OrderDetailScreen extends StatelessWidget {
               ),
               if (!isLast)
                 Expanded(
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeOutCubic,
                     height: 3,
                     color: index < activeIndex
                         ? (isDark ? AppColors.primaryLight : AppColors.primary)

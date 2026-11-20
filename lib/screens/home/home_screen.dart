@@ -107,10 +107,13 @@ class HomeScreen extends StatelessWidget {
                       onNavigateTab?.call(2); // Navigate to Cart tab
                     },
                   ),
-                  if (cart.itemCount > 0)
-                    Positioned(
-                      top: 6,
-                      right: 6,
+                  Positioned(
+                    top: 6,
+                    right: 6,
+                    child: AnimatedScale(
+                      scale: cart.itemCount > 0 ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOutBack,
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: const BoxDecoration(
@@ -132,6 +135,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
                 ],
               );
             },

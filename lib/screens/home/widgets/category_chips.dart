@@ -28,7 +28,8 @@ class CategoryChips extends StatelessWidget {
             onTap: () => productProvider.setCategory(cat.id),
             borderRadius: BorderRadius.circular(24),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 260),
+              curve: Curves.easeOutCubic,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: isSelected
@@ -44,8 +45,8 @@ class CategoryChips extends StatelessWidget {
                     ? [
                         BoxShadow(
                           color: (isDark ? AppColors.primaryLight : AppColors.primary)
-                              .withValues(alpha: 0.3),
-                          blurRadius: 8,
+                              .withValues(alpha: 0.28),
+                          blurRadius: 10,
                           offset: const Offset(0, 3),
                         ),
                       ]

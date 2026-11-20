@@ -424,9 +424,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           aspectRatio: 1.1,
           child: Hero(
             tag: widget.heroTag ?? 'prod_hero_${product.id}',
-            child: AppImage(
-              imageUrl: product.imageUrls[_selectedImageIndex],
-              fit: BoxFit.cover,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 280),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              transitionBuilder: (child, animation) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+              child: AppImage(
+                key: ValueKey<int>(_selectedImageIndex),
+                imageUrl: product.imageUrls[_selectedImageIndex],
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -443,7 +455,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 final isSelected = index == _selectedImageIndex;
                 return GestureDetector(
                   onTap: () => setState(() => _selectedImageIndex = index),
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeOutCubic,
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
@@ -456,6 +470,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             : Colors.transparent,
                         width: 2,
                       ),
+                      boxShadow: isSelected
+                          ? [
+                              BoxShadow(
+                                color: (isDark
+                                        ? AppColors.primaryLight
+                                        : AppColors.primary)
+                                    .withValues(alpha: 0.25),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ]
+                          : null,
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
@@ -511,11 +537,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ? () => setState(() => _quantity -= 1)
                         : null,
                   ),
-                  Text(
-                    '$_quantity',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 180),
+                    transitionBuilder: (child, animation) {
+                      return ScaleTransition(scale: animation, child: child);
+                    },
+                    child: Text(
+                      '$_quantity',
+                      key: ValueKey<int>(_quantity),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                   IconButton(
