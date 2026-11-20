@@ -28,8 +28,6 @@ class ProductProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   ProductSortOption get sortOption => _sortOption;
   bool get isLoading => _isLoading;
-  bool get isLiveApiEnabled => _apiService.isLiveApiEnabled;
-  String get activeBaseUrl => _apiService.activeBaseUrl;
 
   ProductProvider() {
     _initData();
@@ -42,41 +40,32 @@ class ProductProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
 
-    // Check if user enabled manual live API configuration
-    await _apiService.initConfig();
-    if (_apiService.isLiveApiEnabled) {
-      await refreshProducts();
-    }
+    await _apiService.init();
+    await refreshProducts();
   }
 
+  /// Calls GET /api/products and GET /api/categories via ApiService
   Future<void> refreshProducts() async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      final fetched = await _apiService.fetchProducts();
-      if (fetched.isNotEmpty) {
-        _products = List<Product>.from(fetched);
-        _updateCategoryCounts();
+      final fetchedProducts = await _apiService.fetchProducts();
+      final fetchedCategories = await _apiService.fetchCategories();
+
+      if (fetchedProducts.isNotEmpty) {
+        _products = List<Product>.from(fetchedProducts);
       }
+      if (fetchedCategories.isNotEmpty) {
+        _categories = List<ProductCategory>.from(fetchedCategories);
+      }
+      _updateCategoryCounts();
     } catch (e) {
-      debugPrint('Error refreshing products: $e');
+      debugPrint('Error refreshing products via API: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
     }
-  }
-
-  Future<void> setCustomBaseUrl(String url) async {
-    await _apiService.setCustomBaseUrl(url);
-    if (_apiService.isLiveApiEnabled) {
-      await refreshProducts();
-    }
-  }
-
-  Future<void> setUseLiveApi(bool enabled) async {
-    await _apiService.setUseLiveApi(enabled);
-    await refreshProducts();
   }
 
   void _updateCategoryCounts() {

@@ -1,159 +1,70 @@
-# 🔌 Gebeya Mobile App • API Specification & Integration Contract
+# 🔌 Gebeya Mobile App • API Architecture & Engine
 
-This document outlines **exactly what endpoints, JSON structures, and request formats** the Gebeya Flutter mobile app expects from your backend.
+The Gebeya mobile app features an **embedded, self-contained REST API engine** ([`lib/services/local_api_server.dart`](file:///home/emando/Desktop/myProject/Gebeya2/lib/services/local_api_server.dart)) and client service ([`lib/services/api_service.dart`](file:///home/emando/Desktop/myProject/Gebeya2/lib/services/api_service.dart)).
 
-The mobile app is completely decoupled and currently runs in offline/local mode until you configure the base URL.
-
----
-
-## ⚙️ How to Configure the App to Your Backend
-
-Edit [`lib/constants/api_constants.dart`](file:///home/emando/Desktop/myProject/Gebeya2/lib/constants/api_constants.dart):
-
-```dart
-class ApiConstants {
-  // Set this to your running server (e.g., http://localhost:3000, http://10.0.2.2:3000, or https://api.yourdomain.com)
-  static const String baseUrl = 'http://localhost:3000';
-
-  // Toggle to true when your server is running and ready
-  static const bool useLiveApi = false; 
-
-  // Optional: Bearer token or API key if your routes are protected
-  static const String apiKey = '';
-}
-```
-
-Or pass them during build/run time without changing code:
-```bash
-flutter run --dart-define=API_BASE_URL=http://localhost:3000 --dart-define=USE_LIVE_API=true
-```
+It is **100% self-sufficient** and does **NOT** make any external network requests or connect to any remote repositories.
 
 ---
 
-## 📡 Endpoints Required by the App
+## 🏗️ Architecture
 
-### 1. Products List
-- **Method:** `GET`
-- **Route:** `/api/products`
-- **Query Parameters (Optional):** `?category=electronics&search=coffee`
-- **Headers:** `Accept: application/json`
-
-#### Expected JSON Response Format:
-Can be returned either as a direct JSON array:
-```json
-[
-  {
-    "id": "prod_01",
-    "name": "CyberAcoustics ANC Pro Headphones",
-    "nameAmharic": "ሳይበር አኮስቲክስ ሄድፎን",
-    "description": "Active noise-canceling wireless headphones...",
-    "price": 4950.0,
-    "originalPrice": 6500.0,
-    "rating": 4.9,
-    "reviewCount": 142,
-    "category": "electronics",
-    "inStock": true,
-    "isFeatured": true,
-    "imageUrls": [
-      "https://example.com/image1.jpg",
-      "https://example.com/image2.jpg"
-    ],
-    "availableColors": ["Black", "Silver"],
-    "availableSizes": ["M", "L"],
-    "specifications": {
-      "Battery": "45 Hours",
-      "Connectivity": "Bluetooth 5.3"
-    }
-  }
-]
 ```
-*(Alternatively, `{ "products": [ ... ] }` or `{ "data": [ ... ] }` are also accepted automatically by the app parser).*
-
-#### Field Definitions:
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `id` | String | Yes | Unique product identifier |
-| `name` | String | Yes | Display name in English |
-| `nameAmharic`| String | No | Bilingual Amharic title |
-| `description`| String | Yes | Product details and description |
-| `price` | Double | Yes | Price (numeric) |
-| `originalPrice`| Double | No | Strike-through price for discounts |
-| `rating` | Double | No | Customer review average (e.g. 4.8) |
-| `reviewCount`| Int | No | Total count of reviews |
-| `category` | String | Yes | `electronics`, `ethiopian_heritage`, `fashion`, `home` |
-| `inStock` | Bool | No | Default `true` |
-| `isFeatured` | Bool | No | Shows in the top hero deal carousel if `true` |
-| `imageUrls` | List<String> | Yes | Array of image URLs |
-| `availableColors` | List<String> | No | Color variations |
-| `availableSizes` | List<String> | No | Size options (`S`, `M`, `L`, `XL`, etc.) |
-| `specifications` | Map<String, String> | No | Key-value pairs for technical specs |
-
----
-
-### 2. Categories (Optional)
-- **Method:** `GET`
-- **Route:** `/api/categories`
-
-#### Expected JSON Response Format:
-```json
-[
-  {
-    "id": "electronics",
-    "name": "Electronics",
-    "nameAmharic": "ኤሌክትሮኒክስ",
-    "imageUrl": "https://example.com/electronics.jpg",
-    "itemCount": 12
-  },
-  {
-    "id": "ethiopian_heritage",
-    "name": "Ethiopian Goods",
-    "nameAmharic": "የሀበሻ ባህላዊ",
-    "imageUrl": "https://example.com/heritage.jpg",
-    "itemCount": 6
-  }
-]
+┌──────────────────────────────────────────────┐
+│                  Flutter UI                  │
+│    (HomeScreen, ExploreScreen, Checkout)     │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│           ProductProvider & Providers        │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│                 ApiService                   │
+│          (Client abstraction layer)          │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│               LocalApiServer                 │
+│      (Self-contained REST API Engine)        │
+│                                              │
+│  • GET  /api/products                        │
+│  • GET  /api/products/:id                    │
+│  • GET  /api/categories                      │
+│  • POST /api/checkout_sessions               │
+│  • POST /api/products                        │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│        Local Database (SharedPreferences)    │
+│       (Persisted products, orders, cart)     │
+└──────────────────────────────────────────────┘
 ```
 
 ---
 
-### 3. Checkout / Create Order Session
-- **Method:** `POST`
-- **Route:** `/api/checkout_sessions`
-- **Headers:** `Content-Type: application/json`
+## 📡 API Endpoints Provided
 
-#### Request Payload sent by the Flutter app:
-```json
-{
-  "items": [
-    {
-      "productId": "prod_01",
-      "name": "CyberAcoustics ANC Pro Headphones",
-      "quantity": 2,
-      "price": 4950.0,
-      "selectedColor": "Midnight Black",
-      "selectedSize": null
-    }
-  ],
-  "customer": {
-    "fullName": "Abebe Kebede",
-    "phoneNumber": "+251 91 123 4567",
-    "streetAddress": "Bole Medhanialem, Olympia St.",
-    "subcity": "Bole",
-    "city": "Addis Ababa"
-  },
-  "paymentMethod": "telebirr", 
-  "total": 9900.0
-}
-```
-*`paymentMethod` will be one of:* `telebirr`, `cbeBirr`, `chapa`, `stripe`, `cashOnDelivery`.
+### 1. `GET /api/products`
+- **Method:** `ApiService().fetchProducts({String? category, String? search})`
+- Returns a list of products with optional category and search query filtering.
+- Persisted to local storage database.
 
-#### Expected Response Format:
-```json
-{
-  "success": true,
-  "orderId": "ORD-2026-9812",
-  "paymentUrl": null,
-  "message": "Order placed successfully"
-}
-```
-*(If your payment gateway provides a checkout redirect webview URL like Chapa or Stripe, return it in `paymentUrl` or `url`).*
+### 2. `GET /api/products/:id`
+- **Method:** `ApiService().fetchProductById(String id)`
+- Retrieves a single product with full specifications, gallery images, colors, and sizes.
+
+### 3. `GET /api/categories`
+- **Method:** `ApiService().fetchCategories()`
+- Returns all categories with live calculated inventory item counts.
+
+### 4. `POST /api/checkout_sessions`
+- **Method:** `ApiService().createCheckoutSession(...)`
+- Handles order placement with line items, customer address, payment method (`telebirr`, `cbeBirr`, `chapa`, `stripe`, `cashOnDelivery`), and persists the confirmed order to the local database.
+
+### 5. `POST /api/products`
+- **Method:** `ApiService().addProduct(Product product)`
+- Adds a new item to the active database catalog and persists it.
