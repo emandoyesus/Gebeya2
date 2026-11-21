@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   static const String _themeKey = 'gebeya_theme_mode';
-  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode _themeMode = ThemeMode.dark;
 
   ThemeMode get themeMode => _themeMode;
   bool get isDarkMode => _themeMode == ThemeMode.dark;
@@ -15,12 +15,10 @@ class ThemeProvider extends ChangeNotifier {
   Future<void> _loadTheme() {
     return SharedPreferences.getInstance().then((prefs) {
       final savedTheme = prefs.getString(_themeKey);
-      if (savedTheme == 'dark') {
-        _themeMode = ThemeMode.dark;
-      } else if (savedTheme == 'light') {
+      if (savedTheme == 'light') {
         _themeMode = ThemeMode.light;
       } else {
-        _themeMode = ThemeMode.system;
+        _themeMode = ThemeMode.dark;
       }
       notifyListeners();
     });

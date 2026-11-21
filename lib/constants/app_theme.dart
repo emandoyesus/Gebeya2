@@ -111,23 +111,23 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.darkBackground,
       colorScheme: const ColorScheme.dark(
         primary: AppColors.primaryLight,
-        onPrimary: Colors.black,
-        secondary: AppColors.accentLight,
-        onSecondary: Colors.black,
+        onPrimary: Color(0xFF090D14),
+        secondary: AppColors.accent,
+        onSecondary: Color(0xFF090D14),
         surface: AppColors.darkSurface,
         onSurface: AppColors.darkTextPrimary,
         error: AppColors.error,
         onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.darkSurface,
+        backgroundColor: AppColors.darkBackground,
         foregroundColor: AppColors.darkTextPrimary,
         elevation: 0,
-        scrolledUnderElevation: 1,
+        scrolledUnderElevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
           fontSize: 20,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           color: AppColors.darkTextPrimary,
           letterSpacing: -0.5,
         ),
@@ -140,10 +140,14 @@ class AppTheme {
           side: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
       ),
+      dividerTheme: const DividerThemeData(
+        color: AppColors.darkDivider,
+        thickness: 1,
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryLight,
-          foregroundColor: Colors.black,
+          foregroundColor: const Color(0xFF090D14),
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
@@ -151,7 +155,7 @@ class AppTheme {
           ),
           textStyle: const TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             letterSpacing: 0.2,
           ),
         ),
@@ -172,7 +176,7 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.darkSurface,
+        fillColor: AppColors.darkCard,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -197,8 +201,8 @@ class AppTheme {
         selectedItemColor: AppColors.primaryLight,
         unselectedItemColor: AppColors.darkTextMuted,
         type: BottomNavigationBarType.fixed,
-        elevation: 8,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+        elevation: 0,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
         unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
       ),
     );

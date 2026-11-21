@@ -225,16 +225,25 @@ class _HeroBannerState extends State<HeroBanner> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(_banners.length, (index) {
             final isCurrent = index == _currentPage;
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               margin: const EdgeInsets.symmetric(horizontal: 4),
-              width: isCurrent ? 22 : 6,
+              width: isCurrent ? 24 : 6,
               height: 6,
               decoration: BoxDecoration(
                 color: isCurrent
-                    ? AppColors.primary
-                    : AppColors.lightTextMuted.withValues(alpha: 0.4),
+                    ? (isDark ? AppColors.accent : AppColors.primary)
+                    : (isDark ? AppColors.darkBorder : AppColors.lightTextMuted.withValues(alpha: 0.4)),
                 borderRadius: BorderRadius.circular(3),
+                boxShadow: isCurrent && isDark
+                    ? [
+                        BoxShadow(
+                          color: AppColors.accent.withValues(alpha: 0.4),
+                          blurRadius: 6,
+                        ),
+                      ]
+                    : null,
               ),
             );
           }),

@@ -572,7 +572,7 @@ class ProfileScreen extends StatelessWidget {
                       color: AppColors.accent,
                     ),
                     title: const Text('Dark Mode'),
-                    subtitle: Text(isDark ? 'OLED Cyber Slate' : 'Clean Modern Light'),
+                    subtitle: Text(isDark ? 'Midnight Obsidian OLED (Active)' : 'Clean Modern Light'),
                     value: isDark,
                     onChanged: (val) {
                       themeProvider.toggleTheme(val);

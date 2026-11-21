@@ -26,15 +26,17 @@ class AppColors {
   static const Color lightBorder = Color(0xFFE2E8F0);
   static const Color lightDivider = Color(0xFFF1F5F9);
 
-  // Dark theme neutrals (Cyber / Slate)
-  static const Color darkBackground = Color(0xFF0B132B);
-  static const Color darkSurface = Color(0xFF1C2541);
-  static const Color darkCard = Color(0xFF1E293B);
-  static const Color darkTextPrimary = Color(0xFFF8FAFC);
+  // Dark theme neutrals (Ultra-Premium Midnight Obsidian & Deep Slate)
+  static const Color darkBackground = Color(0xFF090D14);
+  static const Color darkSurface = Color(0xFF101726);
+  static const Color darkCard = Color(0xFF151E30);
+  static const Color darkElevated = Color(0xFF1C273D);
+  static const Color darkTextPrimary = Color(0xFFF1F5F9);
   static const Color darkTextSecondary = Color(0xFF94A3B8);
   static const Color darkTextMuted = Color(0xFF64748B);
-  static const Color darkBorder = Color(0xFF334155);
-  static const Color darkDivider = Color(0xFF1E293B);
+  static const Color darkBorder = Color(0xFF233047);
+  static const Color darkDivider = Color(0xFF1A2436);
+  static const Color darkGlow = Color(0x3314B8A6);
 
   // Local Payment Gateway Colors
   static const Color telebirr = Color(0xFF0073BC);
