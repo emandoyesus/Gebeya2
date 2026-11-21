@@ -1,18 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
+import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/product_provider.dart';
+import '../../widgets/empty_state_widget.dart';
 import '../../widgets/product_card.dart';
+import '../checkout/widgets/delivery_pin_picker_modal.dart';
 import '../explore/explore_screen.dart';
 import 'widgets/category_chips.dart';
 import 'widgets/hero_banner.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final Function(int tabIndex)? onNavigateTab;
 
   const HomeScreen({super.key, this.onNavigateTab});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String _guestSubcity = 'Bole';
+
+  void _openLocationPicker(BuildContext context, UserModel? user) {
+    final currentSubcity = user?.defaultSubcity ?? _guestSubcity;
+    DeliveryPinPickerModal.show(
+      context: context,
+      initialSubcity: currentSubcity,
+      onLocationSelected: (point) {
+        setState(() {
+          _guestSubcity = point.subcity;
+        });
+        if (user != null) {
+          context.read<AuthProvider>().updateProfile(
+            defaultSubcity: point.subcity,
+            defaultStreet: point.landmark,
+          );
+        }
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Delivery location updated to ${point.subcity} (${point.landmark}) 📍',
+            ),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(milliseconds: 2000),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,29 +98,41 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 2),
-            Row(
-              children: [
-                Icon(
-                  Icons.location_on_outlined,
-                  size: 13,
-                  color: isDark
-                      ? AppColors.darkTextMuted
-                      : AppColors.lightTextMuted,
+            InkWell(
+              onTap: () => _openLocationPicker(context, user),
+              borderRadius: BorderRadius.circular(6),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.location_on_rounded,
+                      size: 14,
+                      color: isDark ? AppColors.accent : AppColors.primary,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      user != null
+                          ? 'Deliver to ${user.defaultCity}, ${user.defaultSubcity}'
+                          : 'Deliver to Addis Ababa, $_guestSubcity',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.lightTextPrimary,
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: 16,
+                      color: isDark ? AppColors.accent : AppColors.primary,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 4),
-                Text(
-                  user != null
-                      ? 'Deliver to ${user.defaultCity}, ${user.defaultSubcity}'
-                      : 'Deliver to Addis Ababa, Bole',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: isDark
-                        ? AppColors.darkTextSecondary
-                        : AppColors.lightTextSecondary,
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
@@ -108,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.shopping_bag_outlined),
                     onPressed: () {
-                      onNavigateTab?.call(2); // Navigate to Cart tab
+                      widget.onNavigateTab?.call(2); // Navigate to Cart tab
                     },
                   ),
                   Positioned(
@@ -353,18 +404,15 @@ class HomeScreen extends StatelessWidget {
 
               // Product Grid
               if (filteredProducts.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Center(
-                    child: Text(
-                      'No products found in this category.',
-                      style: TextStyle(
-                        color: isDark
-                            ? AppColors.darkTextSecondary
-                            : AppColors.lightTextSecondary,
-                      ),
-                    ),
-                  ),
+                EmptyStateWidget(
+                  icon: Icons.inventory_2_outlined,
+                  title: 'No Products in this Category',
+                  subtitle:
+                      'We couldn\'t find any items in this category right now. Explore our full catalog or pick another category!',
+                  buttonText: 'Explore All Products',
+                  onButtonPressed: () {
+                    productProvider.setCategory('all');
+                  },
                 )
               else
                 Padding(

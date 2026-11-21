@@ -4,6 +4,7 @@ import '../constants/app_colors.dart';
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../providers/wishlist_provider.dart';
+import '../screens/cart/cart_screen.dart';
 import '../screens/details/product_detail_screen.dart';
 import 'app_image.dart';
 import 'price_tag.dart';
@@ -123,17 +124,20 @@ class ProductCard extends StatelessWidget {
                       },
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        padding: const EdgeInsets.all(5),
+                        width: 34,
+                        height: 34,
                         decoration: BoxDecoration(
                           color: isDark
-                              ? Colors.black.withValues(alpha: 0.6)
-                              : Colors.white.withValues(alpha: 0.9),
+                              ? Colors.black.withValues(alpha: 0.65)
+                              : Colors.white.withValues(alpha: 0.92),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(
-                          isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                          size: 16,
-                          color: isFav ? AppColors.error : AppColors.lightTextMuted,
+                        child: Center(
+                          child: Icon(
+                            isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                            size: 17,
+                            color: isFav ? AppColors.error : AppColors.lightTextMuted,
+                          ),
                         ),
                       ),
                     ),
@@ -213,33 +217,43 @@ class ProductCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 6),
-                        Material(
-                          color: isDark ? AppColors.primaryLight : AppColors.primary,
-                          borderRadius: BorderRadius.circular(8),
-                          child: InkWell(
-                            onTap: () {
-                              context.read<CartProvider>().addItem(product);
-                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Added ${product.name} to cart! 🛍️'),
-                                  duration: const Duration(milliseconds: 1400),
-                                  behavior: SnackBarBehavior.floating,
-                                  action: SnackBarAction(
-                                    label: 'View Cart',
-                                    textColor: AppColors.accent,
-                                    onPressed: () {},
+                        SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: Material(
+                            color: isDark ? AppColors.primaryLight : AppColors.primary,
+                            borderRadius: BorderRadius.circular(10),
+                            child: InkWell(
+                              onTap: () {
+                                context.read<CartProvider>().addItem(product);
+                                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Added ${product.name} to cart! 🛍️'),
+                                    duration: const Duration(milliseconds: 2200),
+                                    behavior: SnackBarBehavior.floating,
+                                    action: SnackBarAction(
+                                      label: 'View Cart',
+                                      textColor: AppColors.accent,
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => const CartScreen(),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(10),
+                              child: Center(
+                                child: Icon(
+                                  Icons.add_shopping_cart_rounded,
+                                  size: 18,
+                                  color: isDark ? Colors.black : Colors.white,
                                 ),
-                              );
-                            },
-                            borderRadius: BorderRadius.circular(8),
-                            child: Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Icon(
-                                Icons.add_shopping_cart_rounded,
-                                size: 16,
-                                color: isDark ? Colors.black : Colors.white,
                               ),
                             ),
                           ),
