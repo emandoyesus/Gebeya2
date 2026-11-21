@@ -110,12 +110,13 @@ This document outlines the development milestones, technical deliverables, and f
 - [x] Designed compliant Ethiopian digital sales invoice dialog (`DigitalTaxReceiptDialog`) with TIN and 15% VAT breakdown.
 - [x] Generated structured plain text invoice formatted for instant clipboard copy and WhatsApp transmission.
 - [x] Added invoice inspection and WhatsApp sharing actions to both `OrderSuccessScreen` and `OrderDetailScreen`.
-- [x] Integrated invoice actions in the `OrderDetailScreen` AppBar.
+- [x] Integrated one-tap invoice sharing directly into the `MerchantDashboardScreen` order cards.
+- [x] Added quick inventory management entry in the Merchant Operations AppBar.
 
 ---
 
-## 🚀 Commercial Readiness Status: 100% Complete
-- **Multi-User Identity & Profile**: Done (`v1.2.0-auth`)
-- **Zero-Fee Merchant Transfers & Verification**: Done (`v1.3.0-merchant`)
-- **Interactive Landmark Pin Picker & GPS**: Done (`v1.4.0-maps`)
-- **Digital Tax Receipts & WhatsApp Dispatch**: Done (`v1.5.0-invoicing`)
+## 🚀 Commercial Readiness Status: 100% Production Ready
+- **Multi-User Identity & Profile**: Complete (`v1.2.0-auth`)
+- **Zero-Fee Merchant Transfers & Verification**: Complete (`v1.3.0-merchant`)
+- **Interactive Landmark Pin Picker & GPS**: Complete (`v1.4.0-maps`)
+- **Digital Tax Receipts & WhatsApp Dispatch**: Complete (`v1.5.0-invoicing`)

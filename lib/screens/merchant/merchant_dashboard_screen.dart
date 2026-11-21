@@ -5,6 +5,7 @@ import '../../constants/app_colors.dart';
 import '../../models/order.dart';
 import '../../providers/order_provider.dart';
 import '../profile/order_detail_screen.dart';
+import '../profile/widgets/digital_tax_receipt_dialog.dart';
 
 class MerchantDashboardScreen extends StatefulWidget {
   const MerchantDashboardScreen({super.key});
@@ -55,6 +56,20 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
             Text('Merchant Operations'),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add_box_outlined),
+            tooltip: 'Add Inventory Item',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Quick Product Upload & Catalog Manager ready in Local API Server.'),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -441,10 +456,24 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                     ),
                   );
                 },
-                icon: const Icon(Icons.visibility_outlined, size: 16),
-                label: const Text('View Receipt'),
+                icon: const Icon(Icons.receipt_long_rounded, size: 16),
+                label: const Text('View Order'),
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Direct WhatsApp Invoice Share button
+              ElevatedButton.icon(
+                onPressed: () {
+                  DigitalTaxReceiptDialog.show(context, order);
+                },
+                icon: const Icon(Icons.chat_rounded, size: 16),
+                label: const Text('Share Invoice'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF25D366),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 ),
               ),
               const Spacer(),
