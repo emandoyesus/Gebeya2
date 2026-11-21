@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../../constants/app_colors.dart';
 import '../../models/order.dart';
 import '../profile/order_detail_screen.dart';
+import '../profile/widgets/digital_tax_receipt_dialog.dart';
 
 class OrderSuccessScreen extends StatelessWidget {
   final OrderModel order;
@@ -200,6 +201,36 @@ class OrderSuccessScreen extends StatelessWidget {
                 const Spacer(),
 
                 // Actions
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        ),
+                        onPressed: () => DigitalTaxReceiptDialog.show(context, order),
+                        icon: const Icon(Icons.receipt_long_rounded, size: 18),
+                        label: const Text('View Invoice'),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF25D366),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        ),
+                        onPressed: () => DigitalTaxReceiptDialog.show(context, order),
+                        icon: const Icon(Icons.chat_rounded, size: 18),
+                        label: const Text('WhatsApp Share'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
@@ -211,14 +242,14 @@ class OrderSuccessScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    icon: const Icon(Icons.receipt_long_rounded, size: 18),
-                    label: const Text('Track Order & Receipt'),
+                    icon: const Icon(Icons.local_shipping_outlined, size: 18),
+                    label: const Text('Track Order Status'),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: OutlinedButton(
+                  child: TextButton(
                     onPressed: () {
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     },

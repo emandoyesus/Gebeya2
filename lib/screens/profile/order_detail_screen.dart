@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../../constants/app_colors.dart';
 import '../../models/order.dart';
 import '../../widgets/app_image.dart';
+import 'widgets/digital_tax_receipt_dialog.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   final OrderModel order;
@@ -19,6 +20,13 @@ class OrderDetailScreen extends StatelessWidget {
       backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
       appBar: AppBar(
         title: Text('Order #${order.id}'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.receipt_long_rounded),
+            tooltip: 'View Official Tax Invoice',
+            onPressed: () => DigitalTaxReceiptDialog.show(context, order),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -399,6 +407,42 @@ class OrderDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            // Share Receipt & Customer Support Buttons
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    ),
+                    onPressed: () => DigitalTaxReceiptDialog.show(context, order),
+                    icon: const Icon(Icons.receipt_long_rounded, size: 18),
+                    label: const Text('Tax Invoice'),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF25D366), // WhatsApp
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    ),
+                    onPressed: () {
+                      DigitalTaxReceiptDialog.show(context, order);
+                    },
+                    icon: const Icon(Icons.chat_rounded, size: 18),
+                    label: const Text('Share Receipt'),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

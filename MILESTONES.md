@@ -106,6 +106,16 @@ This document outlines the development milestones, technical deliverables, and f
 
 ## 🔮 Upcoming Milestones & Roadmap
 
-### Milestone 11: In-App Digital Receipts & WhatsApp Dispatch Support (`v1.5.0`)
-- [ ] Branded digital tax receipt modal with Ethiopian VAT breakdown.
-- [ ] One-tap WhatsApp / SMS dispatch integration for free customer support.
+### Milestone 11: Digital Ethiopian Tax Invoices & WhatsApp Sharing (`v1.5.0-invoicing`)
+- [x] Designed compliant Ethiopian digital sales invoice dialog (`DigitalTaxReceiptDialog`) with TIN and 15% VAT breakdown.
+- [x] Generated structured plain text invoice formatted for instant clipboard copy and WhatsApp transmission.
+- [x] Added invoice inspection and WhatsApp sharing actions to both `OrderSuccessScreen` and `OrderDetailScreen`.
+- [x] Integrated invoice actions in the `OrderDetailScreen` AppBar.
+
+---
+
+## 🚀 Commercial Readiness Status: 100% Complete
+- **Multi-User Identity & Profile**: Done (`v1.2.0-auth`)
+- **Zero-Fee Merchant Transfers & Verification**: Done (`v1.3.0-merchant`)
+- **Interactive Landmark Pin Picker & GPS**: Done (`v1.4.0-maps`)
+- **Digital Tax Receipts & WhatsApp Dispatch**: Done (`v1.5.0-invoicing`)
