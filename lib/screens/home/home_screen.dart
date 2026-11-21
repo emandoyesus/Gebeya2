@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/product_provider.dart';
 import '../../widgets/product_card.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final productProvider = context.watch<ProductProvider>();
+    final user = context.watch<AuthProvider>().currentUser;
     final featuredProducts = productProvider.featuredProducts;
     final filteredProducts = productProvider.filteredProducts;
 
@@ -68,7 +70,9 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  'Deliver to Addis Ababa, Bole',
+                  user != null
+                      ? 'Deliver to ${user.defaultCity}, ${user.defaultSubcity}'
+                      : 'Deliver to Addis Ababa, Bole',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,

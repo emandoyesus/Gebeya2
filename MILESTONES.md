@@ -72,15 +72,23 @@ This document outlines the development milestones, technical deliverables, and f
 
 ## 🔮 Upcoming Milestones & Roadmap
 
-### Milestone 8: Authentication & Cross-Device Sync (`v1.2.0`)
-- [ ] User authentication (Sign Up / Sign In / OTP via SMS or Email) with JWT token persistence.
-- [ ] Cloud synchronization of cart and wishlist across devices.
+### Milestone 8: Real Authentication, Multi-User Sessions & Profile Management (`v1.2.0-auth`)
+- [x] Implemented dedicated `AuthProvider` and `UserModel` with 100% free, zero-cost architecture.
+- [x] Built full-featured `AuthScreen` supporting both **Customer Sign In** and **New Account Registration**.
+- [x] Integrated phone number (+251) and email registration with default subcity/address assignment.
+- [x] Added persistent account registry in `SharedPreferences` allowing multiple customer accounts to register and switch dynamically.
+- [x] Connected real customer delivery info to `HomeScreen` and pre-populated `CheckoutScreen` inputs.
+- [x] Added in-app profile editor modal allowing customers to update name, phone, subcity, and street address with instant reactivity.
 
-### Milestone 9: Live Payment Webhooks & SDKs (`v1.3.0`)
-- [ ] Direct Chapa In-App Checkout SDK integration.
-- [ ] Telebirr H5 / In-App payment redirect and signature verification.
-- [ ] Live Stripe payment sheets.
+---
 
-### Milestone 10: Push Notifications & Live GPS Tracking (`v1.4.0`)
-- [ ] Firebase Cloud Messaging (FCM) for order status updates ("Your driver is on the way").
-- [ ] Real-time courier map tracking for Addis Ababa deliveries.
+## 🔮 Upcoming Milestones & Roadmap
+
+### Milestone 9: Merchant Order Verification & Zero-Cost Payments (`v1.3.0`)
+- [ ] Direct Telebirr / CBE Birr QR & Transaction ID verification screen.
+- [ ] Merchant Admin Mode to inspect incoming customer orders and change dispatch statuses.
+- [ ] Cash on Delivery (COD) confirmation flow.
+
+### Milestone 10: In-App Digital Receipts & WhatsApp Dispatch Support (`v1.4.0`)
+- [ ] Branded digital tax receipt modal with Ethiopian VAT breakdown.
+- [ ] One-tap WhatsApp / SMS dispatch integration for free customer support.

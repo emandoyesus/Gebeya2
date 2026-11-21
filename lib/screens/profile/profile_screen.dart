@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/wishlist_provider.dart';
+import '../auth/auth_screen.dart';
 import 'order_history_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -12,10 +14,115 @@ class ProfileScreen extends StatelessWidget {
 
   const ProfileScreen({super.key, this.onNavigateTab});
 
+  void _showEditProfileDialog(BuildContext context, AuthProvider auth) {
+    final user = auth.currentUser;
+    if (user == null) return;
+
+    final nameController = TextEditingController(text: user.fullName);
+    final phoneController = TextEditingController(text: user.phoneNumber);
+    final streetController = TextEditingController(text: user.defaultStreet);
+    String selectedSubcity = user.defaultSubcity;
+
+    final subcities = [
+      'Bole',
+      'Kazanchis',
+      'Kirkos',
+      'Lideta',
+      'Yeka',
+      'Arada',
+      'Gulele',
+      'Akaki-Kality',
+      'Nifas Silk-Lafto',
+      'Kolfe Keranio',
+    ];
+
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Row(
+                children: [
+                  Icon(Icons.edit_outlined, color: AppColors.primary),
+                  SizedBox(width: 8),
+                  Text('Edit Delivery Profile'),
+                ],
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(labelText: 'Full Name'),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: phoneController,
+                      decoration: const InputDecoration(labelText: 'Phone Number'),
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<String>(
+                      value: subcities.contains(selectedSubcity) ? selectedSubcity : subcities.first,
+                      decoration: const InputDecoration(labelText: 'Subcity'),
+                      items: subcities
+                          .map((sc) => DropdownMenuItem(value: sc, child: Text(sc)))
+                          .toList(),
+                      onChanged: (val) {
+                        if (val != null) {
+                          setDialogState(() => selectedSubcity = val);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: streetController,
+                      decoration: const InputDecoration(labelText: 'Street Address'),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await auth.updateProfile(
+                      fullName: nameController.text.trim(),
+                      phoneNumber: phoneController.text.trim(),
+                      defaultSubcity: selectedSubcity,
+                      defaultStreet: streetController.text.trim(),
+                    );
+                    if (context.mounted) {
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Profile updated successfully!'),
+                          backgroundColor: AppColors.primary,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Save Changes'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final themeProvider = context.watch<ThemeProvider>();
+    final auth = context.watch<AuthProvider>();
+    final user = auth.currentUser;
     final orderCount = context.watch<OrderProvider>().orders.length;
     final wishlistCount = context.watch<WishlistProvider>().count;
     final cartCount = context.watch<CartProvider>().itemCount;
@@ -24,6 +131,14 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
       appBar: AppBar(
         title: const Text('My Account'),
+        actions: [
+          if (auth.isAuthenticated)
+            IconButton(
+              icon: const Icon(Icons.edit_outlined),
+              tooltip: 'Edit Profile',
+              onPressed: () => _showEditProfileDialog(context, auth),
+            ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
@@ -58,9 +173,9 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Abebe Kebede',
-                          style: TextStyle(
+                        Text(
+                          user?.fullName ?? 'Guest Customer',
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.3,
@@ -68,7 +183,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'abebe.kebede@gebeya.et',
+                          user?.email ?? 'Sign in to access your saved profile',
                           style: TextStyle(
                             fontSize: 13,
                             color: isDark
@@ -85,14 +200,19 @@ class ProfileScreen extends StatelessWidget {
                               color: AppColors.success,
                             ),
                             const SizedBox(width: 4),
-                            Text(
-                              '+251 91 123 4567 • Addis Ababa',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: isDark
-                                    ? AppColors.darkTextMuted
-                                    : AppColors.lightTextMuted,
+                            Expanded(
+                              child: Text(
+                                user != null
+                                    ? '${user.phoneNumber} • ${user.defaultSubcity}'
+                                    : 'Addis Ababa Delivery',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: isDark
+                                      ? AppColors.darkTextMuted
+                                      : AppColors.lightTextMuted,
+                                ),
                               ),
                             ),
                           ],
@@ -122,18 +242,16 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  isDark,
                 ),
                 const SizedBox(width: 12),
                 _buildStatCard(
                   context,
                   '$wishlistCount',
-                  'Wishlist',
+                  'Saved',
                   Icons.favorite_rounded,
                   () {
-                    onNavigateTab?.call(3); // Wishlist tab
+                    onNavigateTab?.call(3);
                   },
-                  isDark,
                 ),
                 const SizedBox(width: 12),
                 _buildStatCard(
@@ -142,16 +260,86 @@ class ProfileScreen extends StatelessWidget {
                   'In Cart',
                   Icons.shopping_bag_rounded,
                   () {
-                    onNavigateTab?.call(2); // Cart tab
+                    onNavigateTab?.call(2);
                   },
-                  isDark,
                 ),
               ],
             ),
 
             const SizedBox(height: 20),
 
-            // Settings & Actions Menu
+            // Authentication Action Card (Switch Account or Sign In)
+            Material(
+              color: isDark ? AppColors.darkCard : AppColors.lightCard,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(
+                  color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                ),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.switch_account_rounded, color: AppColors.primary),
+                    title: Text(auth.isAuthenticated ? 'Switch / Change Account' : 'Sign In or Register'),
+                    subtitle: Text(
+                      auth.isAuthenticated
+                          ? 'Logged in as ${user?.email}'
+                          : 'Sign in to sync your delivery address and orders',
+                    ),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () => AuthScreen.show(context),
+                  ),
+                  if (auth.isAuthenticated) ...[
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const Icon(Icons.logout_rounded, color: AppColors.error),
+                      title: const Text('Sign Out', style: TextStyle(color: AppColors.error)),
+                      trailing: const Icon(Icons.chevron_right_rounded),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: const Text('Sign Out of Gebeya?'),
+                            content: const Text('You can sign back in anytime using your email or phone number.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(ctx),
+                                child: const Text('Cancel'),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.error,
+                                  foregroundColor: Colors.white,
+                                ),
+                                onPressed: () async {
+                                  Navigator.pop(ctx);
+                                  await auth.signOut();
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('You have signed out.'),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: const Text('Sign Out'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Delivery & Payment Settings
             Material(
               color: isDark ? AppColors.darkCard : AppColors.lightCard,
               shape: RoundedRectangleBorder(
@@ -179,8 +367,12 @@ class ProfileScreen extends StatelessWidget {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.location_on_outlined),
-                    title: const Text('Saved Delivery Addresses'),
-                    subtitle: const Text('Bole Medhanialem, Addis Ababa'),
+                    title: const Text('Saved Delivery Address'),
+                    subtitle: Text(
+                      user != null
+                          ? '${user.defaultStreet}, ${user.defaultSubcity}'
+                          : 'Bole Medhanialem, Addis Ababa',
+                    ),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
                       showDialog(
@@ -190,25 +382,32 @@ class ProfileScreen extends StatelessWidget {
                             children: [
                               Icon(Icons.location_on, color: AppColors.primary),
                               SizedBox(width: 8),
-                              Text('Saved Delivery Address'),
+                              Text('Default Delivery Address'),
                             ],
                           ),
-                          content: const Column(
+                          content: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Abebe Kebede',
-                                style: TextStyle(fontWeight: FontWeight.w700),
+                                user?.fullName ?? 'Abebe Kebede',
+                                style: const TextStyle(fontWeight: FontWeight.w700),
                               ),
-                              SizedBox(height: 4),
-                              Text('+251 91 123 4567'),
-                              SizedBox(height: 4),
-                              Text('Bole Medhanialem, Olympia St.'),
-                              Text('Bole Subcity, Addis Ababa, Ethiopia'),
+                              const SizedBox(height: 4),
+                              Text(user?.phoneNumber ?? '+251 91 123 4567'),
+                              const SizedBox(height: 4),
+                              Text(user?.defaultStreet ?? 'Bole Medhanialem, Olympia St.'),
+                              Text('${user?.defaultSubcity ?? "Bole"} Subcity, Addis Ababa, Ethiopia'),
                             ],
                           ),
                           actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(ctx);
+                                _showEditProfileDialog(context, auth);
+                              },
+                              child: const Text('Edit Address'),
+                            ),
                             TextButton(
                               onPressed: () => Navigator.pop(ctx),
                               child: const Text('Close'),
@@ -240,7 +439,7 @@ class ProfileScreen extends StatelessWidget {
                             children: [
                               ListTile(
                                 leading: Icon(Icons.phone_android_rounded, color: AppColors.telebirr),
-                                title: Text('Telebirr'),
+                                title: Text('Telebirr Direct'),
                                 subtitle: Text('Connected • 091****567'),
                                 contentPadding: EdgeInsets.zero,
                               ),
@@ -252,7 +451,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               ListTile(
                                 leading: Icon(Icons.credit_card_rounded, color: AppColors.stripe),
-                                title: Text('Stripe / Cards'),
+                                title: Text('Cards & Digital Wallets'),
                                 subtitle: Text('Visa, Mastercard ready'),
                                 contentPadding: EdgeInsets.zero,
                               ),
@@ -399,16 +598,14 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Version 1.0.0 • Built with Flutter\nInspired by fullstack-nextjs-ecommerce-app',
-                  textAlign: TextAlign.center,
+                  'v1.2.0 • Ethiopian Digital Commerce',
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 12,
                     color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 20),
           ],
         ),
@@ -418,51 +615,54 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _buildStatCard(
     BuildContext context,
-    String count,
+    String value,
     String label,
     IconData icon,
     VoidCallback onTap,
-    bool isDark,
   ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.darkCard : AppColors.lightCard,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-            ),
+      child: Material(
+        color: isDark ? AppColors.darkCard : AppColors.lightCard,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
           ),
-          child: Column(
-            children: [
-              Icon(
-                icon,
-                size: 22,
-                color: isDark ? AppColors.primaryLight : AppColors.primary,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                count,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Column(
+              children: [
+                Icon(
+                  icon,
+                  size: 22,
+                  color: isDark ? AppColors.primaryLight : AppColors.primary,
                 ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: isDark
-                      ? AppColors.darkTextSecondary
-                      : AppColors.lightTextSecondary,
+                const SizedBox(height: 8),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 2),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.lightTextSecondary,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

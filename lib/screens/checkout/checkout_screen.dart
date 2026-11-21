@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../models/order.dart';
 import '../../models/shipping_address.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
 import '../../services/api_service.dart';
@@ -19,14 +20,10 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nameController =
-      TextEditingController(text: 'Abebe Kebede');
-  final TextEditingController _phoneController =
-      TextEditingController(text: '+251 91 123 4567');
-  final TextEditingController _streetController =
-      TextEditingController(text: 'Bole Medhanialem, Olympia St.');
-  final TextEditingController _cityController =
-      TextEditingController(text: 'Addis Ababa');
+  late TextEditingController _nameController;
+  late TextEditingController _phoneController;
+  late TextEditingController _streetController;
+  late TextEditingController _cityController;
 
   String _selectedSubcity = 'Bole';
   final List<String> _subcities = [
@@ -47,6 +44,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   bool _isPlacingOrder = false;
 
   final NumberFormat _currencyFormat = NumberFormat('#,##0.00');
+
+  @override
+  void initState() {
+    super.initState();
+    final user = context.read<AuthProvider>().currentUser;
+    _nameController = TextEditingController(text: user?.fullName ?? '');
+    _phoneController = TextEditingController(text: user?.phoneNumber ?? '+251 9');
+    _streetController = TextEditingController(text: user?.defaultStreet ?? '');
+    _cityController = TextEditingController(text: user?.defaultCity ?? 'Addis Ababa');
+    if (user != null && _subcities.contains(user.defaultSubcity)) {
+      _selectedSubcity = user.defaultSubcity;
+    }
+  }
 
   @override
   void dispose() {
