@@ -96,6 +96,16 @@ This document outlines the development milestones, technical deliverables, and f
 
 ## 🔮 Upcoming Milestones & Roadmap
 
-### Milestone 10: In-App Digital Receipts & WhatsApp Dispatch Support (`v1.4.0`)
+### Milestone 10: Interactive Map Pin Picker & Delivery Geo-Tagging (`v1.4.0-maps`)
+- [x] Built zero-cost visual vector map canvas painter with animated focal point pins and GPS coordinates.
+- [x] Curated comprehensive Addis Ababa delivery landmark database covering all 10 subcities (Bole, Kazanchis, Kirkos, Yeka, Arada, Lideta, Gulele, Sarbet, Jemo, Kality, Tor Hailoch).
+- [x] Built `DeliveryPinPickerModal` with instant subcity filtering and live landmark search.
+- [x] Integrated one-tap pin picking into both `CheckoutScreen` and customer profile address editor.
+
+---
+
+## 🔮 Upcoming Milestones & Roadmap
+
+### Milestone 11: In-App Digital Receipts & WhatsApp Dispatch Support (`v1.5.0`)
 - [ ] Branded digital tax receipt modal with Ethiopian VAT breakdown.
 - [ ] One-tap WhatsApp / SMS dispatch integration for free customer support.

@@ -9,6 +9,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
 import '../../services/api_service.dart';
 import 'order_success_screen.dart';
+import 'widgets/delivery_pin_picker_modal.dart';
 import 'widgets/payment_transfer_dialog.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -242,6 +243,48 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       validator: (val) => val == null || val.isEmpty
                           ? 'Please enter street address'
                           : null,
+                    ),
+                    const SizedBox(height: 10),
+                    // Visual GPS Pin Button
+                    InkWell(
+                      onTap: () {
+                        DeliveryPinPickerModal.show(
+                          context: context,
+                          initialSubcity: _selectedSubcity,
+                          onLocationSelected: (point) {
+                            setState(() {
+                              if (_subcities.contains(point.subcity)) {
+                                _selectedSubcity = point.subcity;
+                              }
+                              _streetController.text = '${point.landmark} (${point.description})';
+                            });
+                          },
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.pin_drop_rounded, size: 18, color: AppColors.primary),
+                            SizedBox(width: 8),
+                            Text(
+                              'Pick Landmark or Pin on Addis Ababa Map',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),

@@ -7,6 +7,7 @@ import '../../providers/order_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/wishlist_provider.dart';
 import '../auth/auth_screen.dart';
+import '../checkout/widgets/delivery_pin_picker_modal.dart';
 import '../merchant/merchant_dashboard_screen.dart';
 import 'order_history_screen.dart';
 
@@ -80,6 +81,47 @@ class ProfileScreen extends StatelessWidget {
                     TextField(
                       controller: streetController,
                       decoration: const InputDecoration(labelText: 'Street Address'),
+                    ),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: () {
+                        DeliveryPinPickerModal.show(
+                          context: context,
+                          initialSubcity: selectedSubcity,
+                          onLocationSelected: (point) {
+                            setDialogState(() {
+                              if (subcities.contains(point.subcity)) {
+                                selectedSubcity = point.subcity;
+                              }
+                              streetController.text = '${point.landmark} (${point.description})';
+                            });
+                          },
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.pin_drop_rounded, size: 16, color: AppColors.primary),
+                            SizedBox(width: 6),
+                            Text(
+                              'Pick Landmark or Map Pin',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
