@@ -70,6 +70,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future<void> _handlePlaceOrder() async {
+    if (_isPlacingOrder) return;
     if (!_formKey.currentState!.validate()) return;
 
     final cart = context.read<CartProvider>();
@@ -114,52 +115,64 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     setState(() => _isPlacingOrder = true);
 
-    // Optional call to backend if live API is enabled
-    final lineItems = cart.itemList
-        .map((ci) => {
-              'productId': ci.product.id,
-              'name': ci.product.name,
-              'quantity': ci.quantity,
-              'price': ci.product.price,
-              'selectedColor': ci.selectedColor,
-              'selectedSize': ci.selectedSize,
-            })
-        .toList();
+    try {
+      // Optional call to backend if live API is enabled
+      final lineItems = cart.itemList
+          .map((ci) => {
+                'productId': ci.product.id,
+                'name': ci.product.name,
+                'quantity': ci.quantity,
+                'price': ci.product.price,
+                'selectedColor': ci.selectedColor,
+                'selectedSize': ci.selectedSize,
+              })
+          .toList();
 
-    await ApiService().createCheckoutSession(
-      items: lineItems,
-      customer: shippingAddress.toJson(),
-      paymentMethod: _selectedPaymentMethod.name,
-      total: total,
-    );
+      await ApiService().createCheckoutSession(
+        items: lineItems,
+        customer: shippingAddress.toJson(),
+        paymentMethod: _selectedPaymentMethod.name,
+        total: total,
+      );
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    final newOrder = await context.read<OrderProvider>().placeOrder(
-          items: cart.itemList,
-          subtotal: cart.subtotal,
-          discount: cart.discountAmount,
-          shippingFee: shippingFee,
-          tax: cart.taxAmount,
-          total: total,
-          shippingAddress: shippingAddress,
-          paymentMethod: _selectedPaymentMethod,
-          paymentTransactionId: txnId,
-          paymentProofNote: proofNote,
-        );
+      final newOrder = await context.read<OrderProvider>().placeOrder(
+            items: cart.itemList,
+            subtotal: cart.subtotal,
+            discount: cart.discountAmount,
+            shippingFee: shippingFee,
+            tax: cart.taxAmount,
+            total: total,
+            shippingAddress: shippingAddress,
+            paymentMethod: _selectedPaymentMethod,
+            paymentTransactionId: txnId,
+            paymentProofNote: proofNote,
+          );
 
-    // Clear cart
-    cart.clearCart();
+      // Clear cart
+      cart.clearCart();
 
-    if (!mounted) return;
-    setState(() => _isPlacingOrder = false);
+      if (!mounted) return;
+      setState(() => _isPlacingOrder = false);
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => OrderSuccessScreen(order: newOrder),
-      ),
-    );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => OrderSuccessScreen(order: newOrder),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isPlacingOrder = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Order processing failed: $e'),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   @override
@@ -201,23 +214,43 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   children: [
                     TextFormField(
                       controller: _nameController,
+                      maxLength: 60,
                       decoration: const InputDecoration(
                         labelText: 'Full Name',
                         prefixIcon: Icon(Icons.person_outline),
+                        counterText: '',
                       ),
-                      validator: (val) =>
-                          val == null || val.isEmpty ? 'Please enter name' : null,
+                      validator: (val) {
+                        if (val == null || val.trim().isEmpty) {
+                          return 'Please enter customer name';
+                        }
+                        if (val.trim().length < 3) {
+                          return 'Name must be at least 3 characters';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
+                      maxLength: 20,
                       decoration: const InputDecoration(
                         labelText: 'Phone Number',
+                        hintText: '+251 91 123 4567',
                         prefixIcon: Icon(Icons.phone_outlined),
+                        counterText: '',
                       ),
-                      validator: (val) =>
-                          val == null || val.isEmpty ? 'Please enter phone' : null,
+                      validator: (val) {
+                        if (val == null || val.trim().isEmpty) {
+                          return 'Please enter contact phone number';
+                        }
+                        final cleaned = val.replaceAll(RegExp(r'[\s\-\(\)]'), '');
+                        if (cleaned.length < 9) {
+                          return 'Please enter a valid phone number';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
@@ -236,13 +269,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _streetController,
+                      maxLength: 140,
                       decoration: const InputDecoration(
                         labelText: 'Street Address & Landmark',
                         prefixIcon: Icon(Icons.home_outlined),
+                        counterText: '',
                       ),
-                      validator: (val) => val == null || val.isEmpty
-                          ? 'Please enter street address'
-                          : null,
+                      validator: (val) {
+                        if (val == null || val.trim().isEmpty) {
+                          return 'Please enter street or landmark';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 10),
                     // Visual GPS Pin Button

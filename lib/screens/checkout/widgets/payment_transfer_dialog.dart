@@ -186,10 +186,12 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
               const SizedBox(height: 8),
               TextFormField(
                 controller: _txnController,
+                maxLength: 40,
                 decoration: InputDecoration(
                   labelText: isTelebirr ? 'Telebirr Transaction ID' : 'CBE Transfer Reference',
                   hintText: isTelebirr ? 'e.g. TB82937402' : 'e.g. FT260914210',
                   prefixIcon: const Icon(Icons.receipt_long_rounded),
+                  counterText: '',
                 ),
                 validator: (val) {
                   if (val == null || val.trim().isEmpty) {
@@ -205,10 +207,12 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: _notesController,
+                maxLength: 100,
                 decoration: const InputDecoration(
                   labelText: 'Sender Name or Phone Number (Optional)',
                   hintText: 'e.g. Sent from Abebe phone 0911...',
                   prefixIcon: Icon(Icons.note_alt_outlined),
+                  counterText: '',
                 ),
               ),
 

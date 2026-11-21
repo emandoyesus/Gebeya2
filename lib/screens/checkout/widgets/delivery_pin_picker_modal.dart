@@ -405,6 +405,8 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
 
           // Search Field
           TextField(
+            maxLength: 60,
+            buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
             onChanged: (val) => setState(() => _searchFilter = val),
             decoration: InputDecoration(
               hintText: 'Search Addis Ababa landmark or subcity...',

@@ -276,6 +276,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 if (_isSignUp) ...[
                   TextFormField(
                     controller: _nameController,
+                    maxLength: 60,
+                    buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                     decoration: const InputDecoration(
                       labelText: 'Full Name (የሙሉ ስም)',
                       hintText: 'e.g. Abebe Kebede',
@@ -287,6 +289,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 14),
                   TextFormField(
                     controller: _emailController,
+                    maxLength: 80,
+                    buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       labelText: 'Email Address',
@@ -306,6 +310,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 14),
                   TextFormField(
                     controller: _phoneController,
+                    maxLength: 20,
+                    buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                     keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       labelText: 'Phone Number (ስልክ ቁጥር)',
@@ -332,6 +338,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 14),
                   TextFormField(
                     controller: _streetController,
+                    maxLength: 140,
+                    buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                     decoration: const InputDecoration(
                       labelText: 'Street / Landmark (አካባቢ / መለያ ቦታ)',
                       hintText: 'e.g. Near Medhanialem Church',
@@ -341,6 +349,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 ] else ...[
                   TextFormField(
                     controller: _identifierController,
+                    maxLength: 80,
+                    buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                     decoration: const InputDecoration(
                       labelText: 'Email or Phone Number',
                       hintText: 'abebe.kebede@gebeya.et or +251 91...',
@@ -356,6 +366,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
                 TextFormField(
                   controller: _passwordController,
+                  maxLength: 64,
+                  buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     labelText: 'Password',

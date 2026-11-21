@@ -146,6 +146,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: TextField(
               controller: _searchController,
+              maxLength: 80,
+              buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
               onChanged: (val) => productProvider.setSearchQuery(val),
               decoration: InputDecoration(
                 hintText: 'Search products by name or category...',

@@ -379,6 +379,8 @@ class _CartScreenState extends State<CartScreen> {
                 Expanded(
                   child: TextField(
                     controller: _couponController,
+                    maxLength: 20,
+                    buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                     textCapitalization: TextCapitalization.characters,
                     decoration: const InputDecoration(
                       hintText: 'Enter GEBEYA10 or WELCOME20',

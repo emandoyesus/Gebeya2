@@ -57,12 +57,21 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     TextField(
                       controller: nameController,
-                      decoration: const InputDecoration(labelText: 'Full Name'),
+                      maxLength: 60,
+                      decoration: const InputDecoration(
+                        labelText: 'Full Name',
+                        counterText: '',
+                      ),
                     ),
                     const SizedBox(height: 10),
                     TextField(
                       controller: phoneController,
-                      decoration: const InputDecoration(labelText: 'Phone Number'),
+                      keyboardType: TextInputType.phone,
+                      maxLength: 20,
+                      decoration: const InputDecoration(
+                        labelText: 'Phone Number',
+                        counterText: '',
+                      ),
                     ),
                     const SizedBox(height: 10),
                     DropdownButtonFormField<String>(
@@ -80,7 +89,11 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     TextField(
                       controller: streetController,
-                      decoration: const InputDecoration(labelText: 'Street Address'),
+                      maxLength: 140,
+                      decoration: const InputDecoration(
+                        labelText: 'Street Address',
+                        counterText: '',
+                      ),
                     ),
                     const SizedBox(height: 10),
                     InkWell(
