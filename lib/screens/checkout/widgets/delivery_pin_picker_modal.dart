@@ -278,14 +278,14 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dispatch Pin Picker',
+                        'Select Delivery Location',
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
                       Text(
-                        'Zero-cost GPS coordinates for couriers',
+                        'Pin your landmark to give couriers exact GPS coordinates',
                         style: TextStyle(fontSize: 11, color: Colors.grey),
                       ),
                     ],
@@ -521,7 +521,7 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.check_circle_outline_rounded),
-              label: Text('Set Delivery Pin: ${_selectedPoint.landmark}'),
+              label: Text('Deliver to ${_selectedPoint.landmark}'),
             ),
           ),
         ],

@@ -275,7 +275,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             Icon(Icons.pin_drop_rounded, size: 18, color: AppColors.primary),
                             SizedBox(width: 8),
                             Text(
-                              'Pick Landmark or Pin on Addis Ababa Map',
+                              'Pin Location on Addis Ababa Map',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,

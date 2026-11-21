@@ -99,7 +99,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
                           ),
                         ),
                         Text(
-                          'Zero-Fee Merchant Transfer',
+                          'Direct Transfer • No Service Fee',
                           style: TextStyle(
                             fontSize: 12,
                             color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
@@ -125,7 +125,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
                 child: Column(
                   children: [
                     Text(
-                      'Exact Amount to Transfer',
+                      'Exact Transfer Amount',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -161,7 +161,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Step 1: Send payment to Merchant',
+                      'Step 1: Transfer payment to store account',
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 10),
@@ -187,7 +187,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
               TextFormField(
                 controller: _txnController,
                 decoration: InputDecoration(
-                  labelText: isTelebirr ? 'Telebirr Txn ID (e.g. TB99824)' : 'CBE Reference (e.g. FT24098...)',
+                  labelText: isTelebirr ? 'Telebirr Transaction ID' : 'CBE Transfer Reference',
                   hintText: isTelebirr ? 'e.g. TB82937402' : 'e.g. FT260914210',
                   prefixIcon: const Icon(Icons.receipt_long_rounded),
                 ),
@@ -206,7 +206,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
               TextFormField(
                 controller: _notesController,
                 decoration: const InputDecoration(
-                  labelText: 'Sender Name or Phone (Optional note)',
+                  labelText: 'Sender Name or Phone Number (Optional)',
                   hintText: 'e.g. Sent from Abebe phone 0911...',
                   prefixIcon: Icon(Icons.note_alt_outlined),
                 ),
@@ -245,7 +245,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
                         }
                       },
                       child: const Text(
-                        'Verify & Confirm',
+                        'Submit Reference',
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
