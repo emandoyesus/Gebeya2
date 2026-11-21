@@ -68,6 +68,8 @@ class OrderProvider extends ChangeNotifier {
         status: OrderStatus.shipped,
         createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 4)),
         estimatedDelivery: DateTime.now().add(const Duration(days: 1)),
+        paymentTransactionId: 'TB-9982410',
+        paymentProofNote: 'Transferred via Telebirr SuperApp',
       ),
     );
   }
@@ -91,9 +93,19 @@ class OrderProvider extends ChangeNotifier {
     required double total,
     required ShippingAddress shippingAddress,
     required PaymentMethodType paymentMethod,
+    String? paymentTransactionId,
+    String? paymentProofNote,
   }) async {
     final now = DateTime.now();
     final randomId = 'GEB-${(100000 + (now.millisecondsSinceEpoch % 900000))}';
+
+    // Orders requiring manual transfer verification (Telebirr/CBE Birr) start as pending or confirmed
+    final initialStatus = (paymentMethod == PaymentMethodType.telebirr ||
+            paymentMethod == PaymentMethodType.cbeBirr)
+        ? (paymentTransactionId != null && paymentTransactionId.isNotEmpty
+            ? OrderStatus.confirmed
+            : OrderStatus.pending)
+        : OrderStatus.confirmed;
 
     final newOrder = OrderModel(
       id: randomId,
@@ -105,15 +117,40 @@ class OrderProvider extends ChangeNotifier {
       total: total,
       shippingAddress: shippingAddress,
       paymentMethod: paymentMethod,
-      status: OrderStatus.confirmed,
+      status: initialStatus,
       createdAt: now,
       estimatedDelivery: now.add(const Duration(days: 2)),
+      paymentTransactionId: paymentTransactionId,
+      paymentProofNote: paymentProofNote,
     );
 
     _orders.insert(0, newOrder);
     notifyListeners();
     await _saveToStorage();
     return newOrder;
+  }
+
+  /// Merchant Action: Update Order Status (Confirmed -> Processing -> On the Way -> Delivered)
+  Future<void> updateOrderStatus(String orderId, OrderStatus newStatus) async {
+    final index = _orders.indexWhere((o) => o.id == orderId);
+    if (index != -1) {
+      _orders[index] = _orders[index].copyWith(status: newStatus);
+      notifyListeners();
+      await _saveToStorage();
+    }
+  }
+
+  /// Merchant Action: Verify Payment
+  Future<void> verifyPayment(String orderId, {String? notes}) async {
+    final index = _orders.indexWhere((o) => o.id == orderId);
+    if (index != -1) {
+      _orders[index] = _orders[index].copyWith(
+        status: OrderStatus.confirmed,
+        paymentProofNote: notes ?? 'Payment verified by merchant',
+      );
+      notifyListeners();
+      await _saveToStorage();
+    }
   }
 
   OrderModel? getOrderById(String orderId) {

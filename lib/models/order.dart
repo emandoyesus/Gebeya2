@@ -31,6 +31,8 @@ class OrderModel {
   final OrderStatus status;
   final DateTime createdAt;
   final DateTime estimatedDelivery;
+  final String? paymentTransactionId;
+  final String? paymentProofNote;
 
   const OrderModel({
     required this.id,
@@ -45,12 +47,48 @@ class OrderModel {
     this.status = OrderStatus.confirmed,
     required this.createdAt,
     required this.estimatedDelivery,
+    this.paymentTransactionId,
+    this.paymentProofNote,
   });
+
+  OrderModel copyWith({
+    String? id,
+    List<CartItem>? items,
+    double? subtotal,
+    double? discount,
+    double? shippingFee,
+    double? tax,
+    double? total,
+    ShippingAddress? shippingAddress,
+    PaymentMethodType? paymentMethod,
+    OrderStatus? status,
+    DateTime? createdAt,
+    DateTime? estimatedDelivery,
+    String? paymentTransactionId,
+    String? paymentProofNote,
+  }) {
+    return OrderModel(
+      id: id ?? this.id,
+      items: items ?? this.items,
+      subtotal: subtotal ?? this.subtotal,
+      discount: discount ?? this.discount,
+      shippingFee: shippingFee ?? this.shippingFee,
+      tax: tax ?? this.tax,
+      total: total ?? this.total,
+      shippingAddress: shippingAddress ?? this.shippingAddress,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      estimatedDelivery: estimatedDelivery ?? this.estimatedDelivery,
+      paymentTransactionId: paymentTransactionId ?? this.paymentTransactionId,
+      paymentProofNote: paymentProofNote ?? this.paymentProofNote,
+    );
+  }
 
   String get statusDisplay {
     switch (status) {
       case OrderStatus.pending:
-        return 'Pending';
+        return 'Pending Verification';
       case OrderStatus.confirmed:
         return 'Confirmed';
       case OrderStatus.processing:
@@ -93,6 +131,8 @@ class OrderModel {
       'status': status.index,
       'createdAt': createdAt.toIso8601String(),
       'estimatedDelivery': estimatedDelivery.toIso8601String(),
+      'paymentTransactionId': paymentTransactionId,
+      'paymentProofNote': paymentProofNote,
     };
   }
 
@@ -113,6 +153,8 @@ class OrderModel {
       status: OrderStatus.values[json['status'] as int],
       createdAt: DateTime.parse(json['createdAt'] as String),
       estimatedDelivery: DateTime.parse(json['estimatedDelivery'] as String),
+      paymentTransactionId: json['paymentTransactionId'] as String?,
+      paymentProofNote: json['paymentProofNote'] as String?,
     );
   }
 }

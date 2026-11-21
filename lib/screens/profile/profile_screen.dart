@@ -7,6 +7,7 @@ import '../../providers/order_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/wishlist_provider.dart';
 import '../auth/auth_screen.dart';
+import '../merchant/merchant_dashboard_screen.dart';
 import 'order_history_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -351,6 +352,31 @@ class ProfileScreen extends StatelessWidget {
               clipBehavior: Clip.antiAlias,
               child: Column(
                 children: [
+                  ListTile(
+                    leading: const Icon(Icons.storefront_rounded, color: AppColors.accent),
+                    title: const Text(
+                      'Merchant Operations & Dispatch',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    subtitle: const Text('Verify payments, dispatch orders & manage store'),
+                    trailing: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: AppColors.accent.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'STORE OWNER',
+                        style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.accent,
+                        ),
+                      ),
+                    ),
+                    onTap: () => MerchantDashboardScreen.show(context),
+                  ),
+                  const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.history_rounded),
                     title: const Text('Order History & Tracking'),

@@ -84,10 +84,17 @@ This document outlines the development milestones, technical deliverables, and f
 
 ## 🔮 Upcoming Milestones & Roadmap
 
-### Milestone 9: Merchant Order Verification & Zero-Cost Payments (`v1.3.0`)
-- [ ] Direct Telebirr / CBE Birr QR & Transaction ID verification screen.
-- [ ] Merchant Admin Mode to inspect incoming customer orders and change dispatch statuses.
-- [ ] Cash on Delivery (COD) confirmation flow.
+### Milestone 9: Zero-Fee Ethiopian Payment Verification & Merchant Operations (`v1.3.0-merchant`)
+- [x] Integrated `PaymentTransferDialog` for direct **Telebirr** and **CBE Birr** transfers with zero transaction fees.
+- [x] One-tap copy affordances for merchant accounts, phone numbers, and till numbers.
+- [x] Built customer transaction reference verification input (`TB-xxx` / `FT-xxx`) attached directly to order records.
+- [x] Implemented dedicated **Merchant Operations Dashboard** (`MerchantDashboardScreen`) with live gross sales metrics.
+- [x] Added store owner order management allowing status transitions (`Confirmed` ➔ `Packing & Processing` ➔ `Out for Delivery` ➔ `Delivered` / `Cancelled`).
+- [x] Attached verified transaction reference and payment proof notes to customer order receipts.
+
+---
+
+## 🔮 Upcoming Milestones & Roadmap
 
 ### Milestone 10: In-App Digital Receipts & WhatsApp Dispatch Support (`v1.4.0`)
 - [ ] Branded digital tax receipt modal with Ethiopian VAT breakdown.

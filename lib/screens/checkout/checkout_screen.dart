@@ -9,6 +9,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
 import '../../services/api_service.dart';
 import 'order_success_screen.dart';
+import 'widgets/payment_transfer_dialog.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -78,7 +79,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       return;
     }
 
-    setState(() => _isPlacingOrder = true);
+    final shippingFee = cart.shippingFee + (_isExpressDelivery ? 100.0 : 0.0);
+    final total = (cart.subtotal - cart.discountAmount) +
+        shippingFee +
+        cart.taxAmount;
 
     final shippingAddress = ShippingAddress(
       fullName: _nameController.text.trim(),
@@ -88,10 +92,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       subcity: _selectedSubcity,
     );
 
-    final shippingFee = cart.shippingFee + (_isExpressDelivery ? 100.0 : 0.0);
-    final total = (cart.subtotal - cart.discountAmount) +
-        shippingFee +
-        cart.taxAmount;
+    String? txnId;
+    String? proofNote;
+
+    // If Telebirr or CBE Birr is selected, display zero-cost direct transfer dialog
+    if (_selectedPaymentMethod == PaymentMethodType.telebirr ||
+        _selectedPaymentMethod == PaymentMethodType.cbeBirr) {
+      final confirmed = await PaymentTransferDialog.show(
+        context: context,
+        method: _selectedPaymentMethod,
+        amount: total,
+        onConfirmed: (id, note) {
+          txnId = id;
+          proofNote = note;
+        },
+      );
+
+      if (confirmed != true) return;
+    }
+
+    setState(() => _isPlacingOrder = true);
 
     // Optional call to backend if live API is enabled
     final lineItems = cart.itemList
@@ -123,6 +143,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           total: total,
           shippingAddress: shippingAddress,
           paymentMethod: _selectedPaymentMethod,
+          paymentTransactionId: txnId,
+          paymentProofNote: proofNote,
         );
 
     // Clear cart
