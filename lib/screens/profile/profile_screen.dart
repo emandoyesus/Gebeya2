@@ -306,7 +306,7 @@ class ProfileScreen extends StatelessWidget {
                   'Saved',
                   Icons.favorite_rounded,
                   () {
-                    onNavigateTab?.call(2); // Wishlist is index 2
+                    onNavigateTab?.call(3);
                   },
                 ),
                 const SizedBox(width: 12),

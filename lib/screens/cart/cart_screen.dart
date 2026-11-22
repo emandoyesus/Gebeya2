@@ -128,7 +128,7 @@ class _CartScreenState extends State<CartScreen> {
                   'Looks like you haven\'t added any items to your cart yet. Explore our collection of premium Ethiopian and modern goods!',
               buttonText: 'Start Shopping',
               onButtonPressed: () {
-                widget.onNavigateTab?.call(0); // Navigate to Home (index 0)
+                widget.onNavigateTab?.call(2); // Navigate to Home (index 2)
               },
             )
           : Column(

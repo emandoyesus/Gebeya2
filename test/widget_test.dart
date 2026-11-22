@@ -37,8 +37,9 @@ void main() {
     expect(find.text('Gebeya'), findsOneWidget);
     expect(find.text('ገበያ'), findsWidgets);
 
-    // Verify Navigation Bar items (Home, Cart, Wishlist, Account)
+    // Verify Navigation Bar items
     expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Explore'), findsOneWidget);
     expect(find.text('Cart'), findsOneWidget);
     expect(find.text('Wishlist'), findsOneWidget);
     expect(find.text('Account'), findsOneWidget);
