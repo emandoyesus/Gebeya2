@@ -636,31 +636,36 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: SafeArea(
         child: Row(
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Grand Total',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isDark
-                        ? AppColors.darkTextMuted
-                        : AppColors.lightTextMuted,
-                  ),
-                ),
-                Text(
-                  '${_currencyFormat.format(total)} ETB',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w900,
-                    color: isDark ? AppColors.primaryLight : AppColors.primary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(width: 20),
             Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Grand Total',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
+                    ),
+                  ),
+                  Text(
+                    '${_currencyFormat.format(total)} ETB',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w900,
+                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              flex: 2,
               child: ElevatedButton(
                 onPressed: _isPlacingOrder ? null : _handlePlaceOrder,
                 style: ElevatedButton.styleFrom(

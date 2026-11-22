@@ -4,7 +4,9 @@ import '../../../constants/app_colors.dart';
 import '../../../providers/product_provider.dart';
 
 class CategoryChips extends StatelessWidget {
-  const CategoryChips({super.key});
+  final VoidCallback? onCategorySelected;
+
+  const CategoryChips({super.key, this.onCategorySelected});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,10 @@ class CategoryChips extends StatelessWidget {
           final isSelected = cat.id == selectedId;
 
           return InkWell(
-            onTap: () => productProvider.setCategory(cat.id),
+            onTap: () {
+              productProvider.setCategory(cat.id);
+              onCategorySelected?.call();
+            },
             borderRadius: BorderRadius.circular(24),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 260),
@@ -76,6 +81,34 @@ class CategoryChips extends StatelessWidget {
                               : AppColors.lightTextPrimary),
                     ),
                   ),
+                  if (cat.itemCount > 0) ...[
+                    const SizedBox(width: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? (isDark
+                                ? Colors.black.withValues(alpha: 0.2)
+                                : Colors.white.withValues(alpha: 0.25))
+                            : (isDark
+                                ? AppColors.darkBorder
+                                : AppColors.lightBorder),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        '${cat.itemCount}',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: isSelected
+                              ? (isDark ? Colors.black : Colors.white)
+                              : (isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.lightTextSecondary),
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

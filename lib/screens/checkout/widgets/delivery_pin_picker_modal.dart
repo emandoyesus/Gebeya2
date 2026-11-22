@@ -259,38 +259,43 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.pin_drop_rounded,
-                      color: AppColors.primary,
-                      size: 22,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Select Delivery Location',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w800,
-                        ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.12),
+                        shape: BoxShape.circle,
                       ),
-                      Text(
-                        'Pin your landmark to give couriers exact GPS coordinates',
-                        style: TextStyle(fontSize: 11, color: Colors.grey),
+                      child: const Icon(
+                        Icons.pin_drop_rounded,
+                        color: AppColors.primary,
+                        size: 22,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(width: 10),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Select Delivery Location',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          Text(
+                            'Pin your landmark to give couriers exact GPS coordinates',
+                            style: TextStyle(fontSize: 11, color: Colors.grey),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
               IconButton(
                 icon: const Icon(Icons.close_rounded),
@@ -465,12 +470,16 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                             children: [
                               Row(
                                 children: [
-                                  Text(
-                                    point.landmark,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                                      color: isSelected ? AppColors.primary : null,
+                                  Expanded(
+                                    child: Text(
+                                      point.landmark,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                                        color: isSelected ? AppColors.primary : null,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 6),
@@ -523,7 +532,11 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.check_circle_outline_rounded),
-              label: Text('Deliver to ${_selectedPoint.landmark}'),
+              label: Text(
+                'Deliver to ${_selectedPoint.landmark}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ],

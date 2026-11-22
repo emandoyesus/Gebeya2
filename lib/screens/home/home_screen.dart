@@ -23,6 +23,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _guestSubcity = 'Bole';
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _productsSectionKey = GlobalKey();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToProducts() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final keyContext = _productsSectionKey.currentContext;
+      if (keyContext != null) {
+        Scrollable.ensureVisible(
+          keyContext,
+          duration: const Duration(milliseconds: 450),
+          curve: Curves.easeInOutCubic,
+          alignment: 0.05,
+        );
+      }
+    });
+  }
 
   void _openLocationPicker(BuildContext context, UserModel? user) {
     final currentSubcity = user?.defaultSubcity ?? _guestSubcity;
@@ -112,16 +134,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: isDark ? AppColors.accent : AppColors.primary,
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      user != null
-                          ? 'Deliver to ${user.defaultCity}, ${user.defaultSubcity}'
-                          : 'Deliver to Addis Ababa, $_guestSubcity',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? AppColors.darkTextPrimary
-                            : AppColors.lightTextPrimary,
+                    Flexible(
+                      child: Text(
+                        user != null
+                            ? 'Deliver to ${user.defaultCity}, ${user.defaultSubcity}'
+                            : 'Deliver to Addis Ababa, $_guestSubcity',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.lightTextPrimary,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 2),
@@ -203,6 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
           await context.read<ProductProvider>().refreshProducts();
         },
         child: SingleChildScrollView(
+          controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.only(bottom: 30),
           child: Column(
@@ -271,6 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
               HeroBanner(
                 onSelectCategory: (catId) {
                   productProvider.setCategory(catId);
+                  _scrollToProducts();
                 },
               ),
 
@@ -293,6 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     TextButton(
                       onPressed: () {
                         productProvider.setCategory('all');
+                        _scrollToProducts();
                       },
                       child: const Text('View All'),
                     ),
@@ -300,7 +329,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              const CategoryChips(),
+              CategoryChips(
+                onCategorySelected: _scrollToProducts,
+              ),
 
               const SizedBox(height: 26),
 
@@ -374,20 +405,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // All / Filtered Products Section
               Padding(
+                key: _productsSectionKey,
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      productProvider.selectedCategoryId == 'all'
-                          ? 'Explore All Products'
-                          : 'Items in Category',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.3,
+                    Expanded(
+                      child: Text(
+                        productProvider.selectedCategoryId == 'all'
+                            ? 'Explore All Products'
+                            : 'Items in Category',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.3,
+                        ),
                       ),
                     ),
+                    const SizedBox(width: 8),
                     Text(
                       '${filteredProducts.length} items',
                       style: TextStyle(

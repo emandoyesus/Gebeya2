@@ -63,7 +63,10 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: isDark ? AppColors.darkSurface : AppColors.lightSurface,
-      child: SingleChildScrollView(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 440),
+        child: SingleChildScrollView(
         padding: const EdgeInsets.all(22.0),
         child: Form(
           key: _formKey,
@@ -260,6 +263,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
           ),
         ),
       ),
+    ),
     );
   }
 
@@ -267,18 +271,21 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(fontSize: 10, color: Colors.grey),
-            ),
-            Text(
-              value,
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(fontSize: 10, color: Colors.grey),
+              ),
+              Text(
+                value,
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
         IconButton(
           icon: const Icon(Icons.copy_rounded, size: 18),
