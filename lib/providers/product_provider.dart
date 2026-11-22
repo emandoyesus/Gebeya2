@@ -153,4 +153,21 @@ class ProductProvider extends ChangeNotifier {
       return null;
     }
   }
+
+  /// Adds a new product via ApiService and refreshes catalog
+  Future<bool> addProduct(Product newProduct) async {
+    try {
+      final created = await _apiService.addProduct(newProduct);
+      if (created != null) {
+        _products.insert(0, created);
+        _updateCategoryCounts();
+        notifyListeners();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      debugPrint('Error adding product in ProductProvider: $e');
+      return false;
+    }
+  }
 }

@@ -23,7 +23,7 @@ class LocalApiServer {
   factory LocalApiServer() => _instance;
   LocalApiServer._internal();
 
-  static const String _kProductsStorageKey = 'gebeya_local_db_products_v2';
+  static const String _kProductsStorageKey = 'gebeya_local_db_products_v3';
   static const String _kOrdersStorageKey = 'gebeya_local_db_orders_v2';
 
   List<Product> _productsDb = [];

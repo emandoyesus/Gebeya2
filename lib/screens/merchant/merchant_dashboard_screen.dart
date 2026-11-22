@@ -6,6 +6,7 @@ import '../../models/order.dart';
 import '../../providers/order_provider.dart';
 import '../profile/order_detail_screen.dart';
 import '../profile/widgets/digital_tax_receipt_dialog.dart';
+import 'widgets/add_product_modal.dart';
 
 class MerchantDashboardScreen extends StatefulWidget {
   const MerchantDashboardScreen({super.key});
@@ -60,14 +61,7 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
           IconButton(
             icon: const Icon(Icons.add_box_outlined),
             tooltip: 'Add Inventory Item',
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Quick Product Upload & Catalog Manager ready in Local API Server.'),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-            },
+            onPressed: () => AddProductModal.show(context),
           ),
         ],
       ),

@@ -10,7 +10,7 @@ class MockData {
       nameAmharic: 'ሁሉም',
       icon: Icons.grid_view_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=400&q=80',
-      itemCount: 12,
+      itemCount: 22,
     ),
     ProductCategory(
       id: 'electronics',
@@ -18,7 +18,7 @@ class MockData {
       nameAmharic: 'ኤሌክትሮኒክስ',
       icon: Icons.devices_other_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80',
-      itemCount: 4,
+      itemCount: 6,
     ),
     ProductCategory(
       id: 'ethiopian_heritage',
@@ -26,7 +26,7 @@ class MockData {
       nameAmharic: 'የሀበሻ ባህላዊ',
       icon: Icons.coffee_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80',
-      itemCount: 3,
+      itemCount: 6,
     ),
     ProductCategory(
       id: 'fashion',
@@ -34,7 +34,7 @@ class MockData {
       nameAmharic: 'ፋሽንና አልባሳት',
       icon: Icons.checkroom_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=400&q=80',
-      itemCount: 3,
+      itemCount: 5,
     ),
     ProductCategory(
       id: 'home',
@@ -42,6 +42,14 @@ class MockData {
       nameAmharic: 'የቤት ዕቃዎች',
       icon: Icons.chair_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&q=80',
+      itemCount: 3,
+    ),
+    ProductCategory(
+      id: 'beauty',
+      name: 'Beauty & Spices',
+      nameAmharic: 'ቅመማቅመም እና ውበት',
+      icon: Icons.spa_rounded,
+      imageUrl: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=400&q=80',
       itemCount: 2,
     ),
   ];
@@ -56,6 +64,8 @@ class MockData {
         return Icons.checkroom_rounded;
       case 'home':
         return Icons.chair_rounded;
+      case 'beauty':
+        return Icons.spa_rounded;
       default:
         return Icons.grid_view_rounded;
     }
@@ -307,6 +317,245 @@ class MockData {
         'Water Tank': '400 ml',
         'Coverage': '300 sq. ft.',
         'Runtime': 'Up to 12 Hours',
+      },
+    ),
+    Product(
+      id: 'gebeya_11',
+      name: 'Artisan Sidama Bensa Specialty Coffee (1KG)',
+      nameAmharic: 'የሲዳማ ቤንሳ ስፔሻሊቲ ቡና (1 ኪሎ)',
+      description:
+          'Grown at 2,100 meters in the lush Bensa district of Sidama. Natural anaerobic fermentation processing yielding luscious notes of wild blueberries, peach nectar, and delicate caramel.',
+      price: 1950.0,
+      originalPrice: 2400.0,
+      rating: 4.9,
+      reviewCount: 164,
+      category: 'ethiopian_heritage',
+      isFeatured: true,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
+      ],
+      availableSizes: ['Whole Bean (1kg)', 'Ground Medium (1kg)', 'Cold Brew Coarse (1kg)'],
+      specifications: {
+        'Origin': 'Bensa, Sidama Region, Ethiopia',
+        'Altitude': '2,050 - 2,200 MASL',
+        'Process': 'Natural Anaerobic Sun-Dried',
+        'Flavor Notes': 'Wild Berries, Peach, Honeycomb',
+      },
+    ),
+    Product(
+      id: 'gebeya_12',
+      name: 'Handcrafted Men\'s Ethiopian Tilf Netela Scarf',
+      nameAmharic: 'የወንዶች የጥልፍ ነጠላ ሻርፕ',
+      description:
+          'Finely hand-loomed two-layer Ethiopian Shemma cotton shawl tailored for men with regal geometric gold and black Tilf patterns.',
+      price: 2800.0,
+      originalPrice: 3500.0,
+      rating: 4.8,
+      reviewCount: 52,
+      category: 'ethiopian_heritage',
+      isFeatured: false,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&w=800&q=80',
+      ],
+      availableColors: ['White with Black & Gold', 'Ivory with Deep Navy'],
+      specifications: {
+        'Material': '100% Hand-Spun Gonder Cotton',
+        'Length': '220 cm x 85 cm',
+        'Weaving': 'Traditional Pit Loom Artisan Made',
+      },
+    ),
+    Product(
+      id: 'gebeya_13',
+      name: 'Traditional Mesob Handwoven Bread Basket',
+      nameAmharic: 'ባህላዊ የሳር መሶብ',
+      description:
+          'Stunning traditional Ethiopian dining basket handcrafted using dyed dried sweetgrass and wheat straw. Serves as authentic decor or centerpiece for injera dining.',
+      price: 4500.0,
+      originalPrice: 5600.0,
+      rating: 4.9,
+      reviewCount: 39,
+      category: 'ethiopian_heritage',
+      isFeatured: false,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1584589167171-541ce45f1eea?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+      ],
+      availableColors: ['Multicolor Heritage Red & Green', 'Earthtone Ochre & Brown'],
+      specifications: {
+        'Diameter': '45 cm',
+        'Height': '65 cm with conical lid',
+        'Crafted In': 'Harar / Aksum Artisan Cooperative',
+      },
+    ),
+    Product(
+      id: 'gebeya_14',
+      name: 'CyberPower 65W GaN Fast Charger & Multi-Cable Kit',
+      nameAmharic: 'ፈጣን ቻርጀር እና ኬብል ስብስብ',
+      description:
+          'Ultra-compact Gallium Nitride (GaN III) fast charger with 2x USB-C and 1x USB-A ports. Powers laptops, tablets, and smartphones simultaneously with universal voltage safety.',
+      price: 2200.0,
+      originalPrice: 2800.0,
+      rating: 4.8,
+      reviewCount: 97,
+      category: 'electronics',
+      isFeatured: false,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1622445262464-84b150777731?auto=format&fit=crop&w=800&q=80',
+      ],
+      availableColors: ['Midnight Black', 'Glossy White'],
+      specifications: {
+        'Power Output': '65W Max Power Delivery (PD 3.0)',
+        'Ports': '2x USB-C + 1x USB-A',
+        'Protections': 'Over-temperature, Over-voltage, Surge Shield',
+      },
+    ),
+    Product(
+      id: 'gebeya_15',
+      name: 'StudioPro 4K Ultra-HD Streaming Webcam',
+      nameAmharic: '4ኬ ዌብካም ለስብሰባ እና ቪዲዮ',
+      description:
+          'Crystal clear 4K @ 30fps Sony STARVIS CMOS sensor, dual omnidirectional AI noise-cancelling microphones, magnetic privacy shutter, and auto-focus for professional remote work.',
+      price: 5800.0,
+      originalPrice: 6900.0,
+      rating: 4.7,
+      reviewCount: 48,
+      category: 'electronics',
+      isFeatured: false,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1588508065123-287b28e013da?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80',
+      ],
+      specifications: {
+        'Resolution': '3840 x 2160 (4K UHD)',
+        'Field of View': '90° Wide Angle',
+        'Mount': 'Tripod Thread + Monitor Clamp',
+      },
+    ),
+    Product(
+      id: 'gebeya_16',
+      name: 'Premium Ethiopian Highland Leather Messenger Bag',
+      nameAmharic: 'የሀበሻ ቆዳ ላፕቶፕ ቦርሳ',
+      description:
+          '100% full-grain Ethiopian highland cowhide leather renowned worldwide for softness and tensile strength. Features brass YKK zippers, cotton twill lining, and 15.6-inch laptop pocket.',
+      price: 7600.0,
+      originalPrice: 9500.0,
+      rating: 4.9,
+      reviewCount: 83,
+      category: 'fashion',
+      isFeatured: true,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80',
+      ],
+      availableColors: ['Cognac Vintage Brown', 'Obsidian Black', 'Rustic Tan'],
+      specifications: {
+        'Leather Type': 'Highland Full-Grain Pull-Up Leather',
+        'Dimensions': '40 x 30 x 10 cm',
+        'Handmade': 'Mojo Leather Crafts, Addis Ababa',
+      },
+    ),
+    Product(
+      id: 'gebeya_17',
+      name: 'Urban Oversized Heavyweight Cotton Hoodie',
+      nameAmharic: 'ዘመናዊ ኦቨርሳይዝድ ሁዲ',
+      description:
+          '480 GSM dense French terry cotton with brushed fleece interior. Double-needle drop-shoulder silhouette with kangaroo pocket and ribbed cuffs.',
+      price: 3200.0,
+      originalPrice: 3900.0,
+      rating: 4.8,
+      reviewCount: 112,
+      category: 'fashion',
+      isFeatured: false,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=800&q=80',
+      ],
+      availableSizes: ['S', 'M', 'L', 'XL', 'XXL'],
+      availableColors: ['Washed Olive', 'Slate Charcoal', 'Cream Beige'],
+      specifications: {
+        'Weight': '480 GSM Super-Heavyweight',
+        'Material': '100% Combed Organic Cotton',
+      },
+    ),
+    Product(
+      id: 'gebeya_18',
+      name: 'Cast Iron Double-Handled Dutch Oven (5.5L)',
+      nameAmharic: 'ከባድ የብረት ድስት',
+      description:
+          'Heavy-gauge enameled cast iron delivering exceptional heat distribution and retention. Perfect for slow-cooking Ethiopian doro wat, stews, braises, and artisan sourdough baking.',
+      price: 6400.0,
+      originalPrice: 7800.0,
+      rating: 4.9,
+      reviewCount: 47,
+      category: 'home',
+      isFeatured: false,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1585837575652-267c041d77d4?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1584990347449-3a31c5905d41?auto=format&fit=crop&w=800&q=80',
+      ],
+      availableColors: ['Emerald Teal', 'Fiery Orange', 'Matte Black'],
+      specifications: {
+        'Capacity': '5.5 Liters',
+        'Heat Resistance': 'Oven safe up to 260°C / 500°F',
+        'Compatibility': 'Induction, Gas, Electric, Oven',
+      },
+    ),
+    Product(
+      id: 'gebeya_19',
+      name: 'Pure Organic Ethiopian Korarima & Berbere Spice Box',
+      nameAmharic: 'የኦርጋኒክ በረበረ እና የኮረሪማ ቅመም ስብስብ',
+      description:
+          'Freshly sun-dried and stone-milled Ethiopian spices from Keffa and Gedeo forests. Includes authentic sun-cured Berbere (500g), Black Cardamom Korarima (250g), and Mekelesha finishing blend (150g).',
+      price: 1650.0,
+      originalPrice: 2100.0,
+      rating: 5.0,
+      reviewCount: 178,
+      category: 'beauty',
+      isFeatured: true,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=800&q=80',
+      ],
+      specifications: {
+        'Contents': '500g Berbere + 250g Korarima + 150g Mekelesha',
+        'Purity': '100% Organic, Preservative-Free',
+        'Shelf Life': '18 Months',
+      },
+    ),
+    Product(
+      id: 'gebeya_20',
+      name: 'Cold-Pressed Ethiopian Black Seed (Habba Sawda) Oil',
+      nameAmharic: 'የጥቁር አዝሙድ ዘይት (ሀበሰውዳ)',
+      description:
+          '100% virgin cold-pressed Nigella Sativa oil from pristine Ethiopian farms with verified 3.2% thymoquinone concentration. Revered for immune defense, hair nourishment, and skin vitality.',
+      price: 1400.0,
+      originalPrice: 1750.0,
+      rating: 4.9,
+      reviewCount: 220,
+      category: 'beauty',
+      isFeatured: false,
+      inStock: true,
+      imageUrls: [
+        'https://images.unsplash.com/photo-1608248597359-0d3c0157929d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=800&q=80',
+      ],
+      availableSizes: ['250ml Amber Glass', '500ml Bottle'],
+      specifications: {
+        'Botanical': 'Nigella Sativa (Ethiopian Black Cumin)',
+        'Extraction': 'Extra Virgin First Cold Press',
+        'Thymoquinone': '> 3.0%',
       },
     ),
   ];
