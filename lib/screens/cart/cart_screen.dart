@@ -556,7 +556,10 @@ class _CartScreenState extends State<CartScreen> {
                   );
                 },
                 icon: const Icon(Icons.lock_outline_rounded, size: 18),
-                label: const Text('Proceed to Checkout'),
+                label: Text(
+                  'Proceed to Checkout (${cart.itemCount} ${cart.itemCount == 1 ? 'item' : 'items'})',
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
               ),
             ),
           ],

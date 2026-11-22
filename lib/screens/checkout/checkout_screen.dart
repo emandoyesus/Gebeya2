@@ -166,8 +166,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       if (!mounted) return;
       setState(() => _isPlacingOrder = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Order processing failed: $e'),
+        const SnackBar(
+          content: Text(
+            'Unable to complete your order. Please check your internet connection and try again.',
+          ),
           backgroundColor: AppColors.error,
           behavior: SnackBarBehavior.floating,
         ),

@@ -449,8 +449,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icons.inventory_2_outlined,
                   title: 'No Products in this Category',
                   subtitle:
-                      'We couldn\'t find any items in this category right now. Explore our full catalog or pick another category!',
-                  buttonText: 'Explore All Products',
+                      'We couldn\'t find any items in this category right now. Browse our full catalog or pick another category!',
+                  buttonText: 'View All Products',
                   onButtonPressed: () {
                     productProvider.setCategory('all');
                   },

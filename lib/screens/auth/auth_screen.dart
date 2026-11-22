@@ -229,7 +229,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 13,
                                 color: !_isSignUp
-                                    ? Colors.white
+                                    ? (isDark ? Colors.black : Colors.white)
                                     : (isDark
                                         ? AppColors.darkTextSecondary
                                         : AppColors.lightTextSecondary),
@@ -251,13 +251,13 @@ class _AuthScreenState extends State<AuthScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              'New Account',
+                              'Create Account',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 13,
                                 color: _isSignUp
-                                    ? Colors.white
+                                    ? (isDark ? Colors.black : Colors.white)
                                     : (isDark
                                         ? AppColors.darkTextSecondary
                                         : AppColors.lightTextSecondary),
@@ -404,18 +404,18 @@ class _AuthScreenState extends State<AuthScreen> {
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: isDark ? AppColors.primaryLight : AppColors.primary,
-                      foregroundColor: Colors.white,
+                      foregroundColor: isDark ? Colors.black : Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     child: auth.isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                             width: 20,
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: Colors.white,
+                              color: isDark ? Colors.black : Colors.white,
                             ),
                           )
                         : Text(
@@ -442,7 +442,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     },
                     icon: const Icon(Icons.auto_awesome_rounded, size: 16),
                     label: const Text(
-                      'Auto-fill Demo Credentials',
+                      'Use Demo Account (Abebe Kebede)',
                       style: TextStyle(fontSize: 12),
                     ),
                   ),

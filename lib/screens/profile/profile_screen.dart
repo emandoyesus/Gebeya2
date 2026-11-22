@@ -393,11 +393,13 @@ class ProfileScreen extends StatelessWidget {
                           context: context,
                           builder: (ctx) => AlertDialog(
                             title: const Text('Sign Out of Gebeya?'),
-                            content: const Text('You can sign back in anytime using your email or phone number.'),
+                            content: const Text(
+                              'You will need to sign back in to access saved addresses and order tracking.',
+                            ),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(ctx),
-                                child: const Text('Cancel'),
+                                child: const Text('Stay Signed In'),
                               ),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
@@ -410,7 +412,7 @@ class ProfileScreen extends StatelessWidget {
                                   if (context.mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('You have signed out.'),
+                                        content: Text('You have signed out of your account.'),
                                         behavior: SnackBarBehavior.floating,
                                       ),
                                     );
