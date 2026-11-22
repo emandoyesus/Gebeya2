@@ -17,7 +17,7 @@ class MainShell extends StatefulWidget {
 }
 
 class _MainShellState extends State<MainShell> {
-  int _currentIndex = 0;
+  int _currentIndex = 2; // Default to Home in the middle
 
   void _onTabSelected(int index) {
     setState(() => _currentIndex = index);
@@ -30,9 +30,9 @@ class _MainShellState extends State<MainShell> {
     final wishlistCount = context.watch<WishlistProvider>().count;
 
     final screens = [
-      HomeScreen(onNavigateTab: _onTabSelected),
       const ExploreScreen(),
       CartScreen(onNavigateTab: _onTabSelected),
+      HomeScreen(onNavigateTab: _onTabSelected),
       WishlistScreen(onNavigateTab: _onTabSelected),
       ProfileScreen(onNavigateTab: _onTabSelected),
     ];
@@ -63,16 +63,12 @@ class _MainShellState extends State<MainShell> {
           ),
         ),
         child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
           onTap: _onTabSelected,
           selectedItemColor: isDark ? AppColors.primaryLight : AppColors.primary,
           unselectedItemColor: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
           items: [
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home_rounded),
-              label: 'Home',
-            ),
             const BottomNavigationBarItem(
               icon: Icon(Icons.search_rounded),
               activeIcon: Icon(Icons.search_rounded),
@@ -100,6 +96,11 @@ class _MainShellState extends State<MainShell> {
                 child: const Icon(Icons.shopping_bag_rounded),
               ),
               label: 'Cart',
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home_rounded),
+              label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: Badge(

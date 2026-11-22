@@ -316,7 +316,7 @@ class ProfileScreen extends StatelessWidget {
                   'In Cart',
                   Icons.shopping_bag_rounded,
                   () {
-                    onNavigateTab?.call(2);
+                    onNavigateTab?.call(1); // Cart is index 1
                   },
                 ),
               ],

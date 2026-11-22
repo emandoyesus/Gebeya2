@@ -305,7 +305,7 @@ class MockData {
       isFeatured: false,
       inStock: true,
       imageUrls: [
-        'https://images.unsplash.com/photo-1580481077195-c3a821a58875?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
         'https://images.unsplash.com/photo-1505797149-43b0069ec26b?auto=format&fit=crop&w=800&q=80',
       ],
       availableColors: ['Slate Gray', 'Pure Black'],
@@ -568,7 +568,7 @@ class MockData {
       isFeatured: false,
       inStock: true,
       imageUrls: [
-        'https://images.unsplash.com/photo-1608248597359-0d3c0157929d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=800&q=80',
         'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=800&q=80',
       ],
       availableSizes: ['250ml Amber Glass', '500ml Bottle'],
@@ -592,7 +592,7 @@ class MockData {
       isFeatured: true,
       inStock: true,
       imageUrls: [
-        'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=800&q=80',
         'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=800&q=80',
       ],
       availableColors: ['Natural Titanium', 'Black Titanium', 'White Titanium', 'Blue Titanium'],
@@ -1000,7 +1000,7 @@ class MockData {
       isFeatured: false,
       inStock: true,
       imageUrls: [
-        'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80',
         'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80',
       ],
       specifications: {
@@ -1096,7 +1096,7 @@ class MockData {
       isFeatured: false,
       inStock: true,
       imageUrls: [
-        'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
         'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
       ],
       availableColors: ['Gold & Emerald Tibeb', 'Gold & Ruby Tibeb', 'Silver & Blue Tibeb'],
@@ -1503,7 +1503,7 @@ class MockData {
       isFeatured: false,
       inStock: true,
       imageUrls: [
-        'https://images.unsplash.com/photo-1608248597359-0d3c0157929d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=800&q=80',
         'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=800&q=80',
       ],
       specifications: {
@@ -1527,7 +1527,7 @@ class MockData {
       inStock: true,
       imageUrls: [
         'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1608248597359-0d3c0157929d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=800&q=80',
       ],
       specifications: {
         'Includes': '1x CeraVe Moisturizing Cream (453g) + 1x Cleanser (236ml)',

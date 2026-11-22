@@ -202,13 +202,17 @@ class _HeroBannerState extends State<HeroBanner> {
                           ),
                           Row(
                             children: [
-                              Text(
-                                banner.amharicTitle,
-                                style: TextStyle(
-                                  color: AppColors.accentLight,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.5,
+                              Flexible(
+                                child: Text(
+                                  banner.amharicTitle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: AppColors.accentLight,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.5,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 6),

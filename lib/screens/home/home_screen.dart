@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(
                     icon: const Icon(Icons.shopping_bag_outlined),
                     onPressed: () {
-                      widget.onNavigateTab?.call(2); // Navigate to Cart tab
+                      widget.onNavigateTab?.call(1); // Navigate to Cart tab (index 1)
                     },
                   ),
                   Positioned(
@@ -277,13 +277,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           size: 22,
                         ),
                         const SizedBox(width: 12),
-                        Text(
-                          'Search coffee, electronics, Habesha wear...',
-                          style: TextStyle(
-                            color: isDark
-                                ? AppColors.darkTextMuted
-                                : AppColors.lightTextMuted,
-                            fontSize: 14,
+                        Expanded(
+                          child: Text(
+                            'Search coffee, electronics, Habesha wear...',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: isDark
+                                  ? AppColors.darkTextMuted
+                                  : AppColors.lightTextMuted,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ],

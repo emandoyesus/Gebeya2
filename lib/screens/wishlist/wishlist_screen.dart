@@ -71,7 +71,7 @@ class WishlistScreen extends StatelessWidget {
                   'Save items you love by tapping the heart icon on any product. They\'ll show up right here.',
               buttonText: 'Explore Collection',
               onButtonPressed: () {
-                onNavigateTab?.call(0); // Navigate to Home
+                onNavigateTab?.call(2); // Navigate to Home (index 2)
               },
             )
           : GridView.builder(
