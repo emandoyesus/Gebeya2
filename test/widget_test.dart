@@ -39,9 +39,8 @@ void main() {
     expect(find.text('Gebeya'), findsOneWidget);
     expect(find.text('ገበያ'), findsWidgets);
 
-    // Verify Navigation Bar items
+    // Verify Navigation Bar items (Home, Cart, Wishlist, Sign In)
     expect(find.text('Home'), findsOneWidget);
-    expect(find.text('Explore'), findsOneWidget);
     expect(find.text('Cart'), findsOneWidget);
     expect(find.text('Wishlist'), findsOneWidget);
     // When user has no account, nav tab displays 'Sign In'

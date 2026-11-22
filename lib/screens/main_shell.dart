@@ -5,7 +5,6 @@ import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/wishlist_provider.dart';
 import 'cart/cart_screen.dart';
-import 'explore/explore_screen.dart';
 import 'home/home_screen.dart';
 import 'profile/profile_screen.dart';
 import 'wishlist/wishlist_screen.dart';
@@ -18,7 +17,7 @@ class MainShell extends StatefulWidget {
 }
 
 class _MainShellState extends State<MainShell> {
-  int _currentIndex = 2; // Default to Home in the middle
+  int _currentIndex = 0; // Default to Home
 
   void _onTabSelected(int index) {
     setState(() => _currentIndex = index);
@@ -33,9 +32,8 @@ class _MainShellState extends State<MainShell> {
     final hasAccount = auth.isAuthenticated;
 
     final screens = [
-      const ExploreScreen(),
-      CartScreen(onNavigateTab: _onTabSelected),
       HomeScreen(onNavigateTab: _onTabSelected),
+      CartScreen(onNavigateTab: _onTabSelected),
       WishlistScreen(onNavigateTab: _onTabSelected),
       ProfileScreen(onNavigateTab: _onTabSelected),
     ];
@@ -69,13 +67,25 @@ class _MainShellState extends State<MainShell> {
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
           onTap: _onTabSelected,
-          selectedItemColor: isDark ? AppColors.primaryLight : AppColors.primary,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+            letterSpacing: 0.1,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+            letterSpacing: 0.1,
+          ),
+          selectedItemColor: isDark ? AppColors.accent : AppColors.primary,
           unselectedItemColor: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
           items: [
             const BottomNavigationBarItem(
-              icon: Icon(Icons.search_rounded),
-              activeIcon: Icon(Icons.search_rounded),
-              label: 'Explore',
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home_rounded),
+              label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: Badge(
@@ -99,11 +109,6 @@ class _MainShellState extends State<MainShell> {
                 child: const Icon(Icons.shopping_bag_rounded),
               ),
               label: 'Cart',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home_rounded),
-              label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: Badge(
