@@ -23,6 +23,7 @@ class AppTheme {
         foregroundColor: AppColors.lightTextPrimary,
         elevation: 0,
         scrolledUnderElevation: 1,
+        surfaceTintColor: Colors.transparent,
         centerTitle: false,
         titleTextStyle: TextStyle(
           fontSize: 20,
@@ -38,6 +39,40 @@ class AppTheme {
           borderRadius: BorderRadius.circular(16),
           side: const BorderSide(color: AppColors.lightBorder, width: 1),
         ),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: AppColors.lightSurface,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: AppColors.lightBorder, width: 1),
+        ),
+        titleTextStyle: const TextStyle(
+          color: AppColors.lightTextPrimary,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
+        contentTextStyle: const TextStyle(
+          color: AppColors.lightTextSecondary,
+          fontSize: 14,
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: AppColors.lightTextPrimary,
+        contentTextStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: AppColors.primary,
+        selectionColor: Color(0x330F766E),
+        selectionHandleColor: AppColors.primary,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -124,6 +159,7 @@ class AppTheme {
         foregroundColor: AppColors.darkTextPrimary,
         elevation: 0,
         scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         centerTitle: false,
         titleTextStyle: TextStyle(
           fontSize: 20,
@@ -139,6 +175,41 @@ class AppTheme {
           borderRadius: BorderRadius.circular(16),
           side: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: AppColors.darkElevated,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: AppColors.darkBorder, width: 1),
+        ),
+        titleTextStyle: const TextStyle(
+          color: AppColors.darkTextPrimary,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
+        contentTextStyle: const TextStyle(
+          color: AppColors.darkTextSecondary,
+          fontSize: 14,
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: AppColors.darkElevated,
+        contentTextStyle: const TextStyle(
+          color: AppColors.darkTextPrimary,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: AppColors.darkBorder),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: AppColors.primaryLight,
+        selectionColor: Color(0x4D14B8A6),
+        selectionHandleColor: AppColors.primaryLight,
       ),
       dividerTheme: const DividerThemeData(
         color: AppColors.darkDivider,
