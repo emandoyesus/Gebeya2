@@ -79,7 +79,7 @@ class _MainShellState extends State<MainShell> {
             fontSize: 12,
             letterSpacing: 0.1,
           ),
-          selectedItemColor: isDark ? AppColors.accent : AppColors.primary,
+          selectedItemColor: isDark ? AppColors.primaryLight : AppColors.primary,
           unselectedItemColor: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
           items: [
             const BottomNavigationBarItem(
@@ -94,7 +94,7 @@ class _MainShellState extends State<MainShell> {
                   '$cartCount',
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 10),
                 ),
-                backgroundColor: AppColors.accent,
+                backgroundColor: AppColors.primaryLight,
                 textColor: Colors.black,
                 child: const Icon(Icons.shopping_bag_outlined),
               ),
@@ -104,7 +104,7 @@ class _MainShellState extends State<MainShell> {
                   '$cartCount',
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 10),
                 ),
-                backgroundColor: AppColors.accent,
+                backgroundColor: AppColors.primaryLight,
                 textColor: Colors.black,
                 child: const Icon(Icons.shopping_bag_rounded),
               ),

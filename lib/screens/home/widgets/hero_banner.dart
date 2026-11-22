@@ -40,7 +40,7 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'Experience shopping reimagined. Premium local & modern curated goods.',
       amharicTitle: 'WELCOME TO GEBEYA',
       tag: 'NEW ARRIVALS',
-      gradient: [Color(0xFF0F766E), Color(0xFF0D9488), Color(0xFF115E59)],
+      gradient: [Color(0xFF0F4F4A), Color(0xFF115E59), Color(0xFF0A3A36)],
       icon: Icons.storefront_rounded,
     ),
     HeroBannerItem(
@@ -48,7 +48,7 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'Direct from Yirgacheffe & Sidama highlands. Freshly roasted.',
       amharicTitle: 'የሀበሻ ስፔሻሊቲ ቡና',
       tag: 'UP TO 20% OFF',
-      gradient: [Color(0xFF78350F), Color(0xFF92400E), Color(0xFFB45309)],
+      gradient: [Color(0xFF1E1612), Color(0xFF281E18), Color(0xFF191310)],
       icon: Icons.coffee_rounded,
     ),
     HeroBannerItem(
@@ -56,7 +56,7 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'Next-gen ANC audio, mechanical keyboards, and wearables.',
       amharicTitle: 'ዘመናዊ የቴክኖሎጂ እቃዎች',
       tag: 'TECH FLASH SALE',
-      gradient: [Color(0xFF1E1B4B), Color(0xFF312E81), Color(0xFF4338CA)],
+      gradient: [Color(0xFF141322), Color(0xFF1E1B38), Color(0xFF11101E)],
       icon: Icons.headphones_rounded,
     ),
     HeroBannerItem(
@@ -64,7 +64,7 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'iPhone 15 Pro, Galaxy S24 Ultra, portable EV chargers & auto accessories.',
       amharicTitle: 'ስልኮች እና የመኪና እቃዎች',
       tag: 'JIJI BESTSELLERS',
-      gradient: [Color(0xFF0F172A), Color(0xFF1E293B), Color(0xFF334155)],
+      gradient: [Color(0xFF0F0F12), Color(0xFF18181D), Color(0xFF0A0A0D)],
       icon: Icons.phone_android_rounded,
     ),
   ];
