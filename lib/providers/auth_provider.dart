@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 
 class AuthProvider extends ChangeNotifier {
-  static const String _kCurrentUserKey = 'gebeya_auth_current_user_v1';
+  static const String _kCurrentUserKey = 'gebeya_auth_current_user_v2';
   static const String _kUsersRegistryKey = 'gebeya_auth_users_registry_v1';
 
   UserModel? _currentUser;
@@ -31,19 +31,8 @@ class AuthProvider extends ChangeNotifier {
       if (userJson != null && userJson.isNotEmpty) {
         _currentUser = UserModel.fromJson(jsonDecode(userJson));
       } else {
-        // Create default merchant/demo user for smooth first-run experience
-        _currentUser = UserModel(
-          id: 'usr_demo_01',
-          fullName: 'Abebe Kebede',
-          email: 'abebe.kebede@gebeya.et',
-          phoneNumber: '+251 91 123 4567',
-          defaultCity: 'Addis Ababa',
-          defaultSubcity: 'Bole',
-          defaultStreet: 'Bole Medhanialem, Olympia St.',
-          isVerified: true,
-          createdAt: DateTime.now().subtract(const Duration(days: 30)),
-        );
-        await _saveCurrentUser(_currentUser!);
+        // No saved user session - starts as guest (unauthenticated)
+        _currentUser = null;
       }
     } catch (e) {
       debugPrint('Error loading auth session: $e');

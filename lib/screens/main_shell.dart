@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants/app_colors.dart';
+import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/wishlist_provider.dart';
 import 'cart/cart_screen.dart';
@@ -28,6 +29,8 @@ class _MainShellState extends State<MainShell> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cartCount = context.watch<CartProvider>().itemCount;
     final wishlistCount = context.watch<WishlistProvider>().count;
+    final auth = context.watch<AuthProvider>();
+    final hasAccount = auth.isAuthenticated;
 
     final screens = [
       const ExploreScreen(),
@@ -125,10 +128,10 @@ class _MainShellState extends State<MainShell> {
               ),
               label: 'Wishlist',
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline_rounded),
-              activeIcon: Icon(Icons.person_rounded),
-              label: 'Account',
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.person_outline_rounded),
+              activeIcon: const Icon(Icons.person_rounded),
+              label: hasAccount ? 'Account' : 'Sign In',
             ),
           ],
         ),

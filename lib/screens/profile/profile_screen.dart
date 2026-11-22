@@ -186,7 +186,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
       appBar: AppBar(
-        title: const Text('My Account'),
+        title: Text(auth.isAuthenticated ? 'My Account' : 'Sign In'),
         actions: [
           if (auth.isAuthenticated)
             IconButton(
@@ -210,72 +210,107 @@ class ProfileScreen extends StatelessWidget {
                   color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
                 ),
               ),
-              child: Row(
+              child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 34,
-                    backgroundColor: (isDark
-                            ? AppColors.primaryLight
-                            : AppColors.primary)
-                        .withValues(alpha: 0.2),
-                    child: Icon(
-                      Icons.person_rounded,
-                      size: 40,
-                      color: isDark ? AppColors.primaryLight : AppColors.primary,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          user?.fullName ?? 'Guest Customer',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: -0.3,
-                          ),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 34,
+                        backgroundColor: (isDark
+                                ? AppColors.primaryLight
+                                : AppColors.primary)
+                            .withValues(alpha: 0.2),
+                        child: Icon(
+                          auth.isAuthenticated
+                              ? Icons.person_rounded
+                              : Icons.person_outline_rounded,
+                          size: 40,
+                          color: isDark ? AppColors.primaryLight : AppColors.primary,
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          user?.email ?? 'Sign in to access your saved profile',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: isDark
-                                ? AppColors.darkTextSecondary
-                                : AppColors.lightTextSecondary,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(
-                              Icons.verified_rounded,
-                              size: 14,
-                              color: AppColors.success,
-                            ),
-                            const SizedBox(width: 4),
-                            Expanded(
-                              child: Text(
-                                user != null
-                                    ? '${user.phoneNumber} • ${user.defaultSubcity}'
-                                    : 'Addis Ababa Delivery',
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: isDark
-                                      ? AppColors.darkTextMuted
-                                      : AppColors.lightTextMuted,
-                                ),
+                            Text(
+                              user?.fullName ?? 'Guest Customer',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: -0.3,
                               ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              user?.email ?? 'Sign in to access your saved profile',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.lightTextSecondary,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Icon(
+                                  auth.isAuthenticated
+                                      ? Icons.verified_rounded
+                                      : Icons.info_outline_rounded,
+                                  size: 14,
+                                  color: auth.isAuthenticated
+                                      ? AppColors.success
+                                      : AppColors.accent,
+                                ),
+                                const SizedBox(width: 4),
+                                Expanded(
+                                  child: Text(
+                                    user != null
+                                        ? '${user.phoneNumber} • ${user.defaultSubcity}'
+                                        : 'Sign in to track orders & addresses',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: isDark
+                                          ? AppColors.darkTextMuted
+                                          : AppColors.lightTextMuted,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                  if (!auth.isAuthenticated) ...[
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.login_rounded, size: 18),
+                        label: const Text(
+                          'Sign In / Create Account',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isDark
+                              ? AppColors.primaryLight
+                              : AppColors.primary,
+                          foregroundColor:
+                              isDark ? Colors.black : Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () => AuthScreen.show(context),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gebeya/main.dart';
+import 'package:gebeya/providers/auth_provider.dart';
 import 'package:gebeya/providers/cart_provider.dart';
 import 'package:gebeya/providers/order_provider.dart';
 import 'package:gebeya/providers/product_provider.dart';
@@ -21,6 +22,7 @@ void main() {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
+          ChangeNotifierProvider(create: (_) => AuthProvider()),
           ChangeNotifierProvider(create: (_) => ProductProvider()),
           ChangeNotifierProvider(create: (_) => CartProvider()),
           ChangeNotifierProvider(create: (_) => WishlistProvider()),
@@ -42,7 +44,8 @@ void main() {
     expect(find.text('Explore'), findsOneWidget);
     expect(find.text('Cart'), findsOneWidget);
     expect(find.text('Wishlist'), findsOneWidget);
-    expect(find.text('Account'), findsOneWidget);
+    // When user has no account, nav tab displays 'Sign In'
+    expect(find.text('Sign In'), findsOneWidget);
 
     // Verify categories rendered
     expect(find.text('Categories'), findsOneWidget);
