@@ -59,6 +59,14 @@ class _HeroBannerState extends State<HeroBanner> {
       gradient: [Color(0xFF1E1B4B), Color(0xFF312E81), Color(0xFF4338CA)],
       icon: Icons.headphones_rounded,
     ),
+    HeroBannerItem(
+      title: 'Smartphones & EV Gear',
+      subtitle: 'iPhone 15 Pro, Galaxy S24 Ultra, portable EV chargers & auto accessories.',
+      amharicTitle: 'ስልኮች እና የመኪና እቃዎች',
+      tag: 'JIJI BESTSELLERS',
+      gradient: [Color(0xFF0F172A), Color(0xFF1E293B), Color(0xFF334155)],
+      icon: Icons.phone_android_rounded,
+    ),
   ];
 
   void _handleBannerTap(int index) {
@@ -69,6 +77,8 @@ class _HeroBannerState extends State<HeroBanner> {
       widget.onSelectCategory!('ethiopian_heritage');
     } else if (index == 2) {
       widget.onSelectCategory!('electronics');
+    } else if (index == 3) {
+      widget.onSelectCategory!('phones');
     }
   }
 

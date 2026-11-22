@@ -34,7 +34,9 @@ class _AddProductModalState extends State<AddProductModal> {
   bool _isSaving = false;
 
   final List<Map<String, String>> _categories = const [
+    {'id': 'phones', 'name': 'Phones & Tablets (ስልኮች እና ታብሌቶች)'},
     {'id': 'electronics', 'name': 'Electronics (ኤሌክትሮኒክስ)'},
+    {'id': 'vehicles', 'name': 'Vehicles & Auto (ተሽከርካሪ እና የመኪና)'},
     {'id': 'ethiopian_heritage', 'name': 'Ethiopian Goods (የሀበሻ ባህላዊ)'},
     {'id': 'fashion', 'name': 'Fashion & Wear (ፋሽንና አልባሳት)'},
     {'id': 'home', 'name': 'Home & Living (የቤት ዕቃዎች)'},
