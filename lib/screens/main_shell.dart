@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants/app_colors.dart';
-import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/wishlist_provider.dart';
 import 'cart/cart_screen.dart';
@@ -28,8 +27,6 @@ class _MainShellState extends State<MainShell> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cartCount = context.watch<CartProvider>().itemCount;
     final wishlistCount = context.watch<WishlistProvider>().count;
-    final auth = context.watch<AuthProvider>();
-    final hasAccount = auth.isAuthenticated;
 
     final screens = [
       HomeScreen(onNavigateTab: _onTabSelected),
@@ -56,14 +53,24 @@ class _MainShellState extends State<MainShell> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF101014) : AppColors.lightSurface,
           border: Border(
             top: BorderSide(
-              color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-              width: 1,
+              color: isDark ? const Color(0xFF26262B) : AppColors.lightBorder,
+              width: 1.2,
             ),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, -3),
+            ),
+          ],
         ),
         child: BottomNavigationBar(
+          backgroundColor: isDark ? const Color(0xFF101014) : AppColors.lightSurface,
+          elevation: 0,
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
           onTap: _onTabSelected,
@@ -80,7 +87,7 @@ class _MainShellState extends State<MainShell> {
             letterSpacing: 0.1,
           ),
           selectedItemColor: isDark ? AppColors.primaryLight : AppColors.primary,
-          unselectedItemColor: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+          unselectedItemColor: isDark ? const Color(0xFFA1A1AA) : AppColors.lightTextMuted,
           items: [
             const BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
@@ -133,10 +140,10 @@ class _MainShellState extends State<MainShell> {
               ),
               label: 'Wishlist',
             ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.person_outline_rounded),
-              activeIcon: const Icon(Icons.person_rounded),
-              label: hasAccount ? 'Account' : 'Sign In',
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline_rounded),
+              activeIcon: Icon(Icons.person_rounded),
+              label: 'Profile',
             ),
           ],
         ),

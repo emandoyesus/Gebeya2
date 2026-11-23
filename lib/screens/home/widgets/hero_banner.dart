@@ -6,7 +6,7 @@ import '../../../widgets/app_image.dart';
 class HeroBannerItem {
   final String title;
   final String subtitle;
-  final String amharicTitle;
+  final String ctaText;
   final String tag;
   final List<Color> gradient;
   final IconData icon;
@@ -15,7 +15,7 @@ class HeroBannerItem {
   const HeroBannerItem({
     required this.title,
     required this.subtitle,
-    required this.amharicTitle,
+    required this.ctaText,
     required this.tag,
     required this.gradient,
     required this.icon,
@@ -39,9 +39,9 @@ class _HeroBannerState extends State<HeroBanner> {
 
   final List<HeroBannerItem> _banners = const [
     HeroBannerItem(
-      title: 'እንኳን ወደ ገበያ በደህና መጡ',
+      title: 'Welcome to Gebeya',
       subtitle: 'Experience shopping reimagined. Premium local & modern curated goods.',
-      amharicTitle: 'WELCOME TO GEBEYA',
+      ctaText: 'Shop New Arrivals',
       tag: 'NEW ARRIVALS',
       gradient: [Color(0xFF0F4F4A), Color(0xFF115E59), Color(0xFF0A3A36)],
       icon: Icons.storefront_rounded,
@@ -50,7 +50,7 @@ class _HeroBannerState extends State<HeroBanner> {
     HeroBannerItem(
       title: 'Ethiopian Specialty Coffee',
       subtitle: 'Direct from Yirgacheffe & Sidama highlands. Freshly roasted.',
-      amharicTitle: 'የሀበሻ ስፔሻሊቲ ቡና',
+      ctaText: 'Shop Coffee Collection',
       tag: 'UP TO 20% OFF',
       gradient: [Color(0xFF1E1612), Color(0xFF281E18), Color(0xFF191310)],
       icon: Icons.coffee_rounded,
@@ -59,7 +59,7 @@ class _HeroBannerState extends State<HeroBanner> {
     HeroBannerItem(
       title: 'Cyber & Modern Tech',
       subtitle: 'Next-gen ANC audio, mechanical keyboards, and wearables.',
-      amharicTitle: 'ዘመናዊ የቴክኖሎጂ እቃዎች',
+      ctaText: 'Shop Tech Deals',
       tag: 'TECH FLASH SALE',
       gradient: [Color(0xFF141322), Color(0xFF1E1B38), Color(0xFF11101E)],
       icon: Icons.headphones_rounded,
@@ -67,8 +67,8 @@ class _HeroBannerState extends State<HeroBanner> {
     ),
     HeroBannerItem(
       title: 'Smartphones & EV Gear',
-      subtitle: 'iPhone 15 Pro, Galaxy S24 Ultra, portable EV chargers & auto accessories.',
-      amharicTitle: 'ስልኮች እና የመኪና እቃዎች',
+      subtitle: 'iPhone 15 Pro, Galaxy S24 Ultra, portable chargers & auto gear.',
+      ctaText: 'Explore Bestsellers',
       tag: 'JIJI BESTSELLERS',
       gradient: [Color(0xFF0F0F12), Color(0xFF18181D), Color(0xFF0A0A0D)],
       icon: Icons.phone_android_rounded,
@@ -161,10 +161,11 @@ class _HeroBannerState extends State<HeroBanner> {
                               end: Alignment.centerRight,
                               colors: [
                                 Colors.black.withValues(alpha: 0.94),
-                                Colors.black.withValues(alpha: 0.82),
-                                Colors.black.withValues(alpha: 0.45),
+                                Colors.black.withValues(alpha: 0.85),
+                                Colors.black.withValues(alpha: 0.40),
+                                Colors.transparent,
                               ],
-                              stops: const [0.0, 0.55, 1.0],
+                              stops: const [0.0, 0.45, 0.75, 1.0],
                             ),
                           ),
                         ),
@@ -176,22 +177,11 @@ class _HeroBannerState extends State<HeroBanner> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                banner.gradient.first.withValues(alpha: 0.35),
+                                banner.gradient.first.withValues(alpha: 0.30),
                                 Colors.transparent,
-                                banner.gradient.last.withValues(alpha: 0.25),
+                                banner.gradient.last.withValues(alpha: 0.20),
                               ],
                             ),
-                          ),
-                        ),
-
-                        // Subtle watermark decorative icon on far right
-                        Positioned(
-                          right: -10,
-                          bottom: -15,
-                          child: Icon(
-                            banner.icon,
-                            size: 130,
-                            color: Colors.white.withValues(alpha: 0.08),
                           ),
                         ),
 
@@ -270,7 +260,7 @@ class _HeroBannerState extends State<HeroBanner> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      banner.amharicTitle,
+                                      banner.ctaText,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(

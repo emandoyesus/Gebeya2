@@ -67,7 +67,7 @@ class ProductCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                   child: AspectRatio(
-                    aspectRatio: 1.25,
+                    aspectRatio: 1.35,
                     child: Hero(
                       tag: effectiveHeroTag,
                       child: AppImage(

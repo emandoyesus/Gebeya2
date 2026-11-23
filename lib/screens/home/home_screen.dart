@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/cart_provider.dart';
 import '../../providers/product_provider.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/product_card.dart';
@@ -164,7 +163,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_none_rounded),
+            icon: Badge(
+              isLabelVisible: true,
+              smallSize: 8,
+              backgroundColor: AppColors.accent,
+              child: const Icon(Icons.notifications_none_rounded),
+            ),
             tooltip: 'Notifications',
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -174,50 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   behavior: SnackBarBehavior.floating,
                   duration: Duration(milliseconds: 1400),
                 ),
-              );
-            },
-          ),
-          Consumer<CartProvider>(
-            builder: (context, cart, _) {
-              return Stack(
-                alignment: Alignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.shopping_bag_outlined),
-                    onPressed: () {
-                      widget.onNavigateTab?.call(1); // Navigate to Cart tab (index 1)
-                    },
-                  ),
-                  Positioned(
-                    top: 6,
-                    right: 6,
-                    child: AnimatedScale(
-                      scale: cart.itemCount > 0 ? 1.0 : 0.0,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOutBack,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: AppColors.accent,
-                          shape: BoxShape.circle,
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 18,
-                          minHeight: 18,
-                        ),
-                        child: Text(
-                          '${cart.itemCount}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
               );
             },
           ),
@@ -231,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(bottom: 30),
+          padding: const EdgeInsets.only(top: 8.0, bottom: 96.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -271,9 +231,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.search_rounded,
-                          color: AppColors.lightTextMuted,
+                          color: isDark ? const Color(0xFFA1A1AA) : AppColors.lightTextMuted,
                           size: 22,
                         ),
                         const SizedBox(width: 12),
@@ -284,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: isDark
-                                  ? AppColors.darkTextMuted
+                                  ? const Color(0xFFA1A1AA)
                                   : AppColors.lightTextMuted,
                               fontSize: 14,
                             ),

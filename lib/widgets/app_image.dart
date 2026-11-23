@@ -23,7 +23,7 @@ class AppImage extends StatelessWidget {
       return Container(
         width: width,
         height: height,
-        color: isDark ? AppColors.darkSurface : AppColors.lightDivider,
+        color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
         child: const Icon(Icons.shopping_bag_outlined, color: AppColors.lightTextMuted),
       );
     }
@@ -33,33 +33,27 @@ class AppImage extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Container(
-          width: width,
-          height: height,
-          color: isDark ? AppColors.darkSurface : AppColors.lightDivider,
-          child: Center(
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: isDark ? AppColors.primaryLight : AppColors.primary,
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
-            ),
-          ),
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded) {
+          return child;
+        }
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: frame != null
+              ? child
+              : Container(
+                  key: const ValueKey('image_placeholder'),
+                  width: width,
+                  height: height,
+                  color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
+                ),
         );
       },
       errorBuilder: (context, error, stackTrace) {
         return Container(
           width: width,
           height: height,
-          color: isDark ? AppColors.darkSurface : AppColors.lightDivider,
+          color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
           child: const Center(
             child: Icon(
               Icons.image_not_supported_outlined,
