@@ -151,21 +151,28 @@ class _HeroBannerState extends State<HeroBanner> {
                         AppImage(
                           imageUrl: banner.imageUrl,
                           fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
                         ),
 
-                        // High-contrast directional dark obsidian gradient scrim
+                        // Dark photo overlay (55% opacity) to darken background signage (e.g. SHOP / OPEN)
+                        Container(
+                          color: Colors.black.withValues(alpha: 0.55),
+                        ),
+
+                        // High-contrast directional dark obsidian gradient scrim behind text
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                               colors: [
-                                Colors.black.withValues(alpha: 0.94),
-                                Colors.black.withValues(alpha: 0.85),
-                                Colors.black.withValues(alpha: 0.40),
+                                Colors.black.withValues(alpha: 0.96),
+                                Colors.black.withValues(alpha: 0.90),
+                                Colors.black.withValues(alpha: 0.50),
                                 Colors.transparent,
                               ],
-                              stops: const [0.0, 0.45, 0.75, 1.0],
+                              stops: const [0.0, 0.50, 0.78, 1.0],
                             ),
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
+import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
@@ -186,7 +187,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
       appBar: AppBar(
-        title: Text(auth.isAuthenticated ? 'My Account' : 'Sign In'),
+        title: const Text('Profile'),
         actions: [
           if (auth.isAuthenticated)
             IconButton(
@@ -197,7 +198,7 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 100.0),
         child: Column(
           children: [
             // User Header Card
@@ -243,7 +244,9 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              user?.email ?? 'Sign in to access your saved profile',
+                              user != null
+                                  ? user.email
+                                  : 'Sign in to sync your delivery address and orders',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: isDark
@@ -251,36 +254,32 @@ class ProfileScreen extends StatelessWidget {
                                     : AppColors.lightTextSecondary,
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Icon(
-                                  auth.isAuthenticated
-                                      ? Icons.verified_rounded
-                                      : Icons.info_outline_rounded,
-                                  size: 14,
-                                  color: auth.isAuthenticated
-                                      ? AppColors.success
-                                      : AppColors.accent,
-                                ),
-                                const SizedBox(width: 4),
-                                Expanded(
-                                  child: Text(
-                                    user != null
-                                        ? '${user.phoneNumber} • ${user.defaultSubcity}'
-                                        : 'Sign in to track orders & addresses',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: isDark
-                                          ? AppColors.darkTextMuted
-                                          : AppColors.lightTextMuted,
+                            if (auth.isAuthenticated) ...[
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.verified_rounded,
+                                    size: 14,
+                                    color: AppColors.success,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Expanded(
+                                    child: Text(
+                                      '${user!.phoneNumber} • ${user.defaultSubcity}',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: isDark
+                                            ? AppColors.darkTextMuted
+                                            : AppColors.lightTextMuted,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
+                            ],
                           ],
                         ),
                       ),
@@ -315,78 +314,86 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 16),
-
-            // Quick Stats Row
-            Row(
-              children: [
-                _buildStatCard(
-                  context,
-                  '$orderCount',
-                  'Orders',
-                  Icons.receipt_long_rounded,
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const OrderHistoryScreen(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(width: 12),
-                _buildStatCard(
-                  context,
-                  '$wishlistCount',
-                  'Saved',
-                  Icons.favorite_rounded,
-                  () {
-                    onNavigateTab?.call(2); // Wishlist is index 2
-                  },
-                ),
-                const SizedBox(width: 12),
-                _buildStatCard(
-                  context,
-                  '$cartCount',
-                  'In Cart',
-                  Icons.shopping_bag_rounded,
-                  () {
-                    onNavigateTab?.call(1); // Cart is index 1
-                  },
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            // Authentication Action Card (Switch Account or Sign In)
-            Material(
-              color: isDark ? AppColors.darkCard : AppColors.lightCard,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: BorderSide(
-                  color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-                ),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: Column(
+            // Quick Stats Row (Only shown after sign-in)
+            if (auth.isAuthenticated) ...[
+              const SizedBox(height: 16),
+              Row(
                 children: [
-                  ListTile(
-                    leading: const Icon(Icons.switch_account_rounded, color: AppColors.primary),
-                    title: Text(auth.isAuthenticated ? 'Switch / Change Account' : 'Sign In or Register'),
-                    subtitle: Text(
-                      auth.isAuthenticated
-                          ? 'Logged in as ${user?.email}'
-                          : 'Sign in to sync your delivery address and orders',
-                    ),
-                    trailing: const Icon(Icons.chevron_right_rounded),
-                    onTap: () => AuthScreen.show(context),
+                  _buildStatCard(
+                    context,
+                    '$orderCount',
+                    orderCount == 1 ? 'Order' : 'Orders',
+                    Icons.receipt_long_rounded,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const OrderHistoryScreen(),
+                        ),
+                      );
+                    },
                   ),
-                  if (auth.isAuthenticated) ...[
+                  const SizedBox(width: 12),
+                  _buildStatCard(
+                    context,
+                    '$wishlistCount',
+                    'Saved',
+                    Icons.favorite_rounded,
+                    () {
+                      onNavigateTab?.call(2); // Wishlist is index 2
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  _buildStatCard(
+                    context,
+                    '$cartCount',
+                    'In Cart',
+                    Icons.shopping_bag_rounded,
+                    () {
+                      onNavigateTab?.call(1); // Cart is index 1
+                    },
+                  ),
+                ],
+              ),
+            ],
+
+            // Account Actions Card (Only shown after sign-in)
+            if (auth.isAuthenticated) ...[
+              const SizedBox(height: 16),
+              Material(
+                color: isDark ? AppColors.darkCard : AppColors.lightCard,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(
+                    color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                  ),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.switch_account_rounded, color: AppColors.primary),
+                      title: const Text(
+                        'Switch / Change Account',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
+                      subtitle: Text(
+                        'Logged in as ${user?.email}',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                        ),
+                      ),
+                      trailing: const Icon(Icons.chevron_right_rounded),
+                      onTap: () => AuthScreen.show(context),
+                    ),
                     const Divider(height: 1),
                     ListTile(
                       leading: const Icon(Icons.logout_rounded, color: AppColors.error),
-                      title: const Text('Sign Out', style: TextStyle(color: AppColors.error)),
+                      title: const Text(
+                        'Sign Out',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: AppColors.error),
+                      ),
                       trailing: const Icon(Icons.chevron_right_rounded),
                       onTap: () {
                         showDialog(
@@ -426,13 +433,64 @@ class ProfileScreen extends StatelessWidget {
                       },
                     ),
                   ],
-                ],
+                ),
               ),
-            ),
+            ],
+
+            // Merchant Operations Card (Strictly enforced: only visible to users with merchant role)
+            if (user?.role == UserRole.merchant) ...[
+              const SizedBox(height: 16),
+              Material(
+                color: isDark ? AppColors.darkCard : AppColors.lightCard,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(
+                    color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                  ),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: ListTile(
+                  leading: const Icon(Icons.storefront_rounded, color: AppColors.accent),
+                  title: Row(
+                    children: [
+                      const Text(
+                        'Merchant Tools',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: AppColors.accent.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text(
+                          'STORE OWNER',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.accent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  subtitle: Text(
+                    'Manage orders, dispatch & inventory',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                    ),
+                  ),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => MerchantDashboardScreen.show(context),
+                ),
+              ),
+            ],
 
             const SizedBox(height: 16),
 
-            // Delivery & Payment Settings
+            // Orders, Delivery & Payment
             Material(
               color: isDark ? AppColors.darkCard : AppColors.lightCard,
               shape: RoundedRectangleBorder(
@@ -445,101 +503,126 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    leading: const Icon(Icons.storefront_rounded, color: AppColors.accent),
-                    title: const Text(
-                      'Merchant Operations & Dispatch',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    subtitle: const Text('Verify payments, dispatch orders & manage store'),
-                    trailing: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: AppColors.accent.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Text(
-                        'STORE OWNER',
-                        style: TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.accent,
-                        ),
-                      ),
-                    ),
-                    onTap: () => MerchantDashboardScreen.show(context),
-                  ),
-                  const Divider(height: 1),
-                  ListTile(
                     leading: const Icon(Icons.history_rounded),
-                    title: const Text('Order History & Tracking'),
+                    title: const Text(
+                      'Order History & Tracking',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Text(
+                      auth.isAuthenticated
+                          ? 'View past receipts and track active deliveries'
+                          : 'Sign in to view your orders and live tracking',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                      ),
+                    ),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const OrderHistoryScreen(),
-                        ),
-                      );
+                      if (!auth.isAuthenticated) {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please sign in to view your order history and tracking.'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        AuthScreen.show(context);
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const OrderHistoryScreen(),
+                          ),
+                        );
+                      }
                     },
                   ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.location_on_outlined),
-                    title: const Text('Saved Delivery Address'),
+                    title: const Text(
+                      'Saved Delivery Address',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
                     subtitle: Text(
                       user != null
                           ? '${user.defaultStreet}, ${user.defaultSubcity}'
-                          : 'Bole Medhanialem, Addis Ababa',
+                          : 'No saved address (Sign in to add)',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                      ),
                     ),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: const Row(
-                            children: [
-                              Icon(Icons.location_on, color: AppColors.primary),
-                              SizedBox(width: 8),
-                              Text('Default Delivery Address'),
-                            ],
+                      if (!auth.isAuthenticated) {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please sign in to save and manage your delivery addresses.'),
+                            behavior: SnackBarBehavior.floating,
                           ),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                user?.fullName ?? 'Abebe Kebede',
-                                style: const TextStyle(fontWeight: FontWeight.w700),
+                        );
+                        AuthScreen.show(context);
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: const Row(
+                              children: [
+                                Icon(Icons.location_on, color: AppColors.primary),
+                                SizedBox(width: 8),
+                                Text('Default Delivery Address'),
+                              ],
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user!.fullName,
+                                  style: const TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(user.phoneNumber),
+                                const SizedBox(height: 4),
+                                Text(user.defaultStreet),
+                                Text('${user.defaultSubcity} Subcity, Addis Ababa, Ethiopia'),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(ctx);
+                                  _showEditProfileDialog(context, auth);
+                                },
+                                child: const Text('Edit Address'),
                               ),
-                              const SizedBox(height: 4),
-                              Text(user?.phoneNumber ?? '+251 91 123 4567'),
-                              const SizedBox(height: 4),
-                              Text(user?.defaultStreet ?? 'Bole Medhanialem, Olympia St.'),
-                              Text('${user?.defaultSubcity ?? "Bole"} Subcity, Addis Ababa, Ethiopia'),
+                              TextButton(
+                                onPressed: () => Navigator.pop(ctx),
+                                child: const Text('Close'),
+                              ),
                             ],
                           ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(ctx);
-                                _showEditProfileDialog(context, auth);
-                              },
-                              child: const Text('Edit Address'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(ctx),
-                              child: const Text('Close'),
-                            ),
-                          ],
-                        ),
-                      );
+                        );
+                      }
                     },
                   ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.account_balance_wallet_outlined),
-                    title: const Text('Payment Methods'),
-                    subtitle: const Text('Telebirr, CBE Birr, Chapa, Stripe'),
+                    title: const Text(
+                      'Payment Methods',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Text(
+                      'Telebirr, CBE Birr, Chapa, Stripe',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                      ),
+                    ),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
                       showDialog(
@@ -558,7 +641,7 @@ class ProfileScreen extends StatelessWidget {
                               ListTile(
                                 leading: Icon(Icons.phone_android_rounded, color: AppColors.telebirr),
                                 title: Text('Telebirr Direct'),
-                                subtitle: Text('Connected • 091****567'),
+                                subtitle: Text('Connected • Instant verification'),
                                 contentPadding: EdgeInsets.zero,
                               ),
                               ListTile(
@@ -608,8 +691,17 @@ class ProfileScreen extends StatelessWidget {
                       isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                       color: AppColors.accent,
                     ),
-                    title: const Text('Dark Mode'),
-                    subtitle: Text(isDark ? 'Midnight Obsidian OLED (Active)' : 'Clean Modern Light'),
+                    title: const Text(
+                      'Dark Mode',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Text(
+                      isDark ? 'Midnight Obsidian OLED (Active)' : 'Clean Modern Light',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                      ),
+                    ),
                     value: isDark,
                     onChanged: (val) {
                       themeProvider.toggleTheme(val);
@@ -618,8 +710,17 @@ class ProfileScreen extends StatelessWidget {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.language_rounded),
-                    title: const Text('Language / ቋንቋ'),
-                    subtitle: const Text('English & Amharic (አማርኛ)'),
+                    title: const Text(
+                      'Language / ቋንቋ',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Text(
+                      'English & Amharic (አማርኛ)',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                      ),
+                    ),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -633,8 +734,17 @@ class ProfileScreen extends StatelessWidget {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.help_outline_rounded),
-                    title: const Text('Help & Customer Support'),
-                    subtitle: const Text('info@gebeya.et • 24/7 Hotline'),
+                    title: const Text(
+                      'Help & Customer Support',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Text(
+                      'info@gebeya.et • 24/7 Hotline',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                      ),
+                    ),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {
                       showDialog(
@@ -758,7 +868,7 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  size: 22,
+                  size: 24,
                   color: isDark ? AppColors.primaryLight : AppColors.primary,
                 ),
                 const SizedBox(height: 8),
@@ -774,6 +884,7 @@ class ProfileScreen extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 12,
+                    fontWeight: FontWeight.w500,
                     color: isDark
                         ? AppColors.darkTextSecondary
                         : AppColors.lightTextSecondary,

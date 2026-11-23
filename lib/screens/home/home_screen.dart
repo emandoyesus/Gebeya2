@@ -191,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(top: 8.0, bottom: 96.0),
+          padding: const EdgeInsets.only(top: 8.0, bottom: 110.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

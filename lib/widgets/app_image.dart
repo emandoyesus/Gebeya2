@@ -21,48 +21,47 @@ class AppImage extends StatelessWidget {
 
     if (imageUrl.isEmpty) {
       return Container(
-        width: width,
-        height: height,
+        width: width ?? double.infinity,
+        height: height ?? double.infinity,
         color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
         child: const Icon(Icons.shopping_bag_outlined, color: AppColors.lightTextMuted),
       );
     }
 
-    return Image.network(
-      imageUrl,
-      width: width,
-      height: height,
-      fit: fit,
-      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-        if (wasSynchronouslyLoaded) {
-          return child;
-        }
-        return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: frame != null
-              ? child
-              : Container(
-                  key: const ValueKey('image_placeholder'),
-                  width: width,
-                  height: height,
-                  color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
-                ),
-        );
-      },
-      errorBuilder: (context, error, stackTrace) {
-        return Container(
-          width: width,
-          height: height,
-          color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
-          child: const Center(
-            child: Icon(
-              Icons.image_not_supported_outlined,
-              color: AppColors.lightTextMuted,
-              size: 24,
+    return SizedBox(
+      width: width ?? double.infinity,
+      height: height ?? double.infinity,
+      child: Image.network(
+        imageUrl,
+        width: width ?? double.infinity,
+        height: height ?? double.infinity,
+        fit: fit,
+        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+          if (wasSynchronouslyLoaded || frame != null) {
+            return SizedBox.expand(child: child);
+          }
+          return Container(
+            key: const ValueKey('image_placeholder'),
+            width: width ?? double.infinity,
+            height: height ?? double.infinity,
+            color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
+          );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: width ?? double.infinity,
+            height: height ?? double.infinity,
+            color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
+            child: const Center(
+              child: Icon(
+                Icons.image_not_supported_outlined,
+                color: AppColors.lightTextMuted,
+                size: 24,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -1,3 +1,9 @@
+enum UserRole {
+  customer,
+  merchant,
+  admin,
+}
+
 class UserModel {
   final String id;
   final String fullName;
@@ -7,6 +13,7 @@ class UserModel {
   final String defaultSubcity;
   final String defaultStreet;
   final bool isVerified;
+  final UserRole role;
   final DateTime createdAt;
 
   const UserModel({
@@ -18,6 +25,7 @@ class UserModel {
     this.defaultSubcity = 'Bole',
     this.defaultStreet = 'Bole Medhanialem, Olympia St.',
     this.isVerified = true,
+    this.role = UserRole.customer,
     required this.createdAt,
   });
 
@@ -30,6 +38,7 @@ class UserModel {
     String? defaultSubcity,
     String? defaultStreet,
     bool? isVerified,
+    UserRole? role,
     DateTime? createdAt,
   }) {
     return UserModel(
@@ -41,6 +50,7 @@ class UserModel {
       defaultSubcity: defaultSubcity ?? this.defaultSubcity,
       defaultStreet: defaultStreet ?? this.defaultStreet,
       isVerified: isVerified ?? this.isVerified,
+      role: role ?? this.role,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -55,11 +65,20 @@ class UserModel {
       'defaultSubcity': defaultSubcity,
       'defaultStreet': defaultStreet,
       'isVerified': isVerified,
+      'role': role.name,
       'createdAt': createdAt.toIso8601String(),
     };
   }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    UserRole parsedRole = UserRole.customer;
+    if (json['role'] != null) {
+      parsedRole = UserRole.values.firstWhere(
+        (r) => r.name == json['role'],
+        orElse: () => UserRole.customer,
+      );
+    }
+
     return UserModel(
       id: json['id'] as String,
       fullName: json['fullName'] as String,
@@ -69,6 +88,7 @@ class UserModel {
       defaultSubcity: json['defaultSubcity'] as String? ?? 'Bole',
       defaultStreet: json['defaultStreet'] as String? ?? 'Bole Medhanialem, Olympia St.',
       isVerified: json['isVerified'] as bool? ?? true,
+      role: parsedRole,
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'] as String)
           : DateTime.now(),

@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../models/order.dart';
+import '../../models/user_model.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/order_provider.dart';
 import '../profile/order_detail_screen.dart';
 import '../profile/widgets/digital_tax_receipt_dialog.dart';
@@ -12,6 +14,18 @@ class MerchantDashboardScreen extends StatefulWidget {
   const MerchantDashboardScreen({super.key});
 
   static void show(BuildContext context) {
+    final auth = context.read<AuthProvider>();
+    if (auth.currentUser?.role != UserRole.merchant) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Access Denied: Merchant permissions required.'),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const MerchantDashboardScreen()),
@@ -28,6 +42,34 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+    if (auth.currentUser?.role != UserRole.merchant) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Access Denied')),
+        body: const Center(
+          child: Padding(
+            padding: EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.lock_outline_rounded, size: 64, color: AppColors.error),
+                SizedBox(height: 16),
+                Text(
+                  'Merchant Authorization Required',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'This section is restricted to registered merchant partners. Sign in with a merchant account to manage store operations.',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final orderProvider = context.watch<OrderProvider>();
     final allOrders = orderProvider.orders;

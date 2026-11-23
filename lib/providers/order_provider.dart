@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../data/mock_data.dart';
 import '../models/cart_item.dart';
 import '../models/order.dart';
 import '../models/shipping_address.dart';
@@ -26,52 +25,12 @@ class OrderProvider extends ChangeNotifier {
         for (var item in decoded) {
           _orders.add(OrderModel.fromJson(item as Map<String, dynamic>));
         }
-      } else {
-        // Pre-populate with a demo order for rich UI experience
-        _addDemoOrder();
       }
       notifyListeners();
     } catch (e) {
       debugPrint('Error loading orders: $e');
-      _addDemoOrder();
       notifyListeners();
     }
-  }
-
-  void _addDemoOrder() {
-    if (_orders.isNotEmpty) return;
-    final demoProduct = MockData.products[1]; // Yirgacheffe Coffee
-    _orders.add(
-      OrderModel(
-        id: 'GEB-892147',
-        items: [
-          CartItem(
-            product: demoProduct,
-            quantity: 2,
-            selectedSize: 'Whole Bean (1kg)',
-          ),
-        ],
-        subtotal: 3700.0,
-        discount: 370.0,
-        shippingFee: 0.0,
-        tax: 499.5,
-        total: 3829.5,
-        shippingAddress: const ShippingAddress(
-          fullName: 'Abebe Kebede',
-          phoneNumber: '+251 91 123 4567',
-          streetAddress: 'Bole Medhanialem, Olympia St.',
-          city: 'Addis Ababa',
-          subcity: 'Bole',
-          postalCode: '1000',
-        ),
-        paymentMethod: PaymentMethodType.telebirr,
-        status: OrderStatus.shipped,
-        createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 4)),
-        estimatedDelivery: DateTime.now().add(const Duration(days: 1)),
-        paymentTransactionId: 'TB-9982410',
-        paymentProofNote: 'Transferred via Telebirr SuperApp',
-      ),
-    );
   }
 
   Future<void> _saveToStorage() async {

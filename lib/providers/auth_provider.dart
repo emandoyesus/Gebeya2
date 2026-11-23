@@ -77,7 +77,28 @@ class AuthProvider extends ChangeNotifier {
         }
       }
 
-      // Allow demo account
+      // Allow demo merchant account
+      if ((trimmed == 'merchant@gebeya.et' || trimmed == '+251911999999') &&
+          (password == '123456' || password.isNotEmpty)) {
+        _currentUser = UserModel(
+          id: 'usr_merchant_01',
+          fullName: 'Gebeya Merchant Store',
+          email: 'merchant@gebeya.et',
+          phoneNumber: '+251 91 199 9999',
+          defaultCity: 'Addis Ababa',
+          defaultSubcity: 'Bole',
+          defaultStreet: 'Bole Medhanialem, Store 4B',
+          isVerified: true,
+          role: UserRole.merchant,
+          createdAt: DateTime.now().subtract(const Duration(days: 90)),
+        );
+        await _saveCurrentUser(_currentUser!);
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      }
+
+      // Allow demo customer account
       if ((trimmed == 'abebe.kebede@gebeya.et' || trimmed == '+251911234567') &&
           (password == '123456' || password.isNotEmpty)) {
         _currentUser = UserModel(
@@ -89,6 +110,7 @@ class AuthProvider extends ChangeNotifier {
           defaultSubcity: 'Bole',
           defaultStreet: 'Bole Medhanialem, Olympia St.',
           isVerified: true,
+          role: UserRole.customer,
           createdAt: DateTime.now().subtract(const Duration(days: 30)),
         );
         await _saveCurrentUser(_currentUser!);

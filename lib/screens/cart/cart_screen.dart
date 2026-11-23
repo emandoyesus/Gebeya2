@@ -122,7 +122,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body: items.isEmpty
           ? EmptyStateWidget(
-              icon: Icons.remove_shopping_cart_outlined,
+              icon: Icons.shopping_bag_outlined,
               title: 'Your cart is empty',
               subtitle:
                   'Looks like you haven\'t added any items to your cart yet. Explore our collection of premium Ethiopian and modern goods!',
