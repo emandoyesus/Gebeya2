@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
+import '../../../widgets/app_image.dart';
 
 class HeroBannerItem {
   final String title;
@@ -9,6 +10,7 @@ class HeroBannerItem {
   final String tag;
   final List<Color> gradient;
   final IconData icon;
+  final String imageUrl;
 
   const HeroBannerItem({
     required this.title,
@@ -17,6 +19,7 @@ class HeroBannerItem {
     required this.tag,
     required this.gradient,
     required this.icon,
+    required this.imageUrl,
   });
 }
 
@@ -42,6 +45,7 @@ class _HeroBannerState extends State<HeroBanner> {
       tag: 'NEW ARRIVALS',
       gradient: [Color(0xFF0F4F4A), Color(0xFF115E59), Color(0xFF0A3A36)],
       icon: Icons.storefront_rounded,
+      imageUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80',
     ),
     HeroBannerItem(
       title: 'Ethiopian Specialty Coffee',
@@ -50,6 +54,7 @@ class _HeroBannerState extends State<HeroBanner> {
       tag: 'UP TO 20% OFF',
       gradient: [Color(0xFF1E1612), Color(0xFF281E18), Color(0xFF191310)],
       icon: Icons.coffee_rounded,
+      imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80',
     ),
     HeroBannerItem(
       title: 'Cyber & Modern Tech',
@@ -58,6 +63,7 @@ class _HeroBannerState extends State<HeroBanner> {
       tag: 'TECH FLASH SALE',
       gradient: [Color(0xFF141322), Color(0xFF1E1B38), Color(0xFF11101E)],
       icon: Icons.headphones_rounded,
+      imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80',
     ),
     HeroBannerItem(
       title: 'Smartphones & EV Gear',
@@ -66,6 +72,7 @@ class _HeroBannerState extends State<HeroBanner> {
       tag: 'JIJI BESTSELLERS',
       gradient: [Color(0xFF0F0F12), Color(0xFF18181D), Color(0xFF0A0A0D)],
       icon: Icons.phone_android_rounded,
+      imageUrl: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1200&q=80',
     ),
   ];
 
@@ -109,7 +116,7 @@ class _HeroBannerState extends State<HeroBanner> {
     return Column(
       children: [
         SizedBox(
-          height: 180,
+          height: 185,
           child: PageView.builder(
             controller: _pageController,
             onPageChanged: (index) => setState(() => _currentPage = index),
@@ -122,115 +129,175 @@ class _HeroBannerState extends State<HeroBanner> {
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: banner.gradient,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
                     borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: AppColors.darkBorder,
+                      width: 1,
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: banner.gradient.first.withValues(alpha: 0.35),
-                        blurRadius: 12,
+                        color: Colors.black.withValues(alpha: 0.45),
+                        blurRadius: 14,
                         offset: const Offset(0, 6),
                       ),
                     ],
                   ),
-                  child: Stack(
-                  children: [
-                    // Subtle background decorative icon
-                    Positioned(
-                      right: -15,
-                      bottom: -20,
-                      child: Icon(
-                        banner.icon,
-                        size: 140,
-                        color: Colors.white.withValues(alpha: 0.08),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.accent,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              banner.tag,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: 0.8,
-                              ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        // Background photography
+                        AppImage(
+                          imageUrl: banner.imageUrl,
+                          fit: BoxFit.cover,
+                        ),
+
+                        // High-contrast directional dark obsidian gradient scrim
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Colors.black.withValues(alpha: 0.94),
+                                Colors.black.withValues(alpha: 0.82),
+                                Colors.black.withValues(alpha: 0.45),
+                              ],
+                              stops: const [0.0, 0.55, 1.0],
                             ),
                           ),
-                          Column(
+                        ),
+
+                        // Subtle brand color wash
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                banner.gradient.first.withValues(alpha: 0.35),
+                                Colors.transparent,
+                                banner.gradient.last.withValues(alpha: 0.25),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        // Subtle watermark decorative icon on far right
+                        Positioned(
+                          right: -10,
+                          bottom: -15,
+                          child: Icon(
+                            banner.icon,
+                            size: 130,
+                            color: Colors.white.withValues(alpha: 0.08),
+                          ),
+                        ),
+
+                        // Content layout
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                banner.title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: -0.3,
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                banner.subtitle,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.85),
-                                  fontSize: 12,
-                                  height: 1.3,
+                                decoration: BoxDecoration(
+                                  color: AppColors.accent,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.accent.withValues(alpha: 0.35),
+                                      blurRadius: 8,
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Flexible(
                                 child: Text(
-                                  banner.amharicTitle,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                  banner.tag,
                                   style: const TextStyle(
-                                    color: AppColors.accentLight,
+                                    color: Colors.black,
                                     fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.5,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.8,
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 6),
-                              const Icon(
-                                Icons.arrow_forward_rounded,
-                                size: 14,
-                                color: AppColors.accentLight,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    banner.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: -0.3,
+                                      shadows: [
+                                        Shadow(
+                                          color: Colors.black,
+                                          blurRadius: 4,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    banner.subtitle,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Colors.white.withValues(alpha: 0.90),
+                                      fontSize: 12,
+                                      height: 1.3,
+                                      shadows: const [
+                                        Shadow(
+                                          color: Colors.black87,
+                                          blurRadius: 3,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      banner.amharicTitle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        color: AppColors.accentLight,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  const Icon(
+                                    Icons.arrow_forward_rounded,
+                                    size: 14,
+                                    color: AppColors.accentLight,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
           ),
         ),
         const SizedBox(height: 10),
