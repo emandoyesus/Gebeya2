@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
                     letterSpacing: -0.5,
-                    color: isDark ? AppColors.primaryLight : AppColors.primary,
+                    color: isDark ? AppColors.accent : AppColors.primary,
                   ),
                 ),
                 const SizedBox(width: 6),
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
-                      color: Colors.black,
+                      color: AppColors.primary,
                     ),
                   ),
                 ),
@@ -233,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Icon(
                           Icons.search_rounded,
-                          color: isDark ? const Color(0xFFA1A1AA) : AppColors.lightTextMuted,
+                          color: isDark ? AppColors.accent : AppColors.lightTextMuted,
                           size: 22,
                         ),
                         const SizedBox(width: 12),
@@ -244,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: isDark
-                                  ? const Color(0xFFA1A1AA)
+                                  ? AppColors.darkTextSecondary
                                   : AppColors.lightTextMuted,
                               fontSize: 14,
                             ),
@@ -394,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         fontSize: 13,
                         color: isDark
-                            ? AppColors.darkTextMuted
+                            ? AppColors.darkTextSecondary
                             : AppColors.lightTextMuted,
                       ),
                     ),

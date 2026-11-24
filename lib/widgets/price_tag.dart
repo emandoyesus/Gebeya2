@@ -36,7 +36,7 @@ class PriceTag extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize * 1.3,
               fontWeight: FontWeight.w800,
-              color: isDark ? AppColors.primaryLight : AppColors.primary,
+              color: isDark ? AppColors.accent : AppColors.primary,
               letterSpacing: -0.3,
             ),
           ),
@@ -46,7 +46,7 @@ class PriceTag extends StatelessWidget {
               style: TextStyle(
                 fontSize: fontSize * 0.9,
                 fontWeight: FontWeight.w500,
-                color: AppColors.lightTextMuted,
+                color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
                 decoration: TextDecoration.lineThrough,
               ),
             ),
@@ -65,7 +65,7 @@ class PriceTag extends StatelessWidget {
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.w800,
-            color: isDark ? AppColors.primaryLight : AppColors.primary,
+            color: isDark ? AppColors.accent : AppColors.primary,
             letterSpacing: -0.3,
           ),
         ),
@@ -77,7 +77,7 @@ class PriceTag extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize * 0.75,
               fontWeight: FontWeight.w500,
-              color: AppColors.lightTextMuted,
+              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
               decoration: TextDecoration.lineThrough,
             ),
           ),

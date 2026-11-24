@@ -53,10 +53,10 @@ class _MainShellState extends State<MainShell> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF101014) : AppColors.lightSurface,
+          color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
           border: Border(
             top: BorderSide(
-              color: isDark ? const Color(0xFF26262B) : AppColors.lightBorder,
+              color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
               width: 1.2,
             ),
           ),
@@ -69,7 +69,7 @@ class _MainShellState extends State<MainShell> {
           ],
         ),
         child: BottomNavigationBar(
-          backgroundColor: isDark ? const Color(0xFF101014) : AppColors.lightSurface,
+          backgroundColor: isDark ? AppColors.darkSurface : AppColors.lightSurface,
           elevation: 0,
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
@@ -77,7 +77,7 @@ class _MainShellState extends State<MainShell> {
           selectedFontSize: 12,
           unselectedFontSize: 12,
           selectedLabelStyle: const TextStyle(
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             fontSize: 12,
             letterSpacing: 0.1,
           ),
@@ -86,8 +86,8 @@ class _MainShellState extends State<MainShell> {
             fontSize: 12,
             letterSpacing: 0.1,
           ),
-          selectedItemColor: isDark ? AppColors.primaryLight : AppColors.primary,
-          unselectedItemColor: isDark ? const Color(0xFFA1A1AA) : AppColors.lightTextMuted,
+          selectedItemColor: isDark ? AppColors.accent : AppColors.primary,
+          unselectedItemColor: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
           items: [
             const BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
@@ -101,8 +101,8 @@ class _MainShellState extends State<MainShell> {
                   '$cartCount',
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 10),
                 ),
-                backgroundColor: AppColors.primaryLight,
-                textColor: Colors.black,
+                backgroundColor: isDark ? AppColors.accent : AppColors.primary,
+                textColor: isDark ? AppColors.primary : Colors.white,
                 child: const Icon(Icons.shopping_bag_outlined),
               ),
               activeIcon: Badge(
@@ -111,8 +111,8 @@ class _MainShellState extends State<MainShell> {
                   '$cartCount',
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 10),
                 ),
-                backgroundColor: AppColors.primaryLight,
-                textColor: Colors.black,
+                backgroundColor: isDark ? AppColors.accent : AppColors.primary,
+                textColor: isDark ? AppColors.primary : Colors.white,
                 child: const Icon(Icons.shopping_bag_rounded),
               ),
               label: 'Cart',

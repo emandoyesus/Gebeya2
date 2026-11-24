@@ -52,7 +52,7 @@ class ProductCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+              color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -130,7 +130,7 @@ class ProductCard extends StatelessWidget {
                         height: 34,
                         decoration: BoxDecoration(
                           color: isDark
-                              ? Colors.black.withValues(alpha: 0.65)
+                              ? AppColors.primaryDark.withValues(alpha: 0.8)
                               : Colors.white.withValues(alpha: 0.92),
                           shape: BoxShape.circle,
                         ),
@@ -138,7 +138,7 @@ class ProductCard extends StatelessWidget {
                           child: Icon(
                             isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                             size: 17,
-                            color: isFav ? AppColors.error : AppColors.lightTextMuted,
+                            color: isFav ? AppColors.error : (isDark ? AppColors.darkTextSecondary : AppColors.lightTextMuted),
                           ),
                         ),
                       ),
@@ -170,9 +170,10 @@ class ProductCard extends StatelessWidget {
                             const SizedBox(width: 3),
                             Text(
                               product.rating.toStringAsFixed(1),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
+                                color: isDark ? AppColors.accent : AppColors.primary,
                               ),
                             ),
                             const SizedBox(width: 3),
@@ -223,7 +224,7 @@ class ProductCard extends StatelessWidget {
                           width: 40,
                           height: 40,
                           child: Material(
-                            color: isDark ? AppColors.primaryLight : AppColors.primary,
+                            color: isDark ? AppColors.accent : AppColors.primary,
                             borderRadius: BorderRadius.circular(10),
                             child: InkWell(
                               onTap: () {
@@ -236,7 +237,7 @@ class ProductCard extends StatelessWidget {
                                     behavior: SnackBarBehavior.floating,
                                     action: SnackBarAction(
                                       label: 'View Cart',
-                                      textColor: AppColors.accent,
+                                      textColor: isDark ? AppColors.primary : AppColors.accent,
                                       onPressed: () {
                                         Navigator.push(
                                           context,
@@ -253,8 +254,8 @@ class ProductCard extends StatelessWidget {
                               child: Center(
                                 child: Icon(
                                   Icons.add_shopping_cart_rounded,
-                                  size: 18,
-                                  color: isDark ? Colors.black : Colors.white,
+                                  color: isDark ? AppColors.primary : AppColors.accent,
+                                  size: 19,
                                 ),
                               ),
                             ),

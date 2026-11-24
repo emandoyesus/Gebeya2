@@ -43,7 +43,7 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'Experience shopping reimagined. Premium local & modern curated goods.',
       ctaText: 'Shop New Arrivals',
       tag: 'NEW ARRIVALS',
-      gradient: [Color(0xFF0F4F4A), Color(0xFF115E59), Color(0xFF0A3A36)],
+      gradient: [Color(0xFF183630), Color(0xFF26524A), Color(0xFF0F2420)],
       icon: Icons.storefront_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80',
     ),
@@ -52,7 +52,7 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'Direct from Yirgacheffe & Sidama highlands. Freshly roasted.',
       ctaText: 'Shop Coffee Collection',
       tag: 'UP TO 20% OFF',
-      gradient: [Color(0xFF1E1612), Color(0xFF281E18), Color(0xFF191310)],
+      gradient: [Color(0xFF2B1F1A), Color(0xFF3B2B23), Color(0xFF1F1612)],
       icon: Icons.coffee_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80',
     ),
@@ -61,7 +61,7 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'Next-gen ANC audio, mechanical keyboards, and wearables.',
       ctaText: 'Shop Tech Deals',
       tag: 'TECH FLASH SALE',
-      gradient: [Color(0xFF141322), Color(0xFF1E1B38), Color(0xFF11101E)],
+      gradient: [Color(0xFF162522), Color(0xFF1E3832), Color(0xFF101B18)],
       icon: Icons.headphones_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80',
     ),
@@ -70,7 +70,7 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'iPhone 15 Pro, Galaxy S24 Ultra, portable chargers & auto gear.',
       ctaText: 'Explore Bestsellers',
       tag: 'JIJI BESTSELLERS',
-      gradient: [Color(0xFF0F0F12), Color(0xFF18181D), Color(0xFF0A0A0D)],
+      gradient: [Color(0xFF13221E), Color(0xFF1C342F), Color(0xFF0D1714)],
       icon: Icons.phone_android_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1200&q=80',
     ),
@@ -155,21 +155,21 @@ class _HeroBannerState extends State<HeroBanner> {
                           height: double.infinity,
                         ),
 
-                        // Dark photo overlay (55% opacity) to darken background signage (e.g. SHOP / OPEN)
+                        // Dark photo overlay (55% opacity) to darken background signage
                         Container(
-                          color: Colors.black.withValues(alpha: 0.55),
+                          color: const Color(0xFF0D1C19).withValues(alpha: 0.58),
                         ),
 
-                        // High-contrast directional dark obsidian gradient scrim behind text
+                        // High-contrast directional dark forest & obsidian gradient scrim behind text
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                               colors: [
-                                Colors.black.withValues(alpha: 0.96),
-                                Colors.black.withValues(alpha: 0.90),
-                                Colors.black.withValues(alpha: 0.50),
+                                const Color(0xFF0D1C19).withValues(alpha: 0.96),
+                                const Color(0xFF183630).withValues(alpha: 0.90),
+                                const Color(0xFF183630).withValues(alpha: 0.50),
                                 Colors.transparent,
                               ],
                               stops: const [0.0, 0.50, 0.78, 1.0],
@@ -177,16 +177,16 @@ class _HeroBannerState extends State<HeroBanner> {
                           ),
                         ),
 
-                        // Subtle brand color wash
+                        // Subtle royal forest wash
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                banner.gradient.first.withValues(alpha: 0.30),
+                                banner.gradient.first.withValues(alpha: 0.35),
                                 Colors.transparent,
-                                banner.gradient.last.withValues(alpha: 0.20),
+                                banner.gradient.last.withValues(alpha: 0.25),
                               ],
                             ),
                           ),
@@ -217,7 +217,7 @@ class _HeroBannerState extends State<HeroBanner> {
                                 child: Text(
                                   banner.tag,
                                   style: const TextStyle(
-                                    color: Colors.black,
+                                    color: AppColors.primary,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w800,
                                     letterSpacing: 0.8,
@@ -271,8 +271,8 @@ class _HeroBannerState extends State<HeroBanner> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
-                                        color: AppColors.accentLight,
-                                        fontSize: 11,
+                                        color: AppColors.accent,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w700,
                                         letterSpacing: 0.5,
                                       ),
@@ -282,7 +282,7 @@ class _HeroBannerState extends State<HeroBanner> {
                                   const Icon(
                                     Icons.arrow_forward_rounded,
                                     size: 14,
-                                    color: AppColors.accentLight,
+                                    color: AppColors.accent,
                                   ),
                                 ],
                               ),
@@ -311,7 +311,7 @@ class _HeroBannerState extends State<HeroBanner> {
               height: 6,
               decoration: BoxDecoration(
                 color: isCurrent
-                    ? (isDark ? AppColors.accent : AppColors.primary)
+                    ? AppColors.accent
                     : (isDark ? AppColors.darkBorder : AppColors.lightTextMuted.withValues(alpha: 0.4)),
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: isCurrent && isDark
