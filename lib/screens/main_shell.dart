@@ -86,7 +86,7 @@ class _MainShellState extends State<MainShell> {
             fontSize: 12,
             letterSpacing: 0.1,
           ),
-          selectedItemColor: isDark ? AppColors.sandDune : AppColors.primary,
+          selectedItemColor: isDark ? AppColors.gold : AppColors.black,
           unselectedItemColor: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
           items: [
             const BottomNavigationBarItem(
@@ -101,8 +101,8 @@ class _MainShellState extends State<MainShell> {
                   '$cartCount',
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 10),
                 ),
-                backgroundColor: isDark ? AppColors.sandDune : AppColors.primary,
-                textColor: isDark ? AppColors.primary : AppColors.sandDune,
+                backgroundColor: isDark ? AppColors.gold : AppColors.black,
+                textColor: isDark ? Colors.black : AppColors.gold,
                 child: const Icon(Icons.shopping_bag_outlined),
               ),
               activeIcon: Badge(
@@ -111,8 +111,8 @@ class _MainShellState extends State<MainShell> {
                   '$cartCount',
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 10),
                 ),
-                backgroundColor: isDark ? AppColors.sandDune : AppColors.primary,
-                textColor: isDark ? AppColors.primary : AppColors.sandDune,
+                backgroundColor: isDark ? AppColors.gold : AppColors.black,
+                textColor: isDark ? Colors.black : AppColors.gold,
                 child: const Icon(Icons.shopping_bag_rounded),
               ),
               label: 'Cart',

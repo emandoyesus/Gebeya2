@@ -52,7 +52,7 @@ class ProductCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
+              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -130,7 +130,7 @@ class ProductCard extends StatelessWidget {
                         height: 34,
                         decoration: BoxDecoration(
                           color: isDark
-                              ? AppColors.primaryDark.withValues(alpha: 0.8)
+                              ? const Color(0xFF1E1E24).withValues(alpha: 0.90)
                               : Colors.white.withValues(alpha: 0.92),
                           shape: BoxShape.circle,
                         ),
@@ -138,7 +138,7 @@ class ProductCard extends StatelessWidget {
                           child: Icon(
                             isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                             size: 17,
-                            color: isFav ? AppColors.error : (isDark ? AppColors.darkTextSecondary : AppColors.lightTextMuted),
+                            color: isFav ? AppColors.error : (isDark ? AppColors.alabaster : AppColors.lightTextMuted),
                           ),
                         ),
                       ),
@@ -162,10 +162,10 @@ class ProductCard extends StatelessWidget {
                         // Rating & Reviews
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star_rounded,
                               size: 15,
-                              color: isDark ? AppColors.sandDune : AppColors.primary,
+                              color: AppColors.gold,
                             ),
                             const SizedBox(width: 3),
                             Text(
@@ -173,7 +173,7 @@ class ProductCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
-                                color: isDark ? AppColors.sandDune : AppColors.primary,
+                                color: isDark ? AppColors.gold : AppColors.black,
                               ),
                             ),
                             const SizedBox(width: 3),
@@ -224,7 +224,7 @@ class ProductCard extends StatelessWidget {
                           width: 40,
                           height: 40,
                           child: Material(
-                            color: isDark ? AppColors.sandDune : AppColors.primary,
+                            color: isDark ? AppColors.gold : AppColors.black,
                             borderRadius: BorderRadius.circular(10),
                             child: InkWell(
                               onTap: () {
@@ -237,7 +237,7 @@ class ProductCard extends StatelessWidget {
                                     behavior: SnackBarBehavior.floating,
                                     action: SnackBarAction(
                                       label: 'View Cart',
-                                      textColor: isDark ? AppColors.primary : AppColors.sandDune,
+                                      textColor: isDark ? Colors.black : AppColors.gold,
                                       onPressed: () {
                                         Navigator.push(
                                           context,
@@ -254,7 +254,7 @@ class ProductCard extends StatelessWidget {
                               child: Center(
                                 child: Icon(
                                   Icons.add_shopping_cart_rounded,
-                                  color: isDark ? AppColors.primary : AppColors.sandDune,
+                                  color: isDark ? Colors.black : AppColors.gold,
                                   size: 19,
                                 ),
                               ),

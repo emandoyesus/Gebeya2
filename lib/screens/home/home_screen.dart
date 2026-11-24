@@ -97,22 +97,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
                     letterSpacing: -0.5,
-                    color: isDark ? AppColors.sandDune : AppColors.primary,
+                    color: isDark ? AppColors.gold : AppColors.black,
                   ),
                 ),
                 const SizedBox(width: 6),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.sandDune : AppColors.primary,
+                    color: AppColors.gold,
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: Text(
+                  child: const Text(
                     'ገበያ',
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.primary : AppColors.sandDune,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -130,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(
                       Icons.location_on_rounded,
                       size: 14,
-                      color: isDark ? AppColors.sandDune : AppColors.primary,
+                      color: isDark ? AppColors.gold : AppColors.black,
                     ),
                     const SizedBox(width: 4),
                     Flexible(
@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(
                       Icons.keyboard_arrow_down_rounded,
                       size: 16,
-                      color: isDark ? AppColors.sandDune : AppColors.primary,
+                      color: isDark ? AppColors.gold : AppColors.black,
                     ),
                   ],
                 ),
@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Badge(
               isLabelVisible: true,
               smallSize: 8,
-              backgroundColor: isDark ? AppColors.sandDune : AppColors.primary,
+              backgroundColor: AppColors.gold,
               child: const Icon(Icons.notifications_none_rounded),
             ),
             tooltip: 'Notifications',
@@ -233,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Icon(
                           Icons.search_rounded,
-                          color: isDark ? AppColors.sandDune : AppColors.primary,
+                          color: isDark ? AppColors.gold : AppColors.black,
                           size: 22,
                         ),
                         const SizedBox(width: 12),
@@ -290,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(
                         'View All',
                         style: TextStyle(
-                          color: isDark ? AppColors.sandDune : AppColors.primary,
+                          color: isDark ? AppColors.gold : AppColors.black,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -316,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Icon(
                             Icons.local_fire_department_rounded,
-                            color: isDark ? AppColors.sandDune : AppColors.primary,
+                            color: isDark ? AppColors.gold : AppColors.black,
                             size: 22,
                           ),
                           const SizedBox(width: 6),
@@ -336,9 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.sandDune.withValues(alpha: 0.15)
-                              : AppColors.primary.withValues(alpha: 0.10),
+                          color: AppColors.gold.withValues(alpha: isDark ? 0.15 : 0.20),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -346,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: isDark ? AppColors.sandDune : AppColors.primary,
+                            color: isDark ? AppColors.gold : Colors.black,
                           ),
                         ),
                       ),

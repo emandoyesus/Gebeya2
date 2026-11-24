@@ -6,13 +6,13 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      primaryColor: AppColors.primary,
+      primaryColor: AppColors.black,
       scaffoldBackgroundColor: AppColors.lightBackground,
       colorScheme: const ColorScheme.light(
-        primary: AppColors.primary,
-        onPrimary: AppColors.sandDune,
-        secondary: AppColors.primaryLight,
-        onSecondary: AppColors.sandDune,
+        primary: AppColors.black,
+        onPrimary: AppColors.alabasterLight,
+        secondary: AppColors.gold,
+        onSecondary: AppColors.black,
         surface: AppColors.lightSurface,
         onSurface: AppColors.lightTextPrimary,
         error: AppColors.error,
@@ -58,9 +58,9 @@ class AppTheme {
         ),
       ),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.black,
         contentTextStyle: const TextStyle(
-          color: AppColors.sandDune,
+          color: AppColors.gold,
           fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
@@ -70,14 +70,14 @@ class AppTheme {
         behavior: SnackBarBehavior.floating,
       ),
       textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: AppColors.primary,
-        selectionColor: Color(0x33004643),
-        selectionHandleColor: AppColors.primary,
+        cursorColor: AppColors.gold,
+        selectionColor: Color(0x33E5C690),
+        selectionHandleColor: AppColors.gold,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.sandDune,
+          backgroundColor: AppColors.black,
+          foregroundColor: AppColors.gold,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
@@ -92,8 +92,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          side: const BorderSide(color: AppColors.primary, width: 1.5),
+          foregroundColor: AppColors.black,
+          side: const BorderSide(color: AppColors.black, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -118,7 +118,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
+          borderSide: const BorderSide(color: AppColors.gold, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -128,7 +128,7 @@ class AppTheme {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.lightSurface,
-        selectedItemColor: AppColors.primary,
+        selectedItemColor: AppColors.black,
         unselectedItemColor: AppColors.lightTextMuted,
         type: BottomNavigationBarType.fixed,
         elevation: 8,
@@ -142,13 +142,13 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      primaryColor: AppColors.sandDune,
+      primaryColor: AppColors.gold,
       scaffoldBackgroundColor: AppColors.darkBackground,
       colorScheme: const ColorScheme.dark(
-        primary: AppColors.sandDune,
-        onPrimary: AppColors.primary,
-        secondary: AppColors.sandDuneLight,
-        onSecondary: AppColors.primaryDark,
+        primary: AppColors.gold,
+        onPrimary: AppColors.black,
+        secondary: AppColors.goldLight,
+        onSecondary: AppColors.black,
         surface: AppColors.darkSurface,
         onSurface: AppColors.darkTextPrimary,
         error: AppColors.error,
@@ -207,9 +207,9 @@ class AppTheme {
         behavior: SnackBarBehavior.floating,
       ),
       textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: AppColors.sandDune,
-        selectionColor: Color(0x4DF0EDE5),
-        selectionHandleColor: AppColors.sandDune,
+        cursorColor: AppColors.gold,
+        selectionColor: Color(0x4DE5C690),
+        selectionHandleColor: AppColors.gold,
       ),
       dividerTheme: const DividerThemeData(
         color: AppColors.darkDivider,
@@ -217,8 +217,8 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.sandDune,
-          foregroundColor: AppColors.primary,
+          backgroundColor: AppColors.gold,
+          foregroundColor: AppColors.black,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
@@ -233,8 +233,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.sandDune,
-          side: const BorderSide(color: AppColors.sandDune, width: 1.5),
+          foregroundColor: AppColors.gold,
+          side: const BorderSide(color: AppColors.gold, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -259,7 +259,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.sandDune, width: 1.8),
+          borderSide: const BorderSide(color: AppColors.gold, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -269,7 +269,7 @@ class AppTheme {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.darkSurface,
-        selectedItemColor: AppColors.sandDune,
+        selectedItemColor: AppColors.gold,
         unselectedItemColor: AppColors.darkTextMuted,
         type: BottomNavigationBarType.fixed,
         elevation: 0,

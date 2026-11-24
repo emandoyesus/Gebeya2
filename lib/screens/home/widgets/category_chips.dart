@@ -38,7 +38,7 @@ class CategoryChips extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? (isDark ? AppColors.accent : AppColors.primary)
+                    ? (isDark ? AppColors.gold : AppColors.black)
                     : (isDark ? AppColors.darkCard : AppColors.lightCard),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
@@ -49,7 +49,7 @@ class CategoryChips extends StatelessWidget {
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: (isDark ? AppColors.accent : AppColors.primary)
+                          color: (isDark ? AppColors.gold : AppColors.black)
                               .withValues(alpha: 0.28),
                           blurRadius: 10,
                           offset: const Offset(0, 3),
@@ -63,7 +63,7 @@ class CategoryChips extends StatelessWidget {
                     cat.icon,
                     size: 18,
                     color: isSelected
-                        ? (isDark ? AppColors.primary : Colors.white)
+                        ? (isDark ? Colors.black : AppColors.gold)
                         : (isDark
                             ? AppColors.darkTextSecondary
                             : AppColors.lightTextSecondary),
@@ -75,7 +75,7 @@ class CategoryChips extends StatelessWidget {
                       fontSize: 13,
                       fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
                       color: isSelected
-                          ? (isDark ? AppColors.primary : Colors.white)
+                          ? (isDark ? Colors.black : AppColors.gold)
                           : (isDark
                               ? AppColors.darkTextPrimary
                               : AppColors.lightTextPrimary),
@@ -88,8 +88,8 @@ class CategoryChips extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? (isDark
-                                ? AppColors.primary.withValues(alpha: 0.2)
-                                : Colors.white.withValues(alpha: 0.25))
+                                ? Colors.black.withValues(alpha: 0.15)
+                                : AppColors.gold.withValues(alpha: 0.22))
                             : (isDark
                                 ? AppColors.darkBorder
                                 : AppColors.lightBorder),
@@ -101,7 +101,7 @@ class CategoryChips extends StatelessWidget {
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
                           color: isSelected
-                              ? (isDark ? AppColors.primary : Colors.white)
+                              ? (isDark ? Colors.black : AppColors.gold)
                               : (isDark
                                   ? AppColors.darkTextSecondary
                                   : AppColors.lightTextSecondary),
