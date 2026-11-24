@@ -10,9 +10,9 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.lightBackground,
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
-        onPrimary: AppColors.alabasterLight,
-        secondary: AppColors.accent,
-        onSecondary: AppColors.primary,
+        onPrimary: AppColors.sandDune,
+        secondary: AppColors.primaryLight,
+        onSecondary: AppColors.sandDune,
         surface: AppColors.lightSurface,
         onSurface: AppColors.lightTextPrimary,
         error: AppColors.error,
@@ -60,7 +60,7 @@ class AppTheme {
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.primary,
         contentTextStyle: const TextStyle(
-          color: AppColors.alabasterLight,
+          color: AppColors.sandDune,
           fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
@@ -70,14 +70,14 @@ class AppTheme {
         behavior: SnackBarBehavior.floating,
       ),
       textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: AppColors.accent,
-        selectionColor: Color(0x33E5C690),
-        selectionHandleColor: AppColors.accent,
+        cursorColor: AppColors.primary,
+        selectionColor: Color(0x33004643),
+        selectionHandleColor: AppColors.primary,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.accent,
+          foregroundColor: AppColors.sandDune,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
@@ -85,7 +85,7 @@ class AppTheme {
           ),
           textStyle: const TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             letterSpacing: 0.2,
           ),
         ),
@@ -118,7 +118,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.8),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -142,12 +142,12 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      primaryColor: AppColors.accent,
+      primaryColor: AppColors.sandDune,
       scaffoldBackgroundColor: AppColors.darkBackground,
       colorScheme: const ColorScheme.dark(
-        primary: AppColors.accent,
+        primary: AppColors.sandDune,
         onPrimary: AppColors.primary,
-        secondary: AppColors.accentLight,
+        secondary: AppColors.sandDuneLight,
         onSecondary: AppColors.primaryDark,
         surface: AppColors.darkSurface,
         onSurface: AppColors.darkTextPrimary,
@@ -207,9 +207,9 @@ class AppTheme {
         behavior: SnackBarBehavior.floating,
       ),
       textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: AppColors.accent,
-        selectionColor: Color(0x4DE5C690),
-        selectionHandleColor: AppColors.accent,
+        cursorColor: AppColors.sandDune,
+        selectionColor: Color(0x4DF0EDE5),
+        selectionHandleColor: AppColors.sandDune,
       ),
       dividerTheme: const DividerThemeData(
         color: AppColors.darkDivider,
@@ -217,7 +217,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.accent,
+          backgroundColor: AppColors.sandDune,
           foregroundColor: AppColors.primary,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
@@ -233,8 +233,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.accent,
-          side: const BorderSide(color: AppColors.accent, width: 1.5),
+          foregroundColor: AppColors.sandDune,
+          side: const BorderSide(color: AppColors.sandDune, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -259,7 +259,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.8),
+          borderSide: const BorderSide(color: AppColors.sandDune, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -269,7 +269,7 @@ class AppTheme {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.darkSurface,
-        selectedItemColor: AppColors.accent,
+        selectedItemColor: AppColors.sandDune,
         unselectedItemColor: AppColors.darkTextMuted,
         type: BottomNavigationBarType.fixed,
         elevation: 0,
