@@ -202,6 +202,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
           // Product Results
           Expanded(
             child: RefreshIndicator(
+              color: isDark ? AppColors.gold : AppColors.primary,
+              backgroundColor: isDark ? AppColors.darkElevated : AppColors.lightSurface,
               onRefresh: () async {
                 await productProvider.refreshProducts();
               },

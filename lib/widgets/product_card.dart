@@ -50,13 +50,6 @@ class ProductCard extends StatelessWidget {
             color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
             width: 1,
           ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF030806).withValues(alpha: isDark ? 0.50 : 0.04),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,50 +95,64 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
 
-                // Wishlist Button
+                // Wishlist Button (44x44 touch target around 34x34 visual pill)
                 Positioned(
-                  top: 6,
-                  right: 6,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        context.read<WishlistProvider>().toggleFavorite(product);
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              isFav
-                                  ? 'Removed from wishlist'
-                                  : 'Added to wishlist ❤️',
+                  top: 2,
+                  right: 2,
+                  child: Semantics(
+                    button: true,
+                    label: isFav
+                        ? 'Remove ${product.name} from wishlist'
+                        : 'Add ${product.name} to wishlist',
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          context.read<WishlistProvider>().toggleFavorite(product);
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                isFav
+                                    ? 'Removed from wishlist.'
+                                    : 'Saved to wishlist.',
+                              ),
+                              duration: const Duration(milliseconds: 1200),
+                              behavior: SnackBarBehavior.floating,
                             ),
-                            duration: const Duration(milliseconds: 1200),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      },
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        width: 34,
-                        height: 34,
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.darkElevated.withValues(alpha: 0.92)
-                              : Colors.white.withValues(alpha: 0.92),
-                          shape: BoxShape.circle,
-                          border: isDark
-                              ? Border.all(color: AppColors.darkBorder, width: 1)
-                              : null,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                            size: 17,
-                            color: isFav
-                                ? AppColors.error
-                                : (isDark
-                                    ? AppColors.darkTextSecondary
-                                    : AppColors.lightTextMuted),
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(22),
+                        child: SizedBox(
+                          width: 44,
+                          height: 44,
+                          child: Center(
+                            child: Container(
+                              width: 34,
+                              height: 34,
+                              decoration: BoxDecoration(
+                                color: isDark
+                                    ? AppColors.darkElevated.withValues(alpha: 0.92)
+                                    : Colors.white.withValues(alpha: 0.92),
+                                shape: BoxShape.circle,
+                                border: isDark
+                                    ? Border.all(color: AppColors.darkBorder, width: 1)
+                                    : null,
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  isFav
+                                      ? Icons.favorite_rounded
+                                      : Icons.favorite_border_rounded,
+                                  size: 17,
+                                  color: isFav
+                                      ? AppColors.error
+                                      : (isDark
+                                          ? AppColors.darkTextSecondary
+                                          : AppColors.lightTextMuted),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -228,41 +235,47 @@ class ProductCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: Material(
-                            color: isDark ? AppColors.gold : AppColors.primary,
-                            borderRadius: BorderRadius.circular(10),
-                            child: InkWell(
-                              onTap: () {
-                                context.read<CartProvider>().addItem(product);
-                                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Added ${product.name} to cart! 🛍️'),
-                                    duration: const Duration(milliseconds: 2200),
-                                    behavior: SnackBarBehavior.floating,
-                                    action: SnackBarAction(
-                                      label: 'View Cart',
-                                      textColor: AppColors.gold,
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => const CartScreen(),
-                                          ),
-                                        );
-                                      },
+                          width: 44,
+                          height: 44,
+                          child: Semantics(
+                            button: true,
+                            label: 'Add ${product.name} to cart',
+                            child: Material(
+                              color: isDark ? AppColors.gold : AppColors.primary,
+                              borderRadius: BorderRadius.circular(11),
+                              child: InkWell(
+                                onTap: () {
+                                  context.read<CartProvider>().addItem(product);
+                                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Added ${product.name} to cart.'),
+                                      duration: const Duration(milliseconds: 2200),
+                                      behavior: SnackBarBehavior.floating,
+                                      action: SnackBarAction(
+                                        label: 'View Cart',
+                                        textColor: isDark
+                                            ? AppColors.gold
+                                            : AppColors.goldLight,
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => const CartScreen(),
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
+                                  );
+                                },
+                                borderRadius: BorderRadius.circular(11),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.add_shopping_cart_rounded,
+                                    color: isDark ? AppColors.onGold : AppColors.goldLight,
+                                    size: 19,
                                   ),
-                                );
-                              },
-                              borderRadius: BorderRadius.circular(10),
-                              child: Center(
-                                child: Icon(
-                                  Icons.add_shopping_cart_rounded,
-                                  color: isDark ? AppColors.onGold : AppColors.goldLight,
-                                  size: 19,
                                 ),
                               ),
                             ),

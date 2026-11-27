@@ -136,13 +136,6 @@ class _HeroBannerState extends State<HeroBanner> {
                       color: isDark ? AppColors.darkBorder : AppColors.primary.withValues(alpha: 0.25),
                       width: 1,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF030806).withValues(alpha: isDark ? 0.65 : 0.16),
-                        blurRadius: 14,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),

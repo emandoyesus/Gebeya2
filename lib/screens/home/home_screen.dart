@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Delivery location updated to ${point.subcity} (${point.landmark}) 📍',
+              'Delivery location updated to ${point.subcity} (${point.landmark}).',
             ),
             behavior: SnackBarBehavior.floating,
             duration: const Duration(milliseconds: 2000),
@@ -185,6 +185,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: RefreshIndicator(
+        color: isDark ? AppColors.gold : AppColors.primary,
+        backgroundColor: isDark ? AppColors.darkElevated : AppColors.lightSurface,
         onRefresh: () async {
           await context.read<ProductProvider>().refreshProducts();
         },
@@ -221,13 +223,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? AppColors.darkBorder
                             : AppColors.lightBorder,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF030806).withValues(alpha: isDark ? 0.45 : 0.04),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
                     ),
                     child: Row(
                       children: [
@@ -389,7 +384,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(
                         productProvider.selectedCategoryId == 'all'
                             ? 'Explore All Products'
-                            : 'Items in Category',
+                            : productProvider.categories
+                                .where((c) => c.id == productProvider.selectedCategoryId)
+                                .map((c) => c.name)
+                                .firstOrNull ??
+                                'Selected Category',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(

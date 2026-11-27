@@ -38,6 +38,7 @@ class PriceTag extends StatelessWidget {
               fontWeight: FontWeight.w800,
               color: isDark ? AppColors.gold : AppColors.primary,
               letterSpacing: -0.3,
+              fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
           if (hasDiscount)
@@ -48,6 +49,7 @@ class PriceTag extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
                 decoration: TextDecoration.lineThrough,
+                fontFeatures: const [FontFeature.tabularFigures()],
               ),
             ),
         ],
@@ -67,6 +69,7 @@ class PriceTag extends StatelessWidget {
             fontWeight: FontWeight.w800,
             color: isDark ? AppColors.gold : AppColors.primary,
             letterSpacing: -0.3,
+            fontFeatures: const [FontFeature.tabularFigures()],
           ),
         ),
         if (hasDiscount)
@@ -79,6 +82,7 @@ class PriceTag extends StatelessWidget {
               fontWeight: FontWeight.w500,
               color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
               decoration: TextDecoration.lineThrough,
+              fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
       ],
