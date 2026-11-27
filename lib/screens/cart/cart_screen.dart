@@ -208,9 +208,10 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.close, size: 18),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      color: AppColors.lightTextMuted,
+                      tooltip: 'Remove item',
+                      padding: const EdgeInsets.all(6),
+                      constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                      color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
                       onPressed: () => cart.removeItem(item.cartItemId),
                     ),
                   ],
@@ -254,16 +255,20 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       child: Row(
                         children: [
-                          InkWell(
-                            onTap: () => cart.decreaseQuantity(item.cartItemId),
-                            borderRadius: BorderRadius.circular(8),
-                            child: const Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Icon(Icons.remove, size: 16),
+                          Semantics(
+                            button: true,
+                            label: 'Decrease quantity',
+                            child: InkWell(
+                              onTap: () => cart.decreaseQuantity(item.cartItemId),
+                              borderRadius: BorderRadius.circular(8),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                child: Icon(Icons.remove, size: 16),
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: AnimatedSwitcher(
                               duration: const Duration(milliseconds: 180),
                               transitionBuilder: (child, animation) {
@@ -279,12 +284,16 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () => cart.increaseQuantity(item.cartItemId),
-                            borderRadius: BorderRadius.circular(8),
-                            child: const Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Icon(Icons.add, size: 16),
+                          Semantics(
+                            button: true,
+                            label: 'Increase quantity',
+                            child: InkWell(
+                              onTap: () => cart.increaseQuantity(item.cartItemId),
+                              borderRadius: BorderRadius.circular(8),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                child: Icon(Icons.add, size: 16),
+                              ),
                             ),
                           ),
                         ],
@@ -366,9 +375,10 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.close, size: 16),
+                    tooltip: 'Remove promo code',
                     onPressed: () => cart.removeCoupon(),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
+                    padding: const EdgeInsets.all(6),
+                    constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
                   ),
                 ],
               ),

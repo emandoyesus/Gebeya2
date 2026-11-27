@@ -168,12 +168,12 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 10),
-                    _buildCopyRow(context, 'Account Name', accountName),
+                    _buildCopyRow(context, 'Account Name', accountName, isDark),
                     const SizedBox(height: 8),
-                    _buildCopyRow(context, isTelebirr ? 'Telebirr Phone' : 'CBE Account Number', accountNumber),
+                    _buildCopyRow(context, isTelebirr ? 'Telebirr Phone' : 'CBE Account Number', accountNumber, isDark),
                     if (tillCode != null) ...[
                       const SizedBox(height: 8),
-                      _buildCopyRow(context, 'Merchant Till Code', tillCode),
+                      _buildCopyRow(context, 'Merchant Till Code', tillCode, isDark),
                     ],
                   ],
                 ),
@@ -267,7 +267,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
     );
   }
 
-  Widget _buildCopyRow(BuildContext context, String label, String value) {
+  Widget _buildCopyRow(BuildContext context, String label, String value, bool isDark) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -277,7 +277,10 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
             children: [
               Text(
                 label,
-                style: const TextStyle(fontSize: 10, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 11,
+                  color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                ),
               ),
               Text(
                 value,
