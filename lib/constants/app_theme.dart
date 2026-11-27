@@ -6,20 +6,20 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      primaryColor: AppColors.black,
+      primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.lightBackground,
       colorScheme: const ColorScheme.light(
-        primary: AppColors.black,
-        onPrimary: AppColors.alabasterLight,
+        primary: AppColors.primary,
+        onPrimary: AppColors.goldLight,
         secondary: AppColors.gold,
-        onSecondary: AppColors.black,
+        onSecondary: AppColors.onGold,
         surface: AppColors.lightSurface,
         onSurface: AppColors.lightTextPrimary,
         error: AppColors.error,
         onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.lightSurface,
+        backgroundColor: AppColors.lightBackground,
         foregroundColor: AppColors.lightTextPrimary,
         elevation: 0,
         scrolledUnderElevation: 1,
@@ -58,9 +58,9 @@ class AppTheme {
         ),
       ),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: AppColors.black,
+        backgroundColor: AppColors.primary,
         contentTextStyle: const TextStyle(
-          color: AppColors.gold,
+          color: AppColors.goldLight,
           fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
@@ -70,14 +70,14 @@ class AppTheme {
         behavior: SnackBarBehavior.floating,
       ),
       textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: AppColors.gold,
-        selectionColor: Color(0x33E5C690),
-        selectionHandleColor: AppColors.gold,
+        cursorColor: AppColors.primary,
+        selectionColor: Color(0x3316382E),
+        selectionHandleColor: AppColors.primary,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.black,
-          foregroundColor: AppColors.gold,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.goldLight,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
@@ -92,8 +92,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.black,
-          side: const BorderSide(color: AppColors.black, width: 1.5),
+          foregroundColor: AppColors.primary,
+          side: const BorderSide(color: AppColors.primary, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -118,7 +118,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.gold, width: 1.8),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -128,7 +128,7 @@ class AppTheme {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.lightSurface,
-        selectedItemColor: AppColors.black,
+        selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.lightTextMuted,
         type: BottomNavigationBarType.fixed,
         elevation: 8,
@@ -146,9 +146,9 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.darkBackground,
       colorScheme: const ColorScheme.dark(
         primary: AppColors.gold,
-        onPrimary: AppColors.black,
+        onPrimary: AppColors.onGold,
         secondary: AppColors.goldLight,
-        onSecondary: AppColors.black,
+        onSecondary: AppColors.onGold,
         surface: AppColors.darkSurface,
         onSurface: AppColors.darkTextPrimary,
         error: AppColors.error,
@@ -177,7 +177,7 @@ class AppTheme {
         ),
       ),
       dialogTheme: DialogThemeData(
-        backgroundColor: AppColors.darkElevated,
+        backgroundColor: AppColors.darkSurface,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -192,6 +192,10 @@ class AppTheme {
           color: AppColors.darkTextSecondary,
           fontSize: 14,
         ),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.darkSurface,
+        surfaceTintColor: Colors.transparent,
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.darkElevated,
@@ -208,7 +212,7 @@ class AppTheme {
       ),
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: AppColors.gold,
-        selectionColor: Color(0x4DE5C690),
+        selectionColor: Color(0x4DDFC08E),
         selectionHandleColor: AppColors.gold,
       ),
       dividerTheme: const DividerThemeData(
@@ -218,7 +222,7 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.gold,
-          foregroundColor: AppColors.black,
+          foregroundColor: AppColors.onGold,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(

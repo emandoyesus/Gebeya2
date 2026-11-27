@@ -35,7 +35,7 @@ class _CartScreenState extends State<CartScreen> {
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Promo code "$code" applied successfully! 🎉'),
+          content: Text('Promo code "$code" applied.'),
           backgroundColor: AppColors.success,
           behavior: SnackBarBehavior.floating,
         ),
@@ -44,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Invalid promo code. Try GEBEYA10 or WELCOME20'),
+          content: Text('Code not recognized. Check spelling or try GEBEYA10 or WELCOME20.'),
           backgroundColor: AppColors.error,
           behavior: SnackBarBehavior.floating,
         ),
@@ -94,14 +94,14 @@ class _CartScreenState extends State<CartScreen> {
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: const Text('Clear Shopping Cart?'),
-                    content: const Text(
-                      'Are you sure you want to remove all items from your cart?',
+                    title: const Text('Clear Cart?'),
+                    content: Text(
+                      'Remove all ${cart.itemCount} ${cart.itemCount == 1 ? 'item' : 'items'} from your cart? This cannot be undone.',
                     ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(ctx),
-                        child: const Text('Cancel'),
+                        child: const Text('Keep Items'),
                       ),
                       TextButton(
                         onPressed: () {
@@ -111,7 +111,7 @@ class _CartScreenState extends State<CartScreen> {
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.error,
                         ),
-                        child: const Text('Clear All'),
+                        child: const Text('Clear Cart'),
                       ),
                     ],
                   ),
@@ -125,7 +125,7 @@ class _CartScreenState extends State<CartScreen> {
               icon: Icons.shopping_bag_outlined,
               title: 'Your cart is empty',
               subtitle:
-                  'Looks like you haven\'t added any items to your cart yet. Explore our collection of premium Ethiopian and modern goods!',
+                  'Add items you\'d like to buy, and they\'ll appear here when you\'re ready to check out.',
               buttonText: 'Start Shopping',
               onButtonPressed: () {
                 widget.onNavigateTab?.call(0); // Navigate to Home (index 0)
@@ -383,7 +383,7 @@ class _CartScreenState extends State<CartScreen> {
                     buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                     textCapitalization: TextCapitalization.characters,
                     decoration: const InputDecoration(
-                      hintText: 'Enter GEBEYA10 or WELCOME20',
+                      hintText: 'Promo code (e.g. GEBEYA10)',
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 14,
@@ -423,7 +423,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
+            color: const Color(0xFF030806).withValues(alpha: isDark ? 0.50 : 0.05),
             blurRadius: 10,
             offset: const Offset(0, -3),
           ),

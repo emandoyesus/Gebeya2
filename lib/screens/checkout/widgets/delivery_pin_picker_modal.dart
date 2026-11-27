@@ -218,6 +218,8 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeAccent = isDark ? AppColors.gold : AppColors.primary;
+    final onActiveAccent = isDark ? AppColors.onGold : AppColors.goldLight;
 
     final filteredList = _availablePoints.where((p) {
       if (_searchFilter.isEmpty) return true;
@@ -265,21 +267,21 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.12),
+                        color: activeAccent.withValues(alpha: 0.14),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.pin_drop_rounded,
-                        color: AppColors.primary,
+                        color: activeAccent,
                         size: 22,
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Select Delivery Location',
                             style: TextStyle(
                               fontSize: 17,
@@ -287,8 +289,11 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                             ),
                           ),
                           Text(
-                            'Pin your landmark to give couriers exact GPS coordinates',
-                            style: TextStyle(fontSize: 11, color: Colors.grey),
+                            'Select a nearby landmark so your courier can find you easily',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                            ),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
@@ -311,7 +316,7 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
             height: 160,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF131D38) : const Color(0xFFE2E8F0),
+              color: isDark ? const Color(0xFF08120F) : const Color(0xFFE7EDE9),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
@@ -333,11 +338,12 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: AppColors.primary,
+                          color: isDark ? AppColors.darkElevated : AppColors.primary,
                           borderRadius: BorderRadius.circular(12),
+                          border: isDark ? Border.all(color: AppColors.darkBorder) : null,
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.4),
+                              color: const Color(0xFF030806).withValues(alpha: 0.50),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -356,7 +362,7 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                       const Icon(
                         Icons.location_on_rounded,
                         size: 38,
-                        color: AppColors.accent,
+                        color: AppColors.gold,
                       ),
                     ],
                   ),
@@ -369,7 +375,7 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.6),
+                      color: const Color(0xFF050B09).withValues(alpha: 0.80),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -389,13 +395,13 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.9),
+                      color: activeAccent.withValues(alpha: 0.92),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
                       'Subcity: ${_selectedPoint.subcity}',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: onActiveAccent,
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
                       ),
@@ -446,12 +452,12 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? AppColors.primary.withValues(alpha: 0.1)
+                          ? activeAccent.withValues(alpha: 0.12)
                           : (isDark ? AppColors.darkCard : AppColors.lightCard),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: isSelected
-                            ? AppColors.primary
+                            ? activeAccent
                             : (isDark ? AppColors.darkBorder : AppColors.lightBorder),
                         width: isSelected ? 1.5 : 1,
                       ),
@@ -461,7 +467,9 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                         Icon(
                           isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
                           size: 18,
-                          color: isSelected ? AppColors.primary : Colors.grey,
+                          color: isSelected
+                              ? activeAccent
+                              : (isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
@@ -478,7 +486,7 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                                        color: isSelected ? AppColors.primary : null,
+                                        color: isSelected ? activeAccent : null,
                                       ),
                                     ),
                                   ),
@@ -486,7 +494,7 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey.withValues(alpha: 0.2),
+                                      color: (isDark ? AppColors.darkElevated : AppColors.lightDivider),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Text(
@@ -522,8 +530,8 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
             width: double.infinity,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                backgroundColor: activeAccent,
+                foregroundColor: onActiveAccent,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
               ),
@@ -533,7 +541,7 @@ class _DeliveryPinPickerModalState extends State<DeliveryPinPickerModal> {
               },
               icon: const Icon(Icons.check_circle_outline_rounded),
               label: Text(
-                'Deliver to ${_selectedPoint.landmark}',
+                'Use ${_selectedPoint.landmark}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -553,16 +561,16 @@ class _MapGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final gridPaint = Paint()
-      ..color = (isDark ? Colors.white : Colors.black).withValues(alpha: 0.05)
+      ..color = (isDark ? AppColors.gold : AppColors.primary).withValues(alpha: 0.06)
       ..strokeWidth = 1;
 
     final roadPaint = Paint()
-      ..color = (isDark ? const Color(0xFF23355A) : const Color(0xFFCBD5E1))
+      ..color = (isDark ? const Color(0xFF13261F) : const Color(0xFFCCD7D2))
       ..strokeWidth = 8
       ..strokeCap = StrokeCap.round;
 
     final highwayPaint = Paint()
-      ..color = (isDark ? const Color(0xFF2C4472) : const Color(0xFF94A3B8))
+      ..color = (isDark ? const Color(0xFF1B352C) : const Color(0xFF9EB2AA))
       ..strokeWidth = 14
       ..strokeCap = StrokeCap.round;
 

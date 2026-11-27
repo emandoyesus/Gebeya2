@@ -13,6 +13,7 @@ class OrderDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeAccent = isDark ? AppColors.gold : AppColors.primary;
     final currencyFormat = NumberFormat('#,##0.00');
     final dateFormat = DateFormat('MMMM dd, yyyy • hh:mm a');
 
@@ -62,7 +63,7 @@ class OrderDetailScreen extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.15),
+                          color: activeAccent.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -70,7 +71,7 @@ class OrderDetailScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: isDark ? AppColors.primaryLight : AppColors.primary,
+                            color: activeAccent,
                           ),
                         ),
                       ),
@@ -268,7 +269,7 @@ class OrderDetailScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Txn Reference',
+                          'Transaction Ref',
                           style: TextStyle(
                             fontSize: 13,
                             color: isDark
@@ -278,10 +279,10 @@ class OrderDetailScreen extends StatelessWidget {
                         ),
                         Text(
                           order.paymentTransactionId!,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w800,
                             fontSize: 13,
-                            color: AppColors.primary,
+                            color: activeAccent,
                           ),
                         ),
                       ],
@@ -397,9 +398,7 @@ class OrderDetailScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w900,
-                          color: isDark
-                              ? AppColors.primaryLight
-                              : AppColors.primary,
+                          color: activeAccent,
                         ),
                       ),
                     ],
@@ -410,37 +409,18 @@ class OrderDetailScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // Share Receipt & Customer Support Buttons
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    ),
-                    onPressed: () => DigitalTaxReceiptDialog.show(context, order),
-                    icon: const Icon(Icons.receipt_long_rounded, size: 18),
-                    label: const Text('Tax Invoice'),
-                  ),
+            // View & Share Tax Invoice
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF25D366), // WhatsApp
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    ),
-                    onPressed: () {
-                      DigitalTaxReceiptDialog.show(context, order);
-                    },
-                    icon: const Icon(Icons.chat_rounded, size: 18),
-                    label: const Text('Share Receipt'),
-                  ),
-                ),
-              ],
+                onPressed: () => DigitalTaxReceiptDialog.show(context, order),
+                icon: const Icon(Icons.receipt_long_rounded, size: 18),
+                label: const Text('View & Share Tax Invoice'),
+              ),
             ),
             const SizedBox(height: 20),
           ],
@@ -473,7 +453,7 @@ class OrderDetailScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isCompleted
                       ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                      : (isDark ? AppColors.darkSurface : AppColors.lightDivider),
+                      : (isDark ? AppColors.darkElevated : AppColors.lightDivider),
                   shape: BoxShape.circle,
                   boxShadow: isCompleted
                       ? [
@@ -491,8 +471,8 @@ class OrderDetailScreen extends StatelessWidget {
                     isCompleted ? Icons.check : Icons.circle,
                     size: 14,
                     color: isCompleted
-                        ? (isDark ? Colors.black : Colors.white)
-                        : AppColors.lightTextMuted,
+                        ? (isDark ? AppColors.onGold : AppColors.goldLight)
+                        : (isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted),
                   ),
                 ),
               ),
@@ -504,7 +484,7 @@ class OrderDetailScreen extends StatelessWidget {
                     height: 3,
                     color: index < activeIndex
                         ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                        : (isDark ? AppColors.darkSurface : AppColors.lightDivider),
+                        : (isDark ? AppColors.darkElevated : AppColors.lightDivider),
                   ),
                 ),
             ],

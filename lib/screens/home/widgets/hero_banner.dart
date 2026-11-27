@@ -40,10 +40,10 @@ class _HeroBannerState extends State<HeroBanner> {
   final List<HeroBannerItem> _banners = const [
     HeroBannerItem(
       title: 'Welcome to Gebeya',
-      subtitle: 'Experience shopping reimagined. Premium local & modern curated goods.',
+      subtitle: 'Curated Ethiopian heritage goods and everyday essentials, delivered in Addis Ababa.',
       ctaText: 'Shop New Arrivals',
       tag: 'NEW ARRIVALS',
-      gradient: [Color(0xFF000000), Color(0xFF141418), Color(0xFF0A0A0C)],
+      gradient: [Color(0xFF07110E), Color(0xFF0F221C), Color(0xFF050C0A)],
       icon: Icons.storefront_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80',
     ),
@@ -52,16 +52,16 @@ class _HeroBannerState extends State<HeroBanner> {
       subtitle: 'Direct from Yirgacheffe & Sidama highlands. Freshly roasted.',
       ctaText: 'Shop Coffee Collection',
       tag: 'UP TO 20% OFF',
-      gradient: [Color(0xFF1F1612), Color(0xFF2C201A), Color(0xFF140E0B)],
+      gradient: [Color(0xFF0A1612), Color(0xFF132921), Color(0xFF060E0B)],
       icon: Icons.coffee_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80',
     ),
     HeroBannerItem(
-      title: 'Cyber & Modern Tech',
-      subtitle: 'Next-gen ANC audio, mechanical keyboards, and wearables.',
+      title: 'Audio & Everyday Tech',
+      subtitle: 'Noise-cancelling headphones, mechanical keyboards, and smart wearables.',
       ctaText: 'Shop Tech Deals',
       tag: 'TECH FLASH SALE',
-      gradient: [Color(0xFF0C0C10), Color(0xFF161620), Color(0xFF08080C)],
+      gradient: [Color(0xFF07100D), Color(0xFF0E211B), Color(0xFF050B09)],
       icon: Icons.headphones_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80',
     ),
@@ -69,8 +69,8 @@ class _HeroBannerState extends State<HeroBanner> {
       title: 'Smartphones & EV Gear',
       subtitle: 'iPhone 15 Pro, Galaxy S24 Ultra, portable chargers & auto gear.',
       ctaText: 'Explore Bestsellers',
-      tag: 'JIJI BESTSELLERS',
-      gradient: [Color(0xFF0F0F12), Color(0xFF18181D), Color(0xFF0A0A0D)],
+      tag: 'BESTSELLERS',
+      gradient: [Color(0xFF081410), Color(0xFF10251E), Color(0xFF060D0B)],
       icon: Icons.phone_android_rounded,
       imageUrl: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1200&q=80',
     ),
@@ -113,6 +113,8 @@ class _HeroBannerState extends State<HeroBanner> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       children: [
         SizedBox(
@@ -131,12 +133,12 @@ class _HeroBannerState extends State<HeroBanner> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: AppColors.darkBorder,
+                      color: isDark ? AppColors.darkBorder : AppColors.primary.withValues(alpha: 0.25),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.45),
+                        color: const Color(0xFF030806).withValues(alpha: isDark ? 0.65 : 0.16),
                         blurRadius: 14,
                         offset: const Offset(0, 6),
                       ),
@@ -155,21 +157,21 @@ class _HeroBannerState extends State<HeroBanner> {
                           height: double.infinity,
                         ),
 
-                        // Dark photo overlay (58% opacity) to darken background signage
+                        // Midnight forest emerald overlay over photo
                         Container(
-                          color: Colors.black.withValues(alpha: 0.58),
+                          color: const Color(0xFF060E0B).withValues(alpha: 0.72),
                         ),
 
-                        // High-contrast directional dark obsidian gradient scrim behind text
+                        // High-contrast directional forest gradient scrim behind text
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                               colors: [
-                                Colors.black.withValues(alpha: 0.96),
-                                Colors.black.withValues(alpha: 0.90),
-                                Colors.black.withValues(alpha: 0.50),
+                                const Color(0xFF070F0C).withValues(alpha: 0.98),
+                                const Color(0xFF0B1612).withValues(alpha: 0.92),
+                                const Color(0xFF0F201A).withValues(alpha: 0.58),
                                 Colors.transparent,
                               ],
                               stops: const [0.0, 0.50, 0.78, 1.0],
@@ -177,16 +179,16 @@ class _HeroBannerState extends State<HeroBanner> {
                           ),
                         ),
 
-                        // Subtle brand color wash
+                        // Subtle nocturnal botanical green color wash
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                banner.gradient.first.withValues(alpha: 0.35),
+                                banner.gradient.first.withValues(alpha: 0.50),
                                 Colors.transparent,
-                                banner.gradient.last.withValues(alpha: 0.25),
+                                banner.gradient.last.withValues(alpha: 0.45),
                               ],
                             ),
                           ),
@@ -209,7 +211,7 @@ class _HeroBannerState extends State<HeroBanner> {
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.gold.withValues(alpha: 0.35),
+                                      color: AppColors.gold.withValues(alpha: 0.25),
                                       blurRadius: 8,
                                     ),
                                   ],
@@ -217,7 +219,7 @@ class _HeroBannerState extends State<HeroBanner> {
                                 child: Text(
                                   banner.tag,
                                   style: const TextStyle(
-                                    color: Colors.black,
+                                    color: AppColors.onGold,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w800,
                                     letterSpacing: 0.8,
@@ -232,13 +234,13 @@ class _HeroBannerState extends State<HeroBanner> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.darkTextPrimary,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w800,
                                       letterSpacing: -0.3,
                                       shadows: [
                                         Shadow(
-                                          color: Colors.black,
+                                          color: Color(0xFF030806),
                                           blurRadius: 4,
                                         ),
                                       ],
@@ -250,12 +252,12 @@ class _HeroBannerState extends State<HeroBanner> {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: Colors.white.withValues(alpha: 0.90),
+                                      color: AppColors.darkTextSecondary.withValues(alpha: 0.95),
                                       fontSize: 12,
                                       height: 1.3,
                                       shadows: const [
                                         Shadow(
-                                          color: Colors.black87,
+                                          color: Color(0xFF030806),
                                           blurRadius: 3,
                                         ),
                                       ],
@@ -303,7 +305,6 @@ class _HeroBannerState extends State<HeroBanner> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(_banners.length, (index) {
             final isCurrent = index == _currentPage;
-            final isDark = Theme.of(context).brightness == Brightness.dark;
             return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -311,13 +312,15 @@ class _HeroBannerState extends State<HeroBanner> {
               height: 6,
               decoration: BoxDecoration(
                 color: isCurrent
-                    ? AppColors.gold
-                    : (isDark ? AppColors.darkBorder : AppColors.lightTextMuted.withValues(alpha: 0.4)),
+                    ? (isDark ? AppColors.gold : AppColors.primary)
+                    : (isDark
+                        ? AppColors.darkBorder
+                        : AppColors.lightTextMuted.withValues(alpha: 0.4)),
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: isCurrent && isDark
                     ? [
                         BoxShadow(
-                          color: AppColors.gold.withValues(alpha: 0.4),
+                          color: AppColors.gold.withValues(alpha: 0.35),
                           blurRadius: 6,
                         ),
                       ]

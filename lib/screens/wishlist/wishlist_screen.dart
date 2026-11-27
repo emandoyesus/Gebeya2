@@ -53,7 +53,9 @@ class WishlistScreen extends StatelessWidget {
                 }
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Moved ${favorites.length} items to cart! 🛍️'),
+                    content: Text(
+                      'Added ${favorites.length} ${favorites.length == 1 ? 'item' : 'items'} to your cart.',
+                    ),
                     behavior: SnackBarBehavior.floating,
                   ),
                 );

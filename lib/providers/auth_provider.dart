@@ -120,12 +120,14 @@ class AuthProvider extends ChangeNotifier {
       }
 
       // If account doesn't exist yet, provide helpful guidance
-      _errorMessage = 'Account not found. Please create a new account.';
+      _errorMessage =
+          'No account matches that email or phone number. Check your entry or create a new account.';
       _isLoading = false;
       notifyListeners();
       return false;
     } catch (e) {
-      _errorMessage = 'Authentication failed: $e';
+      debugPrint('Sign in error: $e');
+      _errorMessage = 'We couldn\'t sign you in right now. Please try again.';
       _isLoading = false;
       notifyListeners();
       return false;
@@ -190,7 +192,9 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      _errorMessage = 'Sign up failed: $e';
+      debugPrint('Sign up error: $e');
+      _errorMessage =
+          'We couldn\'t create your account right now. Check your details and try again.';
       _isLoading = false;
       notifyListeners();
       return false;

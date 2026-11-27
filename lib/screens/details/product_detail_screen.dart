@@ -38,7 +38,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     if (product == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Product Details')),
-        body: const Center(child: Text('Product not found')),
+        body: const Center(child: Text('This product is no longer available.')),
       );
     }
 
@@ -136,10 +136,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 const SizedBox(width: 4),
                                 Text(
                                   product.rating.toStringAsFixed(1),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 13,
-                                    color: AppColors.accent,
+                                    color: isDark ? AppColors.gold : AppColors.primary,
                                   ),
                                 ),
                               ],
@@ -147,7 +147,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            '${product.reviewCount} customer reviews',
+                            '${product.reviewCount} ${product.reviewCount == 1 ? 'review' : 'reviews'}',
                             style: TextStyle(
                               fontSize: 13,
                               color: isDark
@@ -251,7 +251,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               : AppColors.primary,
                           labelStyle: TextStyle(
                             color: isSelected
-                                ? (isDark ? Colors.black : Colors.white)
+                                ? (isDark ? AppColors.onGold : AppColors.goldLight)
                                 : null,
                             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                           ),
@@ -286,7 +286,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               : AppColors.primary,
                           labelStyle: TextStyle(
                             color: isSelected
-                                ? (isDark ? Colors.black : Colors.white)
+                                ? (isDark ? AppColors.onGold : AppColors.goldLight)
                                 : null,
                             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                           ),
@@ -512,7 +512,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
+            color: const Color(0xFF030806).withValues(alpha: isDark ? 0.50 : 0.05),
             blurRadius: 10,
             offset: const Offset(0, -3),
           ),
@@ -573,10 +573,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Added $_quantity x ${product.name} to cart!'),
+                      content: Text('Added $_quantity × ${product.name} to your cart.'),
                       duration: const Duration(seconds: 2),
                       behavior: SnackBarBehavior.floating,
-                      backgroundColor: AppColors.primary,
                     ),
                   );
                 },

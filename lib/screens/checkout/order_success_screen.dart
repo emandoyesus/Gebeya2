@@ -201,34 +201,17 @@ class OrderSuccessScreen extends StatelessWidget {
                 const Spacer(),
 
                 // Actions
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                        ),
-                        onPressed: () => DigitalTaxReceiptDialog.show(context, order),
-                        icon: const Icon(Icons.receipt_long_rounded, size: 18),
-                        label: const Text('View Invoice'),
-                      ),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF25D366),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                        ),
-                        onPressed: () => DigitalTaxReceiptDialog.show(context, order),
-                        icon: const Icon(Icons.chat_rounded, size: 18),
-                        label: const Text('WhatsApp Share'),
-                      ),
-                    ),
-                  ],
+                    onPressed: () => DigitalTaxReceiptDialog.show(context, order),
+                    icon: const Icon(Icons.receipt_long_rounded, size: 18),
+                    label: const Text('View & Share Tax Invoice'),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
@@ -243,7 +226,7 @@ class OrderSuccessScreen extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.local_shipping_outlined, size: 18),
-                    label: const Text('Track Order Status'),
+                    label: const Text('Track Order'),
                   ),
                 ),
                 const SizedBox(height: 10),

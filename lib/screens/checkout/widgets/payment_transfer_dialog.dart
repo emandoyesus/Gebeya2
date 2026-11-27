@@ -198,10 +198,10 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
                 ),
                 validator: (val) {
                   if (val == null || val.trim().isEmpty) {
-                    return 'Please enter the transaction reference from SMS';
+                    return 'Enter the transaction ID from your confirmation SMS';
                   }
                   if (val.trim().length < 4) {
-                    return 'Reference is too short';
+                    return 'Enter at least 4 characters from your transaction ID';
                   }
                   return null;
                 },
@@ -212,8 +212,8 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
                 controller: _notesController,
                 maxLength: 100,
                 decoration: const InputDecoration(
-                  labelText: 'Sender Name or Phone Number (Optional)',
-                  hintText: 'e.g. Sent from Abebe phone 0911...',
+                  labelText: 'Sender Name or Phone (Optional)',
+                  hintText: 'Helpful if paid from someone else\'s account',
                   prefixIcon: Icon(Icons.note_alt_outlined),
                   counterText: '',
                 ),
@@ -252,7 +252,7 @@ class _PaymentTransferDialogState extends State<PaymentTransferDialog> {
                         }
                       },
                       child: const Text(
-                        'Submit Reference',
+                        'Confirm Payment',
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),

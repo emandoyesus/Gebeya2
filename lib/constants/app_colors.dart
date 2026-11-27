@@ -1,60 +1,60 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Black, Alabaster (#E3DAC9) & Imperial Gold (#E5C690) Luxury Palette
-  // Pure Obsidian Black (#000000)
-  static const Color black = Color(0xFF000000); // True Black (#000000)
-  static const Color obsidianSurface = Color(0xFF0D0D10); // Obsidian Surface
-  static const Color obsidianCard = Color(0xFF141418); // Obsidian Card (#141418)
-  static const Color obsidianElevated = Color(0xFF1E1E24); // Elevated Container
-  static const Color obsidianBorder = Color(0xFF27272E); // Refined Obsidian Border
+  // Nocturnal Deep Forest Pine & Warm Champagne Gold Luxury Palette
+  static const Color black = Color(0xFF08110E); // Deepest Pine Ink
+  static const Color obsidianSurface = Color(0xFF0B1512); // Nocturnal Pine Surface
+  static const Color obsidianCard = Color(0xFF101D19); // Deep Pine Card / Search Fill
+  static const Color obsidianElevated = Color(0xFF162822); // Elevated Pine Container & Pills
+  static const Color obsidianBorder = Color(0xFF1E352D); // Subtle Deep Pine Hairline Border
 
-  // Alabaster (#E3DAC9): Warm Architectural Sand Cream
-  static const Color alabaster = Color(0xFFE3DAC9); // Warm Alabaster (#E3DAC9)
-  static const Color alabasterLight = Color(0xFFF7F5F0); // Pale Ivory Alabaster
-  static const Color alabasterDark = Color(0xFFC7BDA9); // Muted Alabaster
+  // Alabaster & Botanical Neutrals
+  static const Color alabaster = Color(0xFFE3DAC9); // Warm Alabaster
+  static const Color alabasterLight = Color(0xFFF5F6F2); // Botanical Ivory Canvas
+  static const Color alabasterDark = Color(0xFFC5CFCB); // Muted Sage Alabaster
 
-  // Imperial Gold (#E5C690): Rich Warm Ethiopian Gold
-  static const Color gold = Color(0xFFE5C690); // Imperial Gold (#E5C690)
-  static const Color goldLight = Color(0xFFF3DEB5); // Radiant Warm Gold
-  static const Color goldDark = Color(0xFFC9A86B); // Deep Burnished Gold
+  // Champagne Sand Gold: Rich Warm Ethiopian Gold
+  static const Color gold = Color(0xFFDFC08E); // Warm Champagne Gold
+  static const Color goldLight = Color(0xFFEED6AD); // Radiant Champagne Gold
+  static const Color goldDark = Color(0xFFC2A06B); // Deep Burnished Gold
+  static const Color onGold = Color(0xFF08110E); // Deepest Pine Ink on Gold Surfaces
 
   // Primary & Accent Brand Tokens
-  static const Color primary = Color(0xFF000000); // Black Anchor
-  static const Color primaryLight = Color(0xFFE5C690); // Imperial Gold Accent
-  static const Color primaryDark = Color(0xFF000000);
+  static const Color primary = Color(0xFF16382E); // Deep Forest Emerald Anchor
+  static const Color primaryLight = Color(0xFFDFC08E); // Champagne Gold Accent (Dark Mode)
+  static const Color primaryDark = Color(0xFF081611); // Midnight Emerald Anchor
 
-  static const Color accent = Color(0xFFE5C690); // Imperial Gold (#E5C690)
-  static const Color accentLight = Color(0xFFF3DEB5);
-  static const Color accentDark = Color(0xFFC9A86B);
+  static const Color accent = Color(0xFFDFC08E); // Warm Champagne Gold
+  static const Color accentLight = Color(0xFFEED6AD);
+  static const Color accentDark = Color(0xFFC2A06B);
 
   // Status colors
-  static const Color success = Color(0xFF2E856E);
-  static const Color error = Color(0xFFDC4444);
-  static const Color warning = Color(0xFFE5C690); // Imperial Gold Star (#E5C690)
-  static const Color info = Color(0xFF3B82F6);
+  static const Color success = Color(0xFF2FA37C);
+  static const Color error = Color(0xFFDC4B43);
+  static const Color warning = Color(0xFFDFC08E);
+  static const Color info = Color(0xFF4A90D9);
 
-  // Light theme neutrals (Alabaster #E3DAC9 Canvas)
-  static const Color lightBackground = Color(0xFFF7F5F0); // Soft Alabaster Canvas
+  // Light theme neutrals (Botanical Ivory Canvas)
+  static const Color lightBackground = Color(0xFFF5F6F2); // Soft Botanical Ivory
   static const Color lightSurface = Color(0xFFFFFFFF); // Crisp White Surface
   static const Color lightCard = Color(0xFFFFFFFF);
-  static const Color lightTextPrimary = Color(0xFF000000); // Pure Black Text
-  static const Color lightTextSecondary = Color(0xFF55524B); // Deep Sand Charcoal
-  static const Color lightTextMuted = Color(0xFF8C867B);
-  static const Color lightBorder = Color(0xFFE3DAC9); // Alabaster Outline (#E3DAC9)
-  static const Color lightDivider = Color(0xFFECE7DE);
+  static const Color lightTextPrimary = Color(0xFF0F1D18); // Deep Forest Ink
+  static const Color lightTextSecondary = Color(0xFF435750); // Botanical Slate
+  static const Color lightTextMuted = Color(0xFF72857E); // Sage Stone
+  static const Color lightBorder = Color(0xFFD7E0DC); // Soft Sage Outline
+  static const Color lightDivider = Color(0xFFE5ECE8);
 
-  // Dark theme neutrals (Black #000000 Foundations)
-  static const Color darkBackground = Color(0xFF000000); // 100% True Obsidian Pitch Black (#000000)
-  static const Color darkSurface = Color(0xFF0D0D10); // Obsidian Surface
-  static const Color darkCard = Color(0xFF141418); // Refined Obsidian Card
-  static const Color darkElevated = Color(0xFF1E1E24); // Elevated Container
-  static const Color darkTextPrimary = Color(0xFFFFFFFF); // Pure Crisp White
-  static const Color darkTextSecondary = Color(0xFFE3DAC9); // Warm Alabaster (#E3DAC9)
-  static const Color darkTextMuted = Color(0xFF8E887E); // Warm Stone Gray
-  static const Color darkBorder = Color(0xFF27272E); // Subtle Obsidian Border
-  static const Color darkDivider = Color(0xFF1C1C20);
-  static const Color darkGlow = Color(0x33E5C690); // Imperial Gold Aura Glow
+  // Dark theme neutrals (Midnight Forest Pine Foundations)
+  static const Color darkBackground = Color(0xFF070E0C); // Midnight Forest Canvas
+  static const Color darkSurface = Color(0xFF0B1512); // Nocturnal Pine Nav & Sheet Surface
+  static const Color darkCard = Color(0xFF101D19); // Deep Forest Card Surface
+  static const Color darkElevated = Color(0xFF162822); // Elevated Pine Container
+  static const Color darkTextPrimary = Color(0xFFF2F5F3); // Crisp Warm Off-White
+  static const Color darkTextSecondary = Color(0xFFB8C7C1); // Muted Sage-Tinted Light Text
+  static const Color darkTextMuted = Color(0xFF7A9188); // Deep Sage Gray
+  static const Color darkBorder = Color(0xFF1E352D); // Subtle Deep Pine Border
+  static const Color darkDivider = Color(0xFF152620);
+  static const Color darkGlow = Color(0x2EDFC08E); // Champagne Gold Aura Glow
 
   // Local Payment Gateway Colors
   static const Color telebirr = Color(0xFF0073BC);

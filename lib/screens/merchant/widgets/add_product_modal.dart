@@ -100,7 +100,7 @@ class _AddProductModalState extends State<AddProductModal> {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Product "${newProduct.name}" added to catalog! 🛍️'),
+              content: Text('Published "${newProduct.name}" to your store.'),
               backgroundColor: AppColors.success,
               behavior: SnackBarBehavior.floating,
             ),
@@ -108,7 +108,7 @@ class _AddProductModalState extends State<AddProductModal> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Failed to publish product. Please try again.'),
+              content: Text('Could not publish product. Check your connection and try again.'),
               backgroundColor: AppColors.error,
               behavior: SnackBarBehavior.floating,
             ),
@@ -116,11 +116,12 @@ class _AddProductModalState extends State<AddProductModal> {
         }
       }
     } catch (e) {
+      debugPrint('Add product error: $e');
       if (mounted) {
         setState(() => _isSaving = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error: $e'),
+          const SnackBar(
+            content: Text('Could not save product. Check the price and required fields, then try again.'),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
           ),
@@ -132,6 +133,8 @@ class _AddProductModalState extends State<AddProductModal> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeAccent = isDark ? AppColors.gold : AppColors.primary;
+    final onActiveAccent = isDark ? AppColors.onGold : AppColors.goldLight;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.88,
@@ -171,21 +174,21 @@ class _AddProductModalState extends State<AddProductModal> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.12),
+                        color: activeAccent.withValues(alpha: 0.14),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.add_shopping_cart_rounded,
-                        color: AppColors.primary,
+                        color: activeAccent,
                         size: 22,
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Add New Product',
                             style: TextStyle(
                               fontSize: 17,
@@ -194,7 +197,10 @@ class _AddProductModalState extends State<AddProductModal> {
                           ),
                           Text(
                             'Upload product directly to your store inventory',
-                            style: TextStyle(fontSize: 11, color: Colors.grey),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                            ),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
@@ -231,7 +237,7 @@ class _AddProductModalState extends State<AddProductModal> {
                         counterText: '',
                       ),
                       validator: (val) => val == null || val.trim().isEmpty
-                          ? 'Please enter product name'
+                          ? 'Enter a product name'
                           : null,
                     ),
                     const SizedBox(height: 12),
@@ -282,10 +288,10 @@ class _AddProductModalState extends State<AddProductModal> {
                             ),
                             validator: (val) {
                               if (val == null || val.trim().isEmpty) {
-                                return 'Enter price';
+                                return 'Enter a price';
                               }
                               if (double.tryParse(val.trim()) == null) {
-                                return 'Valid number';
+                                return 'Enter a valid amount';
                               }
                               return null;
                             },
@@ -331,7 +337,7 @@ class _AddProductModalState extends State<AddProductModal> {
                         counterText: '',
                       ),
                       validator: (val) => val == null || val.trim().isEmpty
-                          ? 'Please enter product description'
+                          ? 'Enter a product description'
                           : null,
                     ),
                     const SizedBox(height: 8),
@@ -344,7 +350,7 @@ class _AddProductModalState extends State<AddProductModal> {
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                       subtitle: const Text(
-                        'Displays product in the top Hot Deals banner carousel',
+                        'Show this item in Featured & Trending on the home screen',
                         style: TextStyle(fontSize: 11),
                       ),
                       value: _isFeatured,
@@ -363,20 +369,20 @@ class _AddProductModalState extends State<AddProductModal> {
             width: double.infinity,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                backgroundColor: activeAccent,
+                foregroundColor: onActiveAccent,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
               ),
               onPressed: _isSaving ? null : _handleSubmit,
               icon: _isSaving
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 18,
                       height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: onActiveAccent),
                     )
                   : const Icon(Icons.cloud_upload_outlined),
-              label: Text(_isSaving ? 'Publishing Product...' : 'Publish Product to Store'),
+              label: Text(_isSaving ? 'Publishing Product...' : 'Publish Product'),
             ),
           ),
         ],

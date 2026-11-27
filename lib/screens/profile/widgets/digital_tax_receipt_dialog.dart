@@ -64,6 +64,7 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeAccent = isDark ? AppColors.gold : AppColors.primary;
     final currency = NumberFormat('#,##0.00');
     final date = DateFormat('MMM dd, yyyy • hh:mm a').format(order.createdAt);
 
@@ -88,20 +89,20 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.12),
+                          color: activeAccent.withValues(alpha: 0.14),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.receipt_long_rounded,
-                          color: AppColors.primary,
+                          color: activeAccent,
                           size: 22,
                         ),
                       ),
                       const SizedBox(width: 10),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Tax Sales Invoice',
                             style: TextStyle(
                               fontSize: 16,
@@ -110,7 +111,10 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                           ),
                           Text(
                             'የሽያጭ ደረሰኝ (15% VAT Included)',
-                            style: TextStyle(fontSize: 11, color: Colors.grey),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                            ),
                           ),
                         ],
                       ),
@@ -129,10 +133,10 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkCard : const Color(0xFFF8FAFC),
+                  color: isDark ? AppColors.darkCard : AppColors.lightBackground,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: isDark ? AppColors.darkBorder : const Color(0xFFCBD5E1),
+                    color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
                   ),
                 ),
                 child: Column(
@@ -150,7 +154,7 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
-                                  color: isDark ? AppColors.primaryLight : AppColors.primary,
+                                  color: activeAccent,
                                 ),
                               ),
                               const SizedBox(width: 4),
@@ -162,7 +166,7 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                                 ),
                                 child: const Text(
                                   'ገበያ',
-                                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: Colors.black),
+                                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.onGold),
                                 ),
                               ),
                             ],
@@ -172,9 +176,12 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                             'Gebeya Commercial PLC • Addis Ababa',
                             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
                           ),
-                          const Text(
+                          Text(
                             'TIN: 0048291048 • VAT/TOT Reg: 15%',
-                            style: TextStyle(fontSize: 10, color: Colors.grey),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                            ),
                           ),
                         ],
                       ),
@@ -183,25 +190,34 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                     const Divider(height: 20),
 
                     // Order Info
-                    _buildInvoiceRow('Invoice Number', order.id, isBold: true),
-                    _buildInvoiceRow('Date & Time', date),
-                    _buildInvoiceRow('Payment Method', order.paymentMethodDisplay),
+                    _buildInvoiceRow('Invoice Number', order.id, isBold: true, isDark: isDark),
+                    _buildInvoiceRow('Date & Time', date, isDark: isDark),
+                    _buildInvoiceRow('Payment Method', order.paymentMethodDisplay, isDark: isDark),
                     if (order.paymentTransactionId != null)
-                      _buildInvoiceRow('Transaction Ref', order.paymentTransactionId!, valueColor: AppColors.primary),
+                      _buildInvoiceRow(
+                        'Transaction Ref',
+                        order.paymentTransactionId!,
+                        valueColor: activeAccent,
+                        isDark: isDark,
+                      ),
 
                     const Divider(height: 16),
 
                     // Customer Details
-                    _buildInvoiceRow('Customer', order.shippingAddress.fullName),
-                    _buildInvoiceRow('Phone', order.shippingAddress.phoneNumber),
-                    _buildInvoiceRow('Dispatch Area', '${order.shippingAddress.streetAddress}, ${order.shippingAddress.subcity}'),
+                    _buildInvoiceRow('Customer', order.shippingAddress.fullName, isDark: isDark),
+                    _buildInvoiceRow('Phone', order.shippingAddress.phoneNumber, isDark: isDark),
+                    _buildInvoiceRow('Dispatch Area', '${order.shippingAddress.streetAddress}, ${order.shippingAddress.subcity}', isDark: isDark),
 
                     const Divider(height: 16),
 
                     // Items List
-                    const Text(
+                    Text(
                       'PURCHASED ITEMS',
-                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.grey),
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                        color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                      ),
                     ),
                     const SizedBox(height: 6),
                     ...order.items.map((item) {
@@ -225,7 +241,10 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                                   if (item.selectedSize != null || item.selectedColor != null)
                                     Text(
                                       '${item.selectedSize ?? ""} ${item.selectedColor ?? ""}',
-                                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                                      ),
                                     ),
                                 ],
                               ),
@@ -242,18 +261,20 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                     const Divider(height: 16),
 
                     // Breakdown
-                    _buildInvoiceRow('Subtotal', '${currency.format(order.subtotal)} ETB'),
+                    _buildInvoiceRow('Subtotal', '${currency.format(order.subtotal)} ETB', isDark: isDark),
                     if (order.discount > 0)
                       _buildInvoiceRow(
                         'Promotional Discount',
                         '-${currency.format(order.discount)} ETB',
                         valueColor: AppColors.success,
+                        isDark: isDark,
                       ),
                     _buildInvoiceRow(
                       'Delivery Fee',
                       order.shippingFee == 0 ? 'FREE' : '${currency.format(order.shippingFee)} ETB',
+                      isDark: isDark,
                     ),
-                    _buildInvoiceRow('VAT (15%)', '${currency.format(order.tax)} ETB'),
+                    _buildInvoiceRow('VAT (15%)', '${currency.format(order.tax)} ETB', isDark: isDark),
 
                     const Divider(height: 16),
 
@@ -270,7 +291,7 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w900,
-                            color: isDark ? AppColors.primaryLight : AppColors.primary,
+                            color: activeAccent,
                           ),
                         ),
                       ],
@@ -321,7 +342,7 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
                         Clipboard.setData(ClipboardData(text: text));
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Invoice copied! Ready to paste and send to customer or courier on WhatsApp.'),
+                            content: Text('Invoice copied. Paste it into WhatsApp to share.'),
                             backgroundColor: Color(0xFF25D366),
                             duration: Duration(milliseconds: 2200),
                             behavior: SnackBarBehavior.floating,
@@ -339,7 +360,13 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildInvoiceRow(String label, String value, {bool isBold = false, Color? valueColor}) {
+  Widget _buildInvoiceRow(
+    String label,
+    String value, {
+    bool isBold = false,
+    Color? valueColor,
+    required bool isDark,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
@@ -347,7 +374,10 @@ class DigitalTaxReceiptDialog extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(fontSize: 11, color: Colors.grey),
+            style: TextStyle(
+              fontSize: 11,
+              color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+            ),
           ),
           Flexible(
             child: Text(

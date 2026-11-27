@@ -19,7 +19,7 @@ class MerchantDashboardScreen extends StatefulWidget {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Access Denied: Merchant permissions required.'),
+          content: Text('Merchant account required to open Store Operations.'),
           backgroundColor: AppColors.error,
           behavior: SnackBarBehavior.floating,
         ),
@@ -71,6 +71,8 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
     }
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeAccent = isDark ? AppColors.gold : AppColors.primary;
+    final onActiveAccent = isDark ? AppColors.onGold : AppColors.goldLight;
     final orderProvider = context.watch<OrderProvider>();
     final allOrders = orderProvider.orders;
 
@@ -117,17 +119,24 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    AppColors.primary,
-                    AppColors.primaryDark,
-                  ],
+                  colors: isDark
+                      ? const [
+                          Color(0xFF10241D),
+                          Color(0xFF08120F),
+                        ]
+                      : const [
+                          AppColors.primary,
+                          AppColors.primaryDark,
+                        ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
+                border: isDark ? Border.all(color: AppColors.darkBorder) : null,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+                    color: (isDark ? const Color(0xFF030806) : AppColors.primary)
+                        .withValues(alpha: isDark ? 0.55 : 0.35),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -158,7 +167,7 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black,
+                            color: AppColors.onGold,
                           ),
                         ),
                       ),
@@ -178,13 +187,13 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                   Row(
                     children: [
                       _buildMetricTile(
-                        'Pending Verification',
+                        'Pending Review',
                         '$pendingVerificationCount',
                         AppColors.accent,
                       ),
                       const SizedBox(width: 12),
                       _buildMetricTile(
-                        'In Delivery Pipeline',
+                        'Active Orders',
                         '$activeOrdersCount',
                         Colors.white,
                       ),
@@ -214,7 +223,7 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                 children: [
                   _filterChip(null, 'All Orders (${allOrders.length})'),
                   const SizedBox(width: 8),
-                  _filterChip(OrderStatus.pending, 'Pending Txn ($pendingVerificationCount)'),
+                  _filterChip(OrderStatus.pending, 'Pending ($pendingVerificationCount)'),
                   const SizedBox(width: 8),
                   _filterChip(OrderStatus.confirmed, 'Confirmed'),
                   const SizedBox(width: 8),
@@ -259,11 +268,15 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                     color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
                   ),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
-                    Icon(Icons.inbox_rounded, size: 40, color: Colors.grey),
-                    SizedBox(height: 8),
-                    Text(
+                    Icon(
+                      Icons.inbox_rounded,
+                      size: 40,
+                      color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
                       'No orders in this category',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
@@ -277,7 +290,13 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                 itemCount: filteredOrders.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
-                  return _buildMerchantOrderCard(context, filteredOrders[index], isDark);
+                  return _buildMerchantOrderCard(
+                    context,
+                    filteredOrders[index],
+                    isDark,
+                    activeAccent,
+                    onActiveAccent,
+                  );
                 },
               ),
           ],
@@ -329,7 +348,13 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
     );
   }
 
-  Widget _buildMerchantOrderCard(BuildContext context, OrderModel order, bool isDark) {
+  Widget _buildMerchantOrderCard(
+    BuildContext context,
+    OrderModel order,
+    bool isDark,
+    Color activeAccent,
+    Color onActiveAccent,
+  ) {
     final orderProvider = context.read<OrderProvider>();
 
     Color statusColor;
@@ -338,13 +363,13 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
         statusColor = AppColors.accentDark;
         break;
       case OrderStatus.confirmed:
-        statusColor = AppColors.primary;
+        statusColor = activeAccent;
         break;
       case OrderStatus.processing:
-        statusColor = Colors.blue;
+        statusColor = AppColors.info;
         break;
       case OrderStatus.shipped:
-        statusColor = Colors.purple;
+        statusColor = const Color(0xFFA78BFA);
         break;
       case OrderStatus.delivered:
         statusColor = AppColors.success;
@@ -377,7 +402,7 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.12),
+                  color: statusColor.withValues(alpha: 0.14),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: statusColor.withValues(alpha: 0.4)),
                 ),
@@ -398,7 +423,11 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
           // Customer & Location info
           Row(
             children: [
-              const Icon(Icons.person_outline, size: 16, color: Colors.grey),
+              Icon(
+                Icons.person_outline,
+                size: 16,
+                color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+              ),
               const SizedBox(width: 6),
               Text(
                 '${order.shippingAddress.fullName} • ${order.shippingAddress.phoneNumber}',
@@ -409,7 +438,11 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
           const SizedBox(height: 4),
           Row(
             children: [
-              const Icon(Icons.location_on_outlined, size: 16, color: Colors.grey),
+              Icon(
+                Icons.location_on_outlined,
+                size: 16,
+                color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+              ),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
@@ -441,7 +474,7 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                           ? Icons.account_balance_rounded
                           : Icons.payment_rounded,
                   size: 18,
-                  color: AppColors.primary,
+                  color: activeAccent,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -454,17 +487,20 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                       ),
                       if (order.paymentTransactionId != null)
                         Text(
-                          'Txn Reference: ${order.paymentTransactionId}',
-                          style: const TextStyle(
+                          'Transaction Ref: ${order.paymentTransactionId}',
+                          style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.primary,
+                            color: activeAccent,
                           ),
                         ),
                       if (order.paymentProofNote != null && order.paymentProofNote!.isNotEmpty)
                         Text(
                           'Note: ${order.paymentProofNote}',
-                          style: const TextStyle(fontSize: 10, color: Colors.grey),
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                          ),
                         ),
                     ],
                   ),
@@ -519,10 +555,18 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                 initialValue: order.status,
                 onSelected: (newStatus) async {
                   await orderProvider.updateOrderStatus(order.id, newStatus);
+                  final statusLabel = switch (newStatus) {
+                    OrderStatus.pending => 'Pending Verification',
+                    OrderStatus.confirmed => 'Confirmed',
+                    OrderStatus.processing => 'Processing',
+                    OrderStatus.shipped => 'On the Way',
+                    OrderStatus.delivered => 'Delivered',
+                    OrderStatus.cancelled => 'Cancelled',
+                  };
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Order ${order.id} updated to ${newStatus.name.toUpperCase()}'),
+                        content: Text('Order #${order.id} marked as $statusLabel.'),
                         duration: const Duration(milliseconds: 1400),
                         behavior: SnackBarBehavior.floating,
                       ),
@@ -536,15 +580,15 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                   ),
                   const PopupMenuItem(
                     value: OrderStatus.processing,
-                    child: Text('Mark as Packing & Processing'),
+                    child: Text('Mark as Processing'),
                   ),
                   const PopupMenuItem(
                     value: OrderStatus.shipped,
-                    child: Text('Mark as Out for Delivery (Courier)'),
+                    child: Text('Mark as On the Way'),
                   ),
                   const PopupMenuItem(
                     value: OrderStatus.delivered,
-                    child: Text('Mark as Delivered (Completed)'),
+                    child: Text('Mark as Delivered'),
                   ),
                   const PopupMenuItem(
                     value: OrderStatus.cancelled,
@@ -554,22 +598,22 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: activeAccent,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         'Change Status',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: onActiveAccent,
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(width: 4),
-                      Icon(Icons.arrow_drop_down, color: Colors.white, size: 18),
+                      const SizedBox(width: 4),
+                      Icon(Icons.arrow_drop_down, color: onActiveAccent, size: 18),
                     ],
                   ),
                 ),

@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
                     letterSpacing: -0.5,
-                    color: isDark ? AppColors.gold : AppColors.black,
+                    color: isDark ? AppColors.gold : AppColors.primary,
                   ),
                 ),
                 const SizedBox(width: 6),
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
-                      color: Colors.black,
+                      color: AppColors.onGold,
                     ),
                   ),
                 ),
@@ -130,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(
                       Icons.location_on_rounded,
                       size: 14,
-                      color: isDark ? AppColors.gold : AppColors.black,
+                      color: isDark ? AppColors.gold : AppColors.primary,
                     ),
                     const SizedBox(width: 4),
                     Flexible(
@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(
                       Icons.keyboard_arrow_down_rounded,
                       size: 16,
-                      color: isDark ? AppColors.gold : AppColors.black,
+                      color: isDark ? AppColors.gold : AppColors.primary,
                     ),
                   ],
                 ),
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('You are all caught up! No unread notifications.'),
+                  content: Text('No new notifications right now.'),
                   behavior: SnackBarBehavior.floating,
                   duration: Duration(milliseconds: 1400),
                 ),
@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+                          color: const Color(0xFF030806).withValues(alpha: isDark ? 0.45 : 0.04),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -233,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Icon(
                           Icons.search_rounded,
-                          color: isDark ? AppColors.gold : AppColors.black,
+                          color: isDark ? AppColors.gold : AppColors.primary,
                           size: 22,
                         ),
                         const SizedBox(width: 12),
@@ -290,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(
                         'View All',
                         style: TextStyle(
-                          color: isDark ? AppColors.gold : AppColors.black,
+                          color: isDark ? AppColors.gold : AppColors.primary,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -316,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Icon(
                             Icons.local_fire_department_rounded,
-                            color: isDark ? AppColors.gold : AppColors.black,
+                            color: isDark ? AppColors.gold : AppColors.primary,
                             size: 22,
                           ),
                           const SizedBox(width: 6),
@@ -332,19 +332,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
+                          horizontal: 10,
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.gold.withValues(alpha: isDark ? 0.15 : 0.20),
+                          color: isDark
+                              ? AppColors.darkCard
+                              : AppColors.gold.withValues(alpha: 0.22),
                           borderRadius: BorderRadius.circular(12),
+                          border: isDark
+                              ? Border.all(color: AppColors.darkBorder)
+                              : null,
                         ),
                         child: Text(
                           'Hot Deals',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: isDark ? AppColors.gold : Colors.black,
+                            color: isDark ? AppColors.gold : AppColors.onGold,
                           ),
                         ),
                       ),
@@ -413,9 +418,9 @@ class _HomeScreenState extends State<HomeScreen> {
               if (filteredProducts.isEmpty)
                 EmptyStateWidget(
                   icon: Icons.inventory_2_outlined,
-                  title: 'No Products in this Category',
+                  title: 'No products in this category',
                   subtitle:
-                      'We couldn\'t find any items in this category right now. Browse our full catalog or pick another category!',
+                      'There are no items listed here yet. View all products or pick another category.',
                   buttonText: 'View All Products',
                   onButtonPressed: () {
                     productProvider.setCategory('all');

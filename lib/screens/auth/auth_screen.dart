@@ -92,7 +92,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 ? 'Welcome to Gebeya, ${_nameController.text.trim()}!'
                 : 'Welcome back, ${auth.currentUser?.fullName ?? ''}!',
           ),
-          backgroundColor: AppColors.primary,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -112,11 +111,13 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final auth = context.watch<AuthProvider>();
+    final activeAccent = isDark ? AppColors.gold : AppColors.primary;
+    final onActiveAccent = isDark ? AppColors.onGold : AppColors.goldLight;
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
       appBar: AppBar(
-        title: Text(_isSignUp ? 'Create Customer Account' : 'Sign In to Gebeya'),
+        title: Text(_isSignUp ? 'Create Account' : 'Sign In to Gebeya'),
         leading: widget.isModal
             ? IconButton(
                 icon: const Icon(Icons.close_rounded),
@@ -139,13 +140,13 @@ class _AuthScreenState extends State<AuthScreen> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.12),
+                          color: activeAccent.withValues(alpha: 0.14),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.shopping_bag_rounded,
                           size: 40,
-                          color: AppColors.primary,
+                          color: activeAccent,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -158,14 +159,14 @@ class _AuthScreenState extends State<AuthScreen> {
                               fontSize: 24,
                               fontWeight: FontWeight.w900,
                               letterSpacing: -0.5,
-                              color: isDark ? AppColors.primaryLight : AppColors.primary,
+                              color: activeAccent,
                             ),
                           ),
                           const SizedBox(width: 6),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: AppColors.accent,
+                              color: AppColors.gold,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: const Text(
@@ -173,7 +174,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black,
+                                color: AppColors.onGold,
                               ),
                             ),
                           ),
@@ -217,9 +218,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
-                              color: !_isSignUp
-                                  ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                                  : Colors.transparent,
+                              color: !_isSignUp ? activeAccent : Colors.transparent,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
@@ -229,7 +228,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 13,
                                 color: !_isSignUp
-                                    ? (isDark ? Colors.black : Colors.white)
+                                    ? onActiveAccent
                                     : (isDark
                                         ? AppColors.darkTextSecondary
                                         : AppColors.lightTextSecondary),
@@ -245,9 +244,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
-                              color: _isSignUp
-                                  ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                                  : Colors.transparent,
+                              color: _isSignUp ? activeAccent : Colors.transparent,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
@@ -257,7 +254,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 13,
                                 color: _isSignUp
-                                    ? (isDark ? Colors.black : Colors.white)
+                                    ? onActiveAccent
                                     : (isDark
                                         ? AppColors.darkTextSecondary
                                         : AppColors.lightTextSecondary),
@@ -284,7 +281,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       prefixIcon: Icon(Icons.person_outline_rounded),
                     ),
                     validator: (val) =>
-                        val == null || val.trim().isEmpty ? 'Please enter your full name' : null,
+                        val == null || val.trim().isEmpty ? 'Enter your full name' : null,
                   ),
                   const SizedBox(height: 14),
                   TextFormField(
@@ -299,10 +296,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     validator: (val) {
                       if (val == null || val.trim().isEmpty) {
-                        return 'Please enter your email';
+                        return 'Enter your email address';
                       }
                       if (!val.contains('@') || !val.contains('.')) {
-                        return 'Please enter a valid email address';
+                        return 'Enter a valid email like name@example.com';
                       }
                       return null;
                     },
@@ -319,7 +316,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       prefixIcon: Icon(Icons.phone_outlined),
                     ),
                     validator: (val) =>
-                        val == null || val.trim().isEmpty ? 'Please enter your phone number' : null,
+                        val == null || val.trim().isEmpty ? 'Enter your phone number' : null,
                   ),
                   const SizedBox(height: 14),
                   DropdownButtonFormField<String>(
@@ -357,7 +354,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       prefixIcon: Icon(Icons.account_circle_outlined),
                     ),
                     validator: (val) => val == null || val.trim().isEmpty
-                        ? 'Please enter your email or phone'
+                        ? 'Enter your email or phone number'
                         : null,
                   ),
                 ],
@@ -385,10 +382,10 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
-                      return 'Please enter a password';
+                      return 'Enter a password';
                     }
                     if (val.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return 'Use at least 6 characters';
                     }
                     return null;
                   },
@@ -403,8 +400,8 @@ class _AuthScreenState extends State<AuthScreen> {
                     onPressed: auth.isLoading ? null : _submit,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: isDark ? AppColors.primaryLight : AppColors.primary,
-                      foregroundColor: isDark ? Colors.black : Colors.white,
+                      backgroundColor: activeAccent,
+                      foregroundColor: onActiveAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
@@ -415,11 +412,11 @@ class _AuthScreenState extends State<AuthScreen> {
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: isDark ? Colors.black : Colors.white,
+                              color: onActiveAccent,
                             ),
                           )
                         : Text(
-                            _isSignUp ? 'Create Free Account' : 'Sign In',
+                            _isSignUp ? 'Create Account' : 'Sign In',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -442,7 +439,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     },
                     icon: const Icon(Icons.auto_awesome_rounded, size: 16),
                     label: const Text(
-                      'Use Demo Account (Abebe Kebede)',
+                      'Fill Demo Account (Abebe Kebede)',
                       style: TextStyle(fontSize: 12),
                     ),
                   ),

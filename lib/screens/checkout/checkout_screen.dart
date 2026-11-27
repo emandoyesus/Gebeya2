@@ -180,6 +180,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeAccent = isDark ? AppColors.gold : AppColors.primary;
     final cart = context.watch<CartProvider>();
 
     final extraExpressFee = _isExpressDelivery ? 100.0 : 0.0;
@@ -224,7 +225,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                       validator: (val) {
                         if (val == null || val.trim().isEmpty) {
-                          return 'Please enter customer name';
+                          return 'Enter the recipient\'s full name';
                         }
                         if (val.trim().length < 3) {
                           return 'Name must be at least 3 characters';
@@ -245,11 +246,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                       validator: (val) {
                         if (val == null || val.trim().isEmpty) {
-                          return 'Please enter contact phone number';
+                          return 'Enter a contact phone number for delivery updates';
                         }
                         final cleaned = val.replaceAll(RegExp(r'[\s\-\(\)]'), '');
                         if (cleaned.length < 9) {
-                          return 'Please enter a valid phone number';
+                          return 'Enter a valid 9+ digit phone number';
                         }
                         return null;
                       },
@@ -279,7 +280,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                       validator: (val) {
                         if (val == null || val.trim().isEmpty) {
-                          return 'Please enter street or landmark';
+                          return 'Enter a street name, building, or nearby landmark';
                         }
                         return null;
                       },
@@ -305,21 +306,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.08),
+                          color: activeAccent.withValues(alpha: 0.10),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+                          border: Border.all(color: activeAccent.withValues(alpha: 0.30)),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.pin_drop_rounded, size: 18, color: AppColors.primary),
-                            SizedBox(width: 8),
+                            Icon(Icons.pin_drop_rounded, size: 18, color: activeAccent),
+                            const SizedBox(width: 8),
                             Text(
-                              'Pin Location on Addis Ababa Map',
+                              'Choose Landmark on Addis Ababa Map',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.primary,
+                                color: activeAccent,
                               ),
                             ),
                           ],
@@ -363,8 +364,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ? 'Free Delivery (orders over 5,000 ETB)'
                               : '150.00 ETB flat rate',
                         ),
-                        activeColor:
-                            isDark ? AppColors.primaryLight : AppColors.primary,
+                        activeColor: activeAccent,
                       ),
                     ),
                     const Divider(height: 1),
@@ -380,9 +380,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           'Same-Day Express Dispatch (Addis Ababa)',
                           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                         ),
-                        subtitle: const Text('+100.00 ETB priority dispatch fee'),
-                        activeColor:
-                            isDark ? AppColors.primaryLight : AppColors.primary,
+                        subtitle: const Text('Arrives today • +100.00 ETB'),
+                        activeColor: activeAccent,
                       ),
                     ),
                   ],
@@ -408,7 +407,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     _buildPaymentTile(
                       PaymentMethodType.telebirr,
                       'Telebirr (Ethio Telecom)',
-                      'Instant payment via Telebirr SuperApp',
+                      'Transfer via Telebirr and enter your SMS reference',
                       Icons.phone_android_rounded,
                       AppColors.telebirr,
                       isDark,
@@ -417,7 +416,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     _buildPaymentTile(
                       PaymentMethodType.cbeBirr,
                       'CBE Birr',
-                      'Commercial Bank of Ethiopia Mobile Banking',
+                      'Transfer via CBE Birr and enter your transaction reference',
                       Icons.account_balance_rounded,
                       AppColors.cbeBirr,
                       isDark,
@@ -435,7 +434,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     _buildPaymentTile(
                       PaymentMethodType.stripe,
                       'Credit / Debit Card (Stripe)',
-                      'Visa, MasterCard, American Express',
+                      'Visa, Mastercard & American Express',
                       Icons.credit_card_rounded,
                       AppColors.stripe,
                       isDark,
@@ -444,9 +443,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     _buildPaymentTile(
                       PaymentMethodType.cashOnDelivery,
                       'Cash on Delivery',
-                      'Pay securely in cash upon physical receipt',
+                      'Pay in cash when your order arrives',
                       Icons.handshake_outlined,
-                      AppColors.primary,
+                      activeAccent,
                       isDark,
                     ),
                   ],
@@ -535,9 +534,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w900,
-                            color: isDark
-                                ? AppColors.primaryLight
-                                : AppColors.primary,
+                            color: activeAccent,
                           ),
                         ),
                       ],
@@ -629,7 +626,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
+            color: const Color(0xFF030806).withValues(alpha: isDark ? 0.50 : 0.05),
             blurRadius: 10,
             offset: const Offset(0, -3),
           ),
@@ -674,20 +671,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 child: _isPlacingOrder
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2.5,
-                          color: Colors.white,
+                          color: isDark ? AppColors.onGold : AppColors.goldLight,
                         ),
                       )
-                    : const Row(
+                    : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.check_circle_outline, size: 20),
-                          SizedBox(width: 8),
-                          Text('Place Order Now'),
+                          const Icon(Icons.check_circle_outline, size: 20),
+                          const SizedBox(width: 8),
+                          Text(
+                            _selectedPaymentMethod == PaymentMethodType.telebirr ||
+                                    _selectedPaymentMethod == PaymentMethodType.cbeBirr
+                                ? 'Continue to Payment'
+                                : 'Place Order',
+                          ),
                         ],
                       ),
               ),

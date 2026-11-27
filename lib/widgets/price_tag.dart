@@ -36,7 +36,7 @@ class PriceTag extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize * 1.3,
               fontWeight: FontWeight.w800,
-              color: isDark ? AppColors.gold : AppColors.black,
+              color: isDark ? AppColors.gold : AppColors.primary,
               letterSpacing: -0.3,
             ),
           ),
@@ -65,7 +65,7 @@ class PriceTag extends StatelessWidget {
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.w800,
-            color: isDark ? AppColors.gold : AppColors.black,
+            color: isDark ? AppColors.gold : AppColors.primary,
             letterSpacing: -0.3,
           ),
         ),

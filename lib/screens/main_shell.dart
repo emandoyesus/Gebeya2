@@ -62,7 +62,7 @@ class _MainShellState extends State<MainShell> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.06),
+              color: const Color(0xFF030806).withValues(alpha: isDark ? 0.55 : 0.06),
               blurRadius: 10,
               offset: const Offset(0, -3),
             ),
@@ -86,7 +86,7 @@ class _MainShellState extends State<MainShell> {
             fontSize: 12,
             letterSpacing: 0.1,
           ),
-          selectedItemColor: isDark ? AppColors.gold : AppColors.black,
+          selectedItemColor: isDark ? AppColors.gold : AppColors.primary,
           unselectedItemColor: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
           items: [
             const BottomNavigationBarItem(
@@ -101,8 +101,8 @@ class _MainShellState extends State<MainShell> {
                   '$cartCount',
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 10),
                 ),
-                backgroundColor: isDark ? AppColors.gold : AppColors.black,
-                textColor: isDark ? Colors.black : AppColors.gold,
+                backgroundColor: isDark ? AppColors.gold : AppColors.primary,
+                textColor: isDark ? AppColors.onGold : AppColors.goldLight,
                 child: const Icon(Icons.shopping_bag_outlined),
               ),
               activeIcon: Badge(
@@ -111,8 +111,8 @@ class _MainShellState extends State<MainShell> {
                   '$cartCount',
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 10),
                 ),
-                backgroundColor: isDark ? AppColors.gold : AppColors.black,
-                textColor: isDark ? Colors.black : AppColors.gold,
+                backgroundColor: isDark ? AppColors.gold : AppColors.primary,
+                textColor: isDark ? AppColors.onGold : AppColors.goldLight,
                 child: const Icon(Icons.shopping_bag_rounded),
               ),
               label: 'Cart',

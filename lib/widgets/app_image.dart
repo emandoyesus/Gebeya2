@@ -18,13 +18,15 @@ class AppImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final placeholderColor = isDark ? AppColors.darkCard : AppColors.lightDivider;
+    final mutedIconColor = isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted;
 
     if (imageUrl.isEmpty) {
       return Container(
         width: width ?? double.infinity,
         height: height ?? double.infinity,
-        color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
-        child: const Icon(Icons.shopping_bag_outlined, color: AppColors.lightTextMuted),
+        color: placeholderColor,
+        child: Icon(Icons.shopping_bag_outlined, color: mutedIconColor),
       );
     }
 
@@ -44,18 +46,18 @@ class AppImage extends StatelessWidget {
             key: const ValueKey('image_placeholder'),
             width: width ?? double.infinity,
             height: height ?? double.infinity,
-            color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
+            color: placeholderColor,
           );
         },
         errorBuilder: (context, error, stackTrace) {
           return Container(
             width: width ?? double.infinity,
             height: height ?? double.infinity,
-            color: isDark ? const Color(0xFF141418) : AppColors.lightDivider,
-            child: const Center(
+            color: placeholderColor,
+            child: Center(
               child: Icon(
                 Icons.image_not_supported_outlined,
-                color: AppColors.lightTextMuted,
+                color: mutedIconColor,
                 size: 24,
               ),
             ),

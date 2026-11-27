@@ -42,14 +42,16 @@ class ProfileScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) {
+        final isDark = Theme.of(ctx).brightness == Brightness.dark;
+        final activeAccent = isDark ? AppColors.gold : AppColors.primary;
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              title: const Row(
+              title: Row(
                 children: [
-                  Icon(Icons.edit_outlined, color: AppColors.primary),
-                  SizedBox(width: 8),
-                  Text('Edit Delivery Profile'),
+                  Icon(Icons.edit_outlined, color: activeAccent),
+                  const SizedBox(width: 8),
+                  const Text('Edit Delivery Profile'),
                 ],
               ),
               content: SingleChildScrollView(
@@ -116,21 +118,21 @@ class ProfileScreen extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.08),
+                          color: activeAccent.withValues(alpha: 0.10),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+                          border: Border.all(color: activeAccent.withValues(alpha: 0.30)),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.pin_drop_rounded, size: 16, color: AppColors.primary),
-                            SizedBox(width: 6),
+                            Icon(Icons.pin_drop_rounded, size: 16, color: activeAccent),
+                            const SizedBox(width: 6),
                             Text(
-                              'Pick Landmark or Map Pin',
+                              'Pick Landmark on Map',
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.primary,
+                                color: activeAccent,
                               ),
                             ),
                           ],
@@ -158,7 +160,6 @@ class ProfileScreen extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Profile updated successfully!'),
-                          backgroundColor: AppColors.primary,
                           behavior: SnackBarBehavior.floating,
                         ),
                       );
@@ -177,6 +178,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeAccent = isDark ? AppColors.gold : AppColors.primary;
+    final onActiveAccent = isDark ? AppColors.onGold : AppColors.goldLight;
     final themeProvider = context.watch<ThemeProvider>();
     final auth = context.watch<AuthProvider>();
     final user = auth.currentUser;
@@ -217,16 +220,13 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 34,
-                        backgroundColor: (isDark
-                                ? AppColors.primaryLight
-                                : AppColors.primary)
-                            .withValues(alpha: 0.2),
+                        backgroundColor: activeAccent.withValues(alpha: 0.2),
                         child: Icon(
                           auth.isAuthenticated
                               ? Icons.person_rounded
                               : Icons.person_outline_rounded,
                           size: 40,
-                          color: isDark ? AppColors.primaryLight : AppColors.primary,
+                          color: activeAccent,
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -296,11 +296,8 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.w700),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isDark
-                              ? AppColors.primaryLight
-                              : AppColors.primary,
-                          foregroundColor:
-                              isDark ? Colors.black : Colors.white,
+                          backgroundColor: activeAccent,
+                          foregroundColor: onActiveAccent,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -372,13 +369,13 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     ListTile(
-                      leading: const Icon(Icons.switch_account_rounded, color: AppColors.primary),
+                      leading: Icon(Icons.switch_account_rounded, color: activeAccent),
                       title: const Text(
-                        'Switch / Change Account',
+                        'Switch Account',
                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                       ),
                       subtitle: Text(
-                        'Logged in as ${user?.email}',
+                        'Signed in as ${user?.email}',
                         style: TextStyle(
                           fontSize: 13,
                           color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
@@ -401,7 +398,7 @@ class ProfileScreen extends StatelessWidget {
                           builder: (ctx) => AlertDialog(
                             title: const Text('Sign Out of Gebeya?'),
                             content: const Text(
-                              'You will need to sign back in to access saved addresses and order tracking.',
+                              'You\'ll need to sign in again to view your orders and saved addresses.',
                             ),
                             actions: [
                               TextButton(
@@ -464,12 +461,12 @@ class ProfileScreen extends StatelessWidget {
                           color: AppColors.accent.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Text(
+                        child: Text(
                           'STORE OWNER',
                           style: TextStyle(
                             fontSize: 9,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.accent,
+                            color: activeAccent,
                           ),
                         ),
                       ),
@@ -523,7 +520,7 @@ class ProfileScreen extends StatelessWidget {
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Please sign in to view your order history and tracking.'),
+                            content: Text('Sign in to view your orders and track deliveries.'),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
@@ -560,7 +557,7 @@ class ProfileScreen extends StatelessWidget {
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Please sign in to save and manage your delivery addresses.'),
+                            content: Text('Sign in to save and manage your delivery addresses.'),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
@@ -569,11 +566,11 @@ class ProfileScreen extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (ctx) => AlertDialog(
-                            title: const Row(
+                            title: Row(
                               children: [
-                                Icon(Icons.location_on, color: AppColors.primary),
-                                SizedBox(width: 8),
-                                Text('Default Delivery Address'),
+                                Icon(Icons.location_on, color: activeAccent),
+                                const SizedBox(width: 8),
+                                const Text('Default Delivery Address'),
                               ],
                             ),
                             content: Column(
@@ -628,11 +625,11 @@ class ProfileScreen extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
-                          title: const Row(
+                          title: Row(
                             children: [
-                              Icon(Icons.payment_rounded, color: AppColors.primary),
-                              SizedBox(width: 8),
-                              Text('Payment Gateways'),
+                              Icon(Icons.payment_rounded, color: activeAccent),
+                              const SizedBox(width: 8),
+                              const Text('Payment Gateways'),
                             ],
                           ),
                           content: const Column(
@@ -641,19 +638,19 @@ class ProfileScreen extends StatelessWidget {
                               ListTile(
                                 leading: Icon(Icons.phone_android_rounded, color: AppColors.telebirr),
                                 title: Text('Telebirr Direct'),
-                                subtitle: Text('Connected • Instant verification'),
+                                subtitle: Text('Direct transfer with SMS reference'),
                                 contentPadding: EdgeInsets.zero,
                               ),
                               ListTile(
                                 leading: Icon(Icons.account_balance_rounded, color: AppColors.cbeBirr),
                                 title: Text('CBE Birr'),
-                                subtitle: Text('Active Account Linked'),
+                                subtitle: Text('Bank transfer with transaction reference'),
                                 contentPadding: EdgeInsets.zero,
                               ),
                               ListTile(
                                 leading: Icon(Icons.credit_card_rounded, color: AppColors.stripe),
                                 title: Text('Cards & Digital Wallets'),
-                                subtitle: Text('Visa, Mastercard ready'),
+                                subtitle: Text('Visa, Mastercard & international cards'),
                                 contentPadding: EdgeInsets.zero,
                               ),
                             ],
@@ -696,7 +693,7 @@ class ProfileScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                     ),
                     subtitle: Text(
-                      isDark ? 'Midnight Obsidian OLED (Active)' : 'Clean Modern Light',
+                      isDark ? 'Forest Pine & Gold (Active)' : 'Botanical Ivory Light',
                       style: TextStyle(
                         fontSize: 13,
                         color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
@@ -725,7 +722,7 @@ class ProfileScreen extends StatelessWidget {
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Bilingual English & Amharic active'),
+                          content: Text('English & Amharic labels are enabled across the app.'),
                           behavior: SnackBarBehavior.floating,
                         ),
                       );
@@ -739,7 +736,7 @@ class ProfileScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                     ),
                     subtitle: Text(
-                      'info@gebeya.et • 24/7 Hotline',
+                      'info@gebeya.et • Mon–Sat Support',
                       style: TextStyle(
                         fontSize: 13,
                         color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
@@ -750,11 +747,11 @@ class ProfileScreen extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
-                          title: const Row(
+                          title: Row(
                             children: [
-                              Icon(Icons.support_agent_rounded, color: AppColors.primary),
-                              SizedBox(width: 8),
-                              Text('Customer Support'),
+                              Icon(Icons.support_agent_rounded, color: activeAccent),
+                              const SizedBox(width: 8),
+                              const Text('Customer Support'),
                             ],
                           ),
                           content: const Column(
@@ -803,7 +800,7 @@ class ProfileScreen extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 16,
-                        color: isDark ? AppColors.primaryLight : AppColors.primary,
+                        color: activeAccent,
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -818,7 +815,7 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
-                          color: Colors.black,
+                          color: AppColors.onGold,
                         ),
                       ),
                     ),

@@ -179,7 +179,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Showing ${products.length} results',
+                  '${products.length} ${products.length == 1 ? 'result' : 'results'}',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
@@ -209,8 +209,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ? EmptyStateWidget(
                       icon: Icons.search_off_rounded,
                       title: 'No matching products',
-                      subtitle:
-                          'We couldn\'t find anything matching "${_searchController.text}". Try searching for coffee, headphones, or fashion items.',
+                      subtitle: _searchController.text.trim().isNotEmpty
+                          ? 'No items match "${_searchController.text.trim()}". Check your spelling or clear filters.'
+                          : 'No products match the selected category. Clear filters to browse all items.',
                       buttonText: 'Clear Filters',
                       onButtonPressed: () {
                         _searchController.clear();
