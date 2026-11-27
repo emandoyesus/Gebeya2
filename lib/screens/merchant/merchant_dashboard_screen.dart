@@ -429,9 +429,13 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
                 color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
               ),
               const SizedBox(width: 6),
-              Text(
-                '${order.shippingAddress.fullName} • ${order.shippingAddress.phoneNumber}',
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              Expanded(
+                child: Text(
+                  '${order.shippingAddress.fullName} • ${order.shippingAddress.phoneNumber}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                ),
               ),
             ],
           ),
@@ -516,109 +520,120 @@ class _MerchantDashboardScreenState extends State<MerchantDashboardScreen> {
           const SizedBox(height: 14),
 
           // Merchant Control Actions
-          Row(
-            children: [
-              // View Full Details
-              OutlinedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => OrderDetailScreen(order: order),
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    // View Full Details
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => OrderDetailScreen(order: order),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.receipt_long_rounded, size: 16),
+                      label: const Text('View Order'),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                      ),
                     ),
-                  );
-                },
-                icon: const Icon(Icons.receipt_long_rounded, size: 16),
-                label: const Text('View Order'),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    // Direct WhatsApp Invoice Share button
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        DigitalTaxReceiptDialog.show(context, order);
+                      },
+                      icon: const Icon(Icons.chat_rounded, size: 16),
+                      label: const Text('Share Invoice'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF25D366),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(width: 8),
-              // Direct WhatsApp Invoice Share button
-              ElevatedButton.icon(
-                onPressed: () {
-                  DigitalTaxReceiptDialog.show(context, order);
-                },
-                icon: const Icon(Icons.chat_rounded, size: 16),
-                label: const Text('Share Invoice'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF25D366),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                ),
-              ),
-              const Spacer(),
 
-              // Change Dispatch Status Dropdown
-              PopupMenuButton<OrderStatus>(
-                initialValue: order.status,
-                onSelected: (newStatus) async {
-                  await orderProvider.updateOrderStatus(order.id, newStatus);
-                  final statusLabel = switch (newStatus) {
-                    OrderStatus.pending => 'Pending Verification',
-                    OrderStatus.confirmed => 'Confirmed',
-                    OrderStatus.processing => 'Processing',
-                    OrderStatus.shipped => 'On the Way',
-                    OrderStatus.delivered => 'Delivered',
-                    OrderStatus.cancelled => 'Cancelled',
-                  };
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Order #${order.id} marked as $statusLabel.'),
-                        duration: const Duration(milliseconds: 1400),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                  }
-                },
-                itemBuilder: (ctx) => [
-                  const PopupMenuItem(
-                    value: OrderStatus.confirmed,
-                    child: Text('Mark as Confirmed'),
-                  ),
-                  const PopupMenuItem(
-                    value: OrderStatus.processing,
-                    child: Text('Mark as Processing'),
-                  ),
-                  const PopupMenuItem(
-                    value: OrderStatus.shipped,
-                    child: Text('Mark as On the Way'),
-                  ),
-                  const PopupMenuItem(
-                    value: OrderStatus.delivered,
-                    child: Text('Mark as Delivered'),
-                  ),
-                  const PopupMenuItem(
-                    value: OrderStatus.cancelled,
-                    child: Text('Cancel Order'),
-                  ),
-                ],
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: activeAccent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Change Status',
-                        style: TextStyle(
-                          color: onActiveAccent,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
+                // Change Dispatch Status Dropdown
+                PopupMenuButton<OrderStatus>(
+                  initialValue: order.status,
+                  onSelected: (newStatus) async {
+                    await orderProvider.updateOrderStatus(order.id, newStatus);
+                    final statusLabel = switch (newStatus) {
+                      OrderStatus.pending => 'Pending Verification',
+                      OrderStatus.confirmed => 'Confirmed',
+                      OrderStatus.processing => 'Processing',
+                      OrderStatus.shipped => 'On the Way',
+                      OrderStatus.delivered => 'Delivered',
+                      OrderStatus.cancelled => 'Cancelled',
+                    };
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Order #${order.id} marked as $statusLabel.'),
+                          duration: const Duration(milliseconds: 1400),
+                          behavior: SnackBarBehavior.floating,
                         ),
-                      ),
-                      const SizedBox(width: 4),
-                      Icon(Icons.arrow_drop_down, color: onActiveAccent, size: 18),
-                    ],
+                      );
+                    }
+                  },
+                  itemBuilder: (ctx) => [
+                    const PopupMenuItem(
+                      value: OrderStatus.confirmed,
+                      child: Text('Mark as Confirmed'),
+                    ),
+                    const PopupMenuItem(
+                      value: OrderStatus.processing,
+                      child: Text('Mark as Processing'),
+                    ),
+                    const PopupMenuItem(
+                      value: OrderStatus.shipped,
+                      child: Text('Mark as On the Way'),
+                    ),
+                    const PopupMenuItem(
+                      value: OrderStatus.delivered,
+                      child: Text('Mark as Delivered'),
+                    ),
+                    const PopupMenuItem(
+                      value: OrderStatus.cancelled,
+                      child: Text('Cancel Order'),
+                    ),
+                  ],
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: activeAccent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Change Status',
+                          style: TextStyle(
+                            color: onActiveAccent,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(Icons.arrow_drop_down, color: onActiveAccent, size: 18),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

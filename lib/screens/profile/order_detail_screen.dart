@@ -277,12 +277,17 @@ class OrderDetailScreen extends StatelessWidget {
                                 : AppColors.lightTextSecondary,
                           ),
                         ),
-                        Text(
-                          order.paymentTransactionId!,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 13,
-                            color: activeAccent,
+                        const SizedBox(width: 12),
+                        Flexible(
+                          child: Text(
+                            order.paymentTransactionId!,
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 13,
+                              color: activeAccent,
+                            ),
                           ),
                         ),
                       ],
@@ -302,12 +307,18 @@ class OrderDetailScreen extends StatelessWidget {
                                 : AppColors.lightTextSecondary,
                           ),
                         ),
-                        Text(
-                          order.paymentProofNote!,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.success,
-                            fontWeight: FontWeight.w600,
+                        const SizedBox(width: 12),
+                        Flexible(
+                          child: Text(
+                            order.paymentProofNote!,
+                            textAlign: TextAlign.right,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.success,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],
@@ -430,8 +441,35 @@ class OrderDetailScreen extends StatelessWidget {
   }
 
   Widget _buildStatusStepper(OrderStatus status, bool isDark) {
+    if (status == OrderStatus.cancelled) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: AppColors.error.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+        ),
+        child: const Row(
+          children: [
+            Icon(Icons.cancel_outlined, color: AppColors.error, size: 18),
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'This order has been cancelled.',
+                style: TextStyle(
+                  color: AppColors.error,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     final steps = ['Confirmed', 'Processing', 'On the Way', 'Delivered'];
-    int activeIndex = 0;
+    int activeIndex = -1;
     if (status == OrderStatus.confirmed) activeIndex = 0;
     if (status == OrderStatus.processing) activeIndex = 1;
     if (status == OrderStatus.shipped) activeIndex = 2;

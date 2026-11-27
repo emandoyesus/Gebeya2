@@ -754,22 +754,47 @@ class ProfileScreen extends StatelessWidget {
                               const Text('Customer Support'),
                             ],
                           ),
-                          content: const Column(
+                          content: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Gebeya Help Desk (Addis Ababa)',
                                 style: TextStyle(fontWeight: FontWeight.w700),
                               ),
-                              SizedBox(height: 8),
-                              Text('📞 Toll-Free Hotline: 8900'),
-                              Text('📱 Mobile: +251 91 100 2233'),
-                              Text('✉️ Email: support@gebeya.et'),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Icon(Icons.phone_outlined, size: 16, color: activeAccent),
+                                  const SizedBox(width: 8),
+                                  const Expanded(child: Text('Toll-Free Hotline: 8900')),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  Icon(Icons.smartphone_rounded, size: 16, color: activeAccent),
+                                  const SizedBox(width: 8),
+                                  const Expanded(child: Text('Mobile: +251 91 100 2233')),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  Icon(Icons.email_outlined, size: 16, color: activeAccent),
+                                  const SizedBox(width: 8),
+                                  const Expanded(child: Text('Email: support@gebeya.et')),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
                               Text(
                                 'Mon - Sat: 8:00 AM - 8:00 PM EAT',
-                                style: TextStyle(fontSize: 12, color: Colors.grey),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: isDark
+                                      ? AppColors.darkTextMuted
+                                      : AppColors.lightTextMuted,
+                                ),
                               ),
                             ],
                           ),
