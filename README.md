@@ -55,7 +55,7 @@ Gebeya (**"ገበያ"** - Market in Amharic) blends Ethiopian cultural heritage 
 
 ### 🎨 Theme & Accessibility
 * **Theme Modes**: Seamless toggling between **Clean Light Mode** and **Cyber OLED Slate Dark Mode** (`0xFF0B132B`).
-* **Bilingual Ready**: English and Amharic typography and product metadata.
+* **Bilingual Ready**: English and Amharic typography and product metadata..
 
 ---
 
